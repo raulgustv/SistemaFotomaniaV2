@@ -3,6 +3,10 @@
 include '../includes/funciones.php';
 include '../includes/db.php';
 
+/*================================
+=            Registro            =
+================================*/
+
 if(isset($_POST['action']) && $_POST['action'] == 'register'){
 	$name = checkInput($_POST['name']);
 	$uname = checkInput($_POST['uname']);
@@ -38,17 +42,53 @@ if(isset($_POST['action']) && $_POST['action'] == 'register'){
 				echo "No se pudo registrar el usuario";
 			}
 		}
-
-		
-
-
-
 	}
+}
 
-	
+/*=====  End of Registro  ======*/
+
+/*=============================
+=            Login            =
+=============================*/
+
+if(isset($_POST['action']) && $_POST['action'] == 'login'){
+	session_start();
+
+	$username = checkInput($_POST['username']);
+	$password = sha1($_POST['password']);
+
+	$stmt = $con->prepare("SELECT * FROM clientes WHERE usuario =? AND pass=?");
+	$stmt->bind_param("ss", $username, $password);
+	$stmt->execute();
+
+	$user = $stmt->fetch();
+
+	if($user!=null){
+		$_SESSION['username'] = $username;
+		echo "true";
+
+		if(!empty($_POST['rem'])){
+			setcookie("username", $_POST['username'], time()+(10*365*24*60*60));
+			setcookie("password", $_POST['password'], time()+(10*365*24*60*60));
+		}else{
+			if(isset($_COOKIE['username'])){
+				setcookie("username","");
+			}if(isset($_COOKIE['password'])){
+				setcookie("password","");
+			}
+		}
+	}else{
+		echo "Error de inicio de sesión, verifique sus datos";
+	}
 
 
 }
+
+/*=====  End of Login  ======*/
+	
+
+
+
 
 
 

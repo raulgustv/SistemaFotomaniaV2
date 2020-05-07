@@ -1,4 +1,14 @@
-<?php include 'templates/header.php' ?>
+<?php
+
+
+session_start();
+
+if(isset($_SESSION['username'])){
+	header("location:vistas/principal.php");
+}
+
+include 'templates/header.php'
+?>
 
 <div class="container mt-4">
 	<div class="row">
@@ -18,14 +28,14 @@
 				<h2 class="text-center mt-2">Login</h2>
 				<form action="" method="post" role="form" class="p-2" id="login-frm">
 					<div class="form-group">
-						<input type="text" name="username" class="form-control" placeholder="Nombre Usuario" required>
+						<input type="text" name="username" class="form-control" placeholder="Nombre Usuario" value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];} ?>" required>
 					</div>
 					<div class="form-group">
-						<input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+						<input type="password" name="password" class="form-control" placeholder="Contraseña" value="<?php if(isset($_COOKIE['password'])){echo $_COOKIE['password'];} ?>" required>
 					</div>
 					<div class="form-group">
 						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="rem" class="custom-control-input" id="customCheck">
+							<input type="checkbox" name="rem" class="custom-control-input" id="customCheck" <?php if(isset($_COOKIE['username'])){?> checked <?php }  ?> >
 							<label for="customCheck" class="custom-control-label">Recuérdame</label>
 							<a href="#" id="forgot-btn" class="float-right">Olvidaste tu contraseña?</a>
 						</div>

@@ -1,5 +1,17 @@
+/* Colores */
+:root{
+	--naranja: #F5811E;
+	--azul: #2D8AA9;
+}
+	
+
+
 /* Ocultar Forms */
 
 #alert, #register-box, #forgot-box{
 	display: none;
+}
+
+nav.navegacionPrincipal{
+	background-color: var(--naranja);
 }

@@ -72,8 +72,16 @@ $(document).ready(function(){
 				method: 'post',
 				data: $("#login-frm").serialize()+'&action=login',
 				success: function(data){
-					$("#alert").show();
-					$("#result").html(data);
+					if(data==="true"){
+						window.location = 'vistas/principal.php';
+					}else{
+						Swal.fire(
+								'Error iniciando sesión',
+								'Verifica que tu usuario y contraseña sean correctos',
+								'error'
+							);
+					}
+					
 				}
 			});
 		}
