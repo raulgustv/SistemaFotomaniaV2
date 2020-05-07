@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-lg-4 offset-lg-4" id="alert">
 			<div class="alert alert-success text-center">
-				<strong id="result" >Registro completado con éxito</strong>
+				<strong id="result" ></strong>
 			</div>
 		</div>		
 	</div>
