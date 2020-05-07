@@ -107,6 +107,12 @@ $(document).ready(function(){
 		return true;
 	});	
 
+	/*----------  Convertir links en activos  ----------*/
+	
+
+	$("nav-link").on("click", function(){
+		$(this).addClasss('active').siblings().removeClass('active');
+	});
 
 
 });

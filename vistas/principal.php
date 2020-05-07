@@ -1,7 +1,7 @@
 <?php 
 
 include '../templates/mainHeader.php';
-include '../acciones/sesion.php';
+//include '../acciones/sesion.php';
 ?>
 
 

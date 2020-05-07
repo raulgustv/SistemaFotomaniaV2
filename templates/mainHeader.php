@@ -1,7 +1,7 @@
 <?php
 
 include '../includes/db.php';
-
+require '../acciones/sesion.php';
 
 
 
@@ -18,7 +18,8 @@ include '../includes/db.php';
 	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
 </head>
 
-<nav class="navbar navbar-expand-sm navbar-dark fixed-top navegacionPrincipal">
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">Fotomanía Costa Rica</a>
 
 <!-- Links -->
   <ul class="navbar-nav">
@@ -33,7 +34,7 @@ include '../includes/db.php';
   <!-- Cierre sesión-->
   <ul class="nav navbar-nav ml-auto">
      <li class="nav-item">
-       <a class="nav-link" href="../acciones/logout.php"><?php echo "Hola ". $username; ?> </a> 
+       <a class="nav-link" href="#"><?php echo "Hola ". $username; ?> </a> 
     </li>
     <li class="nav-item">
        <a class="nav-link" href="../acciones/logout.php">Cerrar Sesión</a> 

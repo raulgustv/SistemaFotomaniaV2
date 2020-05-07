@@ -15,3 +15,8 @@
 nav.navegacionPrincipal{
 	background-color: var(--naranja);
 }
+
+img.logoInicio{
+	width: 50px;
+	height: 50px;
+}
