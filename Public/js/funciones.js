@@ -48,13 +48,13 @@ $(document).ready(function(){
 			e.preventDefault();
 
 			$.ajax({
-				url: '../acciones/accionLogin.php',
+				url: 'acciones/accionLogin.php',
 				method: 'post',
 				data: $("#register-frm").serialize()+'&action=register',
 				success: function(data){
 					$("#alert").show();
 					$("#result").html(data);
-
+					
 				}
 			});
 		}
@@ -68,7 +68,7 @@ $(document).ready(function(){
 			e.preventDefault();
 
 			$.ajax({
-				url: '../acciones/accionLogin.php',
+				url: 'acciones/accionLogin.php',
 				method: 'post',
 				data: $("#login-frm").serialize()+'&action=login',
 				success: function(data){
@@ -87,7 +87,7 @@ $(document).ready(function(){
 			e.preventDefault();
 
 			$.ajax({
-				url: '../acciones/accionLogin.php',
+				url: 'acciones/accionLogin.php',
 				method: 'post',
 				data: $("#forgot-frm").serialize()+'&action=forgot',
 				success: function(data){
