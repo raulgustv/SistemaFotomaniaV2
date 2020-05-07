@@ -1,0 +1,5 @@
+/* Ocultar Forms */
+
+#alert, #register-box, #forgot-box{
+	display: none;
+}
