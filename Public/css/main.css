@@ -20,3 +20,14 @@ img.loaderGif{
 	width: 90px;
 	height: 90px;
 }
+
+/*Principal*/
+
+div.cartCard{
+	width: 350px;
+}
+
+div img.miniCart{
+	width: 60px;
+	height: 60px;
+}

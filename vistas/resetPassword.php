@@ -1,2 +1,0 @@
-<h3>Haz clic en el enlace para reestablecer tu contraseña</h3><br>
-<a href="http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token">http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token</a><br><h3>Saludos,<br>Fotomania CR</h3>
