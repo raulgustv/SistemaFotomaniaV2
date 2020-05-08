@@ -75,13 +75,14 @@ $(document).ready(function(){
 				success: function(data){
 					if(data==="true"){
 						window.location = 'vistas/principal.php';
-						$("#loader").hide();
+						
 					}else{
 						Swal.fire(
 								'Error iniciando sesión',
 								'Verifica que tu usuario y contraseña sean correctos',
 								'error'
 							);
+						$("#loader").hide();
 					}
 					
 				}
