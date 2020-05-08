@@ -46,7 +46,7 @@ $(document).ready(function(){
 	$("#register").click(function(e){
 		if(document.getElementById('register-frm').checkValidity()){
 			e.preventDefault();
-
+			$("#loader").show;
 			$.ajax({
 				url: 'acciones/accionLogin.php',
 				method: 'post',
@@ -54,6 +54,7 @@ $(document).ready(function(){
 				success: function(data){
 					$("#alert").show();
 					$("#result").html(data);
+					$("#loader").hide();
 					
 				}
 			});
@@ -66,7 +67,7 @@ $(document).ready(function(){
 	$("#login").click(function(e){
 		if(document.getElementById('login-frm').checkValidity()){
 			e.preventDefault();
-
+			$("#loader").show();
 			$.ajax({
 				url: 'acciones/accionLogin.php',
 				method: 'post',
@@ -74,6 +75,7 @@ $(document).ready(function(){
 				success: function(data){
 					if(data==="true"){
 						window.location = 'vistas/principal.php';
+						$("#loader").hide();
 					}else{
 						Swal.fire(
 								'Error iniciando sesión',
@@ -93,7 +95,7 @@ $(document).ready(function(){
 	$("#forgot").click(function(e){
 		if(document.getElementById('forgot-frm').checkValidity()){
 			e.preventDefault();
-
+			$("#loader").show();
 			$.ajax({
 				url: 'acciones/accionLogin.php',
 				method: 'post',
@@ -101,18 +103,20 @@ $(document).ready(function(){
 				success: function(data){
 					$("#alert").show();
 					$("#result").html(data);
+					$("#loader").hide();
 				}
 			});
 		}
 		return true;
 	});	
 
-	/*----------  Convertir links en activos  ----------*/
-	
+	/*----------  Convertir links en activos  ----------*/	
 
 	$("nav-link").on("click", function(){
 		$(this).addClasss('active').siblings().removeClass('active');
 	});
+
+	
 
 
 });

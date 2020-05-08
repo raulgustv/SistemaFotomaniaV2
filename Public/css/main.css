@@ -8,7 +8,7 @@
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box{
+#alert, #register-box, #forgot-box, #loader{
 	display: none;
 }
 
@@ -16,7 +16,7 @@ nav.navegacionPrincipal{
 	background-color: var(--naranja);
 }
 
-img.logoInicio{
-	width: 50px;
-	height: 50px;
+img.loaderGif{
+	width: 90px;
+	height: 90px;
 }

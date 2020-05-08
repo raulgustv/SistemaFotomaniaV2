@@ -85,6 +85,64 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 }
 
 /*=====  End of Login  ======*/
+
+/*===========================================
+=            Contraseña Olvidada            =
+===========================================*/
+
+if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
+	$femail = $_POST['femail'];
+
+
+	$stmt = $con->prepare("SELECT id FROM clientes WHERE email=?");
+	$stmt->bind_param("s", $femail);
+	$stmt->execute();
+
+	$res = $stmt->get_result();
+
+	if($res->num_rows>0){
+		$token = "pdtay345trbn1y4y7p1wqwcedrgfhppqads432"; //token aleatorio
+		$token = str_shuffle($token);
+		$token = substr($token, 0,10);
+
+		$sql = $con->prepare("UPDATE clientes SET token=?, tokenExpira=DATE_ADD(NOW(),INTERVAL 5 MINUTE) WHERE email=?");
+		$sql->bind_param("ss", $token, $femail);
+		$sql->execute();
+
+		include '../PHP-Mailer/PHPMailerAutoload.php';
+		$mail = new PHPMailer;
+
+		$mail->Host='smtp.gmail.com';
+		$mail->Port=587;
+		$mail->SMTPAuth=true;
+		$mail->SMTPSecure='tls';
+
+		$mail->Username='raulgust@gmail.com';
+		$mail->Password='Pareo-32451';
+
+		$mail->addAddress($femail);
+		$mail->setFrom('raulgust@gmail.com', 'Fotomania');
+
+		$mail->isHTML(true);
+		$mail->Subject="Prueba";
+		$mail->Body="<h3>Haz clic en el enlace para reestablecer tu contraseña</h3><br>
+					<a href='http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token'>http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token</a><br><h3>Saludos,<br>Fotomania CR</h3>";
+
+		if($mail->send()){
+			echo "Reestablecimiento de contraseña enviado con éxito";
+		}else{
+			echo "Error al enviar mensaje, intente de nuevo";
+		}
+
+
+
+
+		
+	}	
+}
+
+/*=====  End of Contraseña Olvidada  ======*/
+	
 	
 
 

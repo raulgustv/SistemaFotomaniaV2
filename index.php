@@ -21,6 +21,10 @@ include 'templates/header.php'
 		</div>		
 	</div>
 
+	<div class="text-center">
+		<img class="loaderGif m-2" src="logos/preloader.gif" alt="Cargando.." id="loader">
+	</div>
+
 	<!--======================================
 	=            Formulario Login            =
 	=======================================-->
