@@ -27,28 +27,36 @@ require '../acciones/sesion.php';
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="principal.php">Principal <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="tienda.php">Tienda</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>     
+       <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span class="badge-dark">0</span><i class="fas fa-cart-plus"></i></a>
+       <div class="dropdown-menu dropMenuSize">
+          <div class="card">
+              <div class="card-header bg-info">
+                  <div class="row">
+                      <div class="col-lg-4">Imagen</div>
+                      <div class="col-lg-4">Producto</div>
+                      <div class="col-lg-4">Precio</div>                     
+                  </div>
+              </div>
+              <div class="card-body">
+                  <div class="row">
+                     <div class="col-lg-4"><img class="miniCart" src="../imagenes/batidora.png"></div> 
+                     <div class="col-lg-4">Batidora</div> 
+                     <div class="col-lg-4">$45</div> 
+                  </div>                  
+              </div>
+          </div>
+       </div> 
+      </li>
+          
     </ul>
 
     <ul class="navbar-nav ml-auto">
-       <li class="nav-item mr-4 dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span class="badge-dark">0</span><i class="fas fa-cart-plus"></i></a>
-         
-      </li>
+      
        <li class="nav-item">
          <a class="nav-link" href="#">Hola <?php echo $username ?></a> 
       </li>
@@ -63,7 +71,7 @@ require '../acciones/sesion.php';
 
 <body>
 
-  HOLA
+  
 
 
 
