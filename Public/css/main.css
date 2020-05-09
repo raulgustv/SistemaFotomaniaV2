@@ -36,3 +36,12 @@ div.dropMenuSize{
 	width: 400px;
 }
 
+/*Tienda*/
+
+img.card-img-top{
+	height: 200px !important;
+	width: 200px !important;
+	
+
+}
+

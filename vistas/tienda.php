@@ -20,12 +20,9 @@
 			<div class="card card-info">
 				<div>
 					<div class="card-header bg-info">Tienda de productos</div>
-					<div class="card-body">
-						<div id="getProduct">
-							
-						</div>
-						<!--<div class="row">
-							<div class="col-lg-3">
+					<div class="card-body">					
+						<div class="row" id="getProduct">
+							<!--<div class="col-lg-3">
 								<div class="card-deck">
 									<div class="card">
 										<img class="card-img-top" src="imagenes/batidora.png">
@@ -38,8 +35,8 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>-->
+							</div>-->
+						</div>						
 					</div>
 				</div>
 			</div>

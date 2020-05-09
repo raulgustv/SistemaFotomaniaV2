@@ -133,17 +133,19 @@ $(document).ready(function(){
 		});
 	}
 
-
+	/*----------  Mostrar categorías  ----------*/
 	function mostrarProductos(){
 		$.ajax({
 			url:'../acciones/main.php',
 			method: "POST",
 			data: {getProduct: 1},
 			success: function(data){
-				
+				$("#getProduct").html(data);
 			}
 		});
 	}
+
+	/*----------  Filtros y busqueda ----------*/
 	
 
 	
