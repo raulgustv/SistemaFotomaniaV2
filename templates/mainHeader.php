@@ -44,7 +44,7 @@ require '../acciones/sesion.php';
               </div>
               <div class="card-body">
                   <div class="row">
-                     <div class="col-lg-4"><img class="miniCart" src="../imagenes/batidora.png"></div> 
+                     <div class="col-lg-4"><img class="miniCart" src="imagenes/batidora.png"></div> 
                      <div class="col-lg-4">Batidora</div> 
                      <div class="col-lg-4">$45</div> 
                   </div>                  

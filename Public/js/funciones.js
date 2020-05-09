@@ -119,6 +119,33 @@ $(document).ready(function(){
 
 	});
 
+	/*----------  Mostrar categorías  ----------*/
+	mostrarCat();
+	mostrarProductos();
+	function mostrarCat(){
+		$.ajax({
+			url: '../acciones/main.php',
+			method: "POST",
+			data: {category:1},
+			success: function(data){
+				$("#get_category").html(data);
+			}
+		});
+	}
+
+
+	function mostrarProductos(){
+		$.ajax({
+			url:'../acciones/main.php',
+			method: "POST",
+			data: {getProduct: 1},
+			success: function(data){
+				
+			}
+		});
+	}
+	
+
 	
 
 
