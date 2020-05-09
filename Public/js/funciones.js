@@ -113,8 +113,10 @@ $(document).ready(function(){
 
 	/*----------  Convertir links en activos  ----------*/	
 
-	$("nav-link").on("click", function(){
-		$(this).addClasss('active').siblings().removeClass('active');
+	$(".nav-link").on("click", function(){
+		$('a').removeClass('active');
+		$(this).addClass('active');
+
 	});
 
 	
