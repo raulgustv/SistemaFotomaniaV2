@@ -1,7 +1,8 @@
 <?php
-	session_start();
+	
 	include '../includes/db.php';
 	include '../includes/funciones.php';
+	include '../acciones/sesion.php';
 
 	/*==========================================
 	=            Obtener categorias            =
@@ -108,9 +109,19 @@
 	/*=========================================
 	=            Agregar a carrito            =
 	=========================================*/
+
+
 	
 	if(isset($_POST['addToCart'])){
-		print_r($_POST);
+
+		echo $username = $row['id']; 
+
+
+
+
+
+
+		
 	}
 	
 	/*=====  End of Agregar a carrito  ======*/

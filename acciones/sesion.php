@@ -5,6 +5,7 @@ include '../includes/db.php';
 
 $user=$_SESSION['username'];
 
+
 $stmt = $con->prepare("SELECT * FROM clientes WHERE usuario=?");
 $stmt->bind_param("s", $user);
 $stmt->execute();

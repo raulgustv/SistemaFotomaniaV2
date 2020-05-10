@@ -183,19 +183,23 @@ $(document).ready(function(){
 	/*----------  Agregar a carrito  ----------*/
 
 	
-	
+	$('body').delegate("#product", "click", async function(e){
+		e.preventDefault();				
 
+		const {value:cant} = await Swal.fire({
+			  title: 'Cantidad de productos',	
+			  input: 'number',
+			  showCancelButton: true,
+			  inputPlaceholder: 1
+		});		
 
-	
-	$('body').delegate("#product", "click", function(e){
-		e.preventDefault();
 		var pid = $(this).attr('pid');
 
-
+		
 		$.ajax({
 			url: '../acciones/main.php',
 			method: "POST",
-			data: {addToCart:1, prodId: pid},
+			data: {addToCart:1, prodId: pid, qty:cant},
 			success: function(data){
 				alert(data);
 			}

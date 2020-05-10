@@ -63,8 +63,13 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 
 	$user = $stmt->fetch();
 
+	
+
+
+
 	if($user!=null){
 		$_SESSION['username'] = $username;
+		
 		echo "true";
 
 		if(!empty($_POST['rem'])){
