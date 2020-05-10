@@ -48,7 +48,7 @@
 											<div class='card-title'>$nombreProducto</div>											
 										</div>
 										<div class='card-footer'>
-											<div class='card-text'>$$precioProducto <a class='btn btn-success float-right' href='#'><i class='fas fa-cart-plus'></i></a></div>											
+											<div class='card-text'>$$precioProducto<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
@@ -88,7 +88,7 @@
 											<div class='card-title'>$nombreProducto</div>											
 										</div>
 										<div class='card-footer'>
-											<div class='card-text'>$$precioProducto <a class='btn btn-success float-right' href='#'><i class='fas fa-cart-plus'></i></a></div>											
+											<div class='card-text'>$$precioProducto<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
@@ -104,6 +104,16 @@
 	}
 	
 	/*=====  End of Filtro y búsqueda  ======*/
+	
+	/*=========================================
+	=            Agregar a carrito            =
+	=========================================*/
+	
+	if(isset($_POST['addToCart'])){
+		print_r($_POST);
+	}
+	
+	/*=====  End of Agregar a carrito  ======*/
 	
 	
 

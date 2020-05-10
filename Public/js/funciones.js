@@ -180,6 +180,30 @@ $(document).ready(function(){
 		});
 	});
 
+	/*----------  Agregar a carrito  ----------*/
+
+	
+	
+
+
+	
+	$('body').delegate("#product", "click", function(e){
+		e.preventDefault();
+		var pid = $(this).attr('pid');
+
+
+		$.ajax({
+			url: '../acciones/main.php',
+			method: "POST",
+			data: {addToCart:1, prodId: pid},
+			success: function(data){
+				alert(data);
+			}
+		});
+
+		
+	});
+
 
 	
 	
