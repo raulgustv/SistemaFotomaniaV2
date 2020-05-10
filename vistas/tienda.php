@@ -19,7 +19,14 @@
 		<div class="col-lg-10">
 			<div class="card card-info">
 				<div>
-					<div class="card-header bg-info">Tienda de productos</div>
+					<div class="card-header bg-info">Tienda de productos
+						
+						<div class="search mt-1">
+							<input type="text" id="search" placeholder="Buscar Productos..." aria-label="Buscar" >
+							<button class="btn btn-success" id="searchBtn"><i class="fas fa-search"></i></button>
+						</div>
+						
+					</div>
 					<div class="card-body">					
 						<div class="row" id="getProduct">
 							<!--<div class="col-lg-3">
