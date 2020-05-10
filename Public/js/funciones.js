@@ -163,6 +163,22 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	$("#searchBtn").click(function(e){
+		e.preventDefault();
+
+		var keyword = $("#search").val();
+
+
+		$.ajax({
+			url: '../acciones/main.php',
+			method: "POST",
+			data: {search:1, keyword:keyword},
+			success: function(data){
+				$("#getProduct").html(data); 
+			}
+		});
+	});
 	
 
 	

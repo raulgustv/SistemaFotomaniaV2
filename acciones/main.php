@@ -61,9 +61,17 @@
 	=            Filtro y búsqueda            =
 	=========================================*/
 	
-	if(isset($_POST['selectedCat'])){
-		$id = $_POST['catId'];
-		$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' ");
+	if(isset($_POST['selectedCat']) || isset($_POST['search'])){
+
+		if(isset($_POST['selectedCat'])){
+			$id = $_POST['catId'];
+			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' ");
+		}else if(isset($_POST['search'])){
+			$keyword = $_POST['keyword'];
+			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' ");
+		}
+
+		
 
 		if(mysqli_num_rows($sql) > 0){
 			while($row = mysqli_fetch_array($sql)){
@@ -87,6 +95,10 @@
 						</div>";
 
 			}
+		}else{
+			echo "<div class='alert alert-danger' role='alert'>
+				  No se encontró ningún producto bajo esta búsqueda
+				</div>";
 		}
 
 	}
