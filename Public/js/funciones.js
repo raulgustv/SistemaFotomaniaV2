@@ -146,6 +146,23 @@ $(document).ready(function(){
 	}
 
 	/*----------  Filtros y busqueda ----------*/
+
+	$("body").delegate(".category", "click", function(e){
+		e.preventDefault();
+		var categoryId = $(this).attr('cid'); // atributo que pertenece a clase categoria de referencia a main.php
+
+		//console.log(catId);
+
+		$.ajax({
+			url: '../acciones/main.php',
+			method: "POST",
+			data: {selectedCat:1, catId:categoryId},
+			success: function(data){
+				$("#getProduct").html(data); 
+				
+			}
+		});
+	});
 	
 
 	

@@ -18,7 +18,7 @@
 				$catId = $row['idCategoria'];
 				$catName = $row['nombre'];
 
-				echo "<li class='nav-item'><a class='nav-link' href='#'>$catName</a></li>";
+				echo "<li class='nav-item'><a class='nav-link category' cid='$catId' href='#'>$catName</a></li>";
 						
 			}
 		}
@@ -56,6 +56,43 @@
 			}
 		}
 	}
+
+	/*=========================================
+	=            Filtro y búsqueda            =
+	=========================================*/
+	
+	if(isset($_POST['selectedCat'])){
+		$id = $_POST['catId'];
+		$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' ");
+
+		if(mysqli_num_rows($sql) > 0){
+			while($row = mysqli_fetch_array($sql)){
+				$idProducto = $row['id'];
+				$nombreProducto = $row['nombre'];
+				$precioProducto = $row['precio'];
+				$imagenProducto = $row['imagen'];
+
+				echo "<div class='col-lg-3'>
+								<div class='card-deck mb-3'>
+									<div class='card'>
+										<img class='card-img-top rounded mx-auto d-block' src='imagenes/$imagenProducto'>
+										<div class='card-body'>
+											<div class='card-title'>$nombreProducto</div>											
+										</div>
+										<div class='card-footer'>
+											<div class='card-text'>$$precioProducto <a class='btn btn-success float-right' href='#'><i class='fas fa-cart-plus'></i></a></div>											
+										</div>
+									</div>
+								</div>
+						</div>";
+
+			}
+		}
+
+	}
+	
+	/*=====  End of Filtro y búsqueda  ======*/
+	
 	
 
 ?>
