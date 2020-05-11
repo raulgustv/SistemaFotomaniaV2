@@ -267,9 +267,15 @@ $(document).ready(function(){
 		var total = qty * precio;
 
 		$("#total-"+pid).val(total);
+		calcSum();
 
 
 	});
+
+	/*----------  Calcular subtotal  ----------*/
+
+	
+	
 
 
 

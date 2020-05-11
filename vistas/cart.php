@@ -39,9 +39,19 @@
 							</table>
 						</div>
 					</div>
-					<div class="row" id='montoTotal'>
-						<!--<div class="col-lg-4"><b>Total: $4000</b></div>-->
-					</div>	
+					<div id="montoTotal">
+						<div class="row">
+						<!--<div class="col-lg-4"><b>Total: $4000</b></div>-->					
+				
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							
+						</div>
+					</div>
+						
 				</div>
 			</div>
 		</div>

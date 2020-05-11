@@ -204,7 +204,7 @@
 		$r = mysqli_fetch_assoc($queryTotal);
 		$sum = $r['montoTotal'];
 
-		echo "<div class='col-lg-4'><b>Total: $$sum</b></div>";
+		echo "<div class='col-lg-12'><b>Total: $$sum</b></div>";
 
 
 	}
