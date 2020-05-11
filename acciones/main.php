@@ -118,13 +118,19 @@
 		 $cant = $_POST['qty'];
 		 $prodId = $_POST['prodId'];
 
+		 $q2 = $con->query("SELECT * FROM productos WHERE id='$prodId'");
+		 $row = mysqli_fetch_array($q2);
+		 $precio = $row['precio'];
+		 $total = $cant * $precio;
+
 		 $q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid' and idProducto ='$prodId'");
 		 if(mysqli_num_rows($q) > 0){
-		 	$con->query("UPDATE carro SET cantidad = cantidad + $cant WHERE idCliente = '$uid' AND idProducto = '$prodId'");
+		 	$con->query("UPDATE carro SET cantidad = cantidad + $cant, total = total+$total WHERE idCliente = '$uid' AND idProducto = '$prodId'");
 		 	echo "Productos agregados correctamente";
 		 }else{
-		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,cantidad) VALUES (?,?,?)");
-		 	 $stmt->bind_param("iii", $uid,$prodId,$cant);
+
+		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,cantidad,precio,total) VALUES (?,?,?,?,?)");
+		 	 $stmt->bind_param("iiiii", $uid,$prodId,$cant,$precio,$total);
 
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
@@ -150,6 +156,8 @@
 
 	if(isset($_POST['getCartCheckout'])){
 
+		if(isset($_POST['getCartCheckout'])){
+
 		$uid = $row['id'];
 
 		$q1 = $con->query("SELECT * FROM carro WHERE idCliente ='$uid'");
@@ -169,7 +177,7 @@
 			echo "<tr class='d-flex'>
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
-				<td class='col-1'><input type='number' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
+				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
 				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
 				<td class='col-1'><input type='text' class='form-control' value='$0' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
@@ -179,33 +187,27 @@
 				</td>
 			</tr>";
 			
+			}
 
-
-		}
-
-
-
-		/*
-
-		echo "<tr class='d-flex'>
-						<td class='col-2'><img class='cartDisplay' src='imagenes/batidora.png'></td>
-						<td class='col-2'>Batidora</td>
-						<td class='col-1'><input type='number' class='form-control' value='2'></td>
-						<td class='col-2'><input type='text' class='form-control' value='$49' disabled></td>
-						<td class='col-1'><input type='text' class='form-control' value='$49' disabled></td>
-						<td class='col-2'><input type='text' class='form-control' value='$49' disabled></td>
-						<td class='col-2'>
-							<a class='btn btn-danger' href='#'><i class='fas fa-trash'></i></a>
-							<a class='btn btn-success' href='#'><i class='fas fa-check-circle'></i></a>
-						</td>
-			</tr>";
-
-			*/
+		}		
 	}
-	
-	
+
 	
 	/*=====  End of Obtener productos Carro  ======*/
+
+	if(isset($_POST['getTotal'])){
+
+		$uid = $row['id'];
+
+
+		$queryTotal = $con->query("SELECT SUM(total) AS montoTotal FROM carro WHERE idCliente ='$uid'");
+		$r = mysqli_fetch_assoc($queryTotal);
+		$sum = $r['montoTotal'];
+
+		echo "<div class='col-lg-4'><b>Total: $$sum</b></div>";
+
+
+	}
 	
 	
 	

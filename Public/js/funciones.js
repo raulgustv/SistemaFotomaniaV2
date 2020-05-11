@@ -228,6 +228,8 @@ $(document).ready(function(){
 	
 
 	cartCheckout();
+	getTotal();
+	
 	function cartCheckout(){
 		$.ajax({
 			url:'../acciones/main.php',
@@ -239,6 +241,20 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	function getTotal(){
+		$.ajax({
+			url:'../acciones/main.php',
+			method: "POST",
+			data: {getTotal: 1},
+			success: function(data){
+				$("#montoTotal").html(data);
+				//alert(data);
+			}
+		});
+	}
+
+	
 
 	
 
