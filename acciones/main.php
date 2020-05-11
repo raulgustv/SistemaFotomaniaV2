@@ -114,17 +114,99 @@
 	
 	if(isset($_POST['addToCart'])){
 
-		echo $username = $row['id']; 
+		 $uid = $row['id']; 
+		 $cant = $_POST['qty'];
+		 $prodId = $_POST['prodId'];
 
+		 $q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid' and idProducto ='$prodId'");
+		 if(mysqli_num_rows($q) > 0){
+		 	$con->query("UPDATE carro SET cantidad = cantidad + $cant WHERE idCliente = '$uid' AND idProducto = '$prodId'");
+		 	echo "Productos agregados correctamente";
+		 }else{
+		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,cantidad) VALUES (?,?,?)");
+		 	 $stmt->bind_param("iii", $uid,$prodId,$cant);
 
+			 if($stmt->execute()){
+					echo "Productos agregados correctamente";
+				}else{
+					echo "No se pudo registrar el usuario";
+				}
 
+				$stmt->close();
+				$con->close();
 
+		 }
 
-
+		
 		
 	}
 	
 	/*=====  End of Agregar a carrito  ======*/
+
+
+	/*===============================================
+	=            Obtener productos Carro            =
+	===============================================*/
+
+	if(isset($_POST['getCartCheckout'])){
+
+		$uid = $row['id'];
+
+		$q1 = $con->query("SELECT * FROM carro WHERE idCliente ='$uid'");
+
+		while($r=mysqli_fetch_array($q1)){
+			$q2 = $con->query("SELECT * FROM productos WHERE id = '".$r['idProducto']."'");
+			$row = mysqli_fetch_array($q2);
+
+			$idProducto = $r['idProducto'];
+			$cantidad = $r['cantidad'];
+			$precio = $row['precio'];
+			$imagen = $row['imagen'];
+			$producto = $row['nombre'];
+
+			$precioFinal = $precio * $cantidad;
+
+			echo "<tr class='d-flex'>
+				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
+				<td class='col-2'>$producto</td>
+				<td class='col-1'><input type='number' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
+				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
+				<td class='col-1'><input type='text' class='form-control' value='$0' disabled></td>
+				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
+				<td class='col-2'>
+					<a class='btn btn-danger' href='#'><i class='fas fa-trash'></i></a>
+					<a class='btn btn-success' href='#'><i class='fas fa-check-circle'></i></a>
+				</td>
+			</tr>";
+			
+
+
+		}
+
+
+
+		/*
+
+		echo "<tr class='d-flex'>
+						<td class='col-2'><img class='cartDisplay' src='imagenes/batidora.png'></td>
+						<td class='col-2'>Batidora</td>
+						<td class='col-1'><input type='number' class='form-control' value='2'></td>
+						<td class='col-2'><input type='text' class='form-control' value='$49' disabled></td>
+						<td class='col-1'><input type='text' class='form-control' value='$49' disabled></td>
+						<td class='col-2'><input type='text' class='form-control' value='$49' disabled></td>
+						<td class='col-2'>
+							<a class='btn btn-danger' href='#'><i class='fas fa-trash'></i></a>
+							<a class='btn btn-success' href='#'><i class='fas fa-check-circle'></i></a>
+						</td>
+			</tr>";
+
+			*/
+	}
+	
+	
+	
+	/*=====  End of Obtener productos Carro  ======*/
+	
 	
 	
 

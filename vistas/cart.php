@@ -23,7 +23,7 @@
 									</tr>	
 								</thead>
 								<tbody id="tableCart">
-									<tr class="d-flex">
+									<!--<tr class="d-flex">
 										<td class="col-2"><img class="cartDisplay" src="imagenes/batidora.png"></td>
 										<td class="col-2">Batidora</td>
 										<td class="col-1"><input type="number" class="form-control" value="2"></td>
@@ -34,11 +34,12 @@
 											<a class="btn btn-danger" href="#"><i class="fas fa-trash"></i></a>
 											<a class="btn btn-success" href="#"><i class="fas fa-check-circle"></i></a>
 										</td>
-									</tr>
+									</tr>-->
 								</tbody>
 							</table>
 						</div>
-					</div>	
+					</div>
+						
 				</div>
 			</div>
 		</div>

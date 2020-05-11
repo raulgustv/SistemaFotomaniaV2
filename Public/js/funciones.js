@@ -1,5 +1,18 @@
 $(document).ready(function(){
 
+	/*----------  Funcion SWAL Alerta  ----------*/
+
+	function message(titulo, tiempo, icono){
+		let timerInterval
+		Swal.fire({
+			html: titulo,
+			timer: tiempo,
+			icon: icono,
+			timerProgressBar: false
+		});
+	}
+	
+
 	/*----------  Forms login mostrar/ocultar  ----------*/
 	
 
@@ -190,23 +203,59 @@ $(document).ready(function(){
 			  title: 'Cantidad de productos',	
 			  input: 'number',
 			  showCancelButton: true,
-			  inputPlaceholder: 1
-		});		
+			  inputPlaceholder: 1,
 
-		var pid = $(this).attr('pid');
+		});	
+
+		if(cant > 0){
+			var pid = $(this).attr('pid');
 
 		
+			$.ajax({
+				url: '../acciones/main.php',
+				method: "POST",
+				data: {addToCart:1, prodId: pid, qty:cant},
+				success: function(data){
+					message(data, 2000, 'success');
+				}
+			});
+		}else if(cant < 0){
+			message('Debes ingresar más de 0 productos', 2000, 'error');
+		}	
+	});
+
+	/*----------  Mostrar productos carrito  ----------*/
+	
+
+	cartCheckout();
+	function cartCheckout(){
 		$.ajax({
-			url: '../acciones/main.php',
+			url:'../acciones/main.php',
 			method: "POST",
-			data: {addToCart:1, prodId: pid, qty:cant},
+			data: {getCartCheckout: 1},
 			success: function(data){
-				alert(data);
+				$("#tableCart").html(data);
+				//alert(data);
 			}
 		});
+	}
 
-		
+	
+
+	/*----------  Update quanties  ----------*/
+
+	$("body").delegate(".qty", "keyup", function(){
+		var pid= $(this).attr('pid');
+		var qty= $("#qty-"+pid).val();
+		var precio = $("#precio-"+pid).val();
+		var total = qty * precio;
+
+		$("#total-"+pid).val(total);
+
+
 	});
+
+
 
 
 	
