@@ -46,11 +46,32 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-lg-12">
+					<div id="cartCheckout">
+						<!-- <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
 							
-						</div>
+							  <input type="hidden" name="business" value="kin@kinskards.com">
+
+							  
+							  <input type="hidden" name="cmd" value="_cart">
+							  <input type="hidden" name="add" value="1">
+
+							  <input type="hidden" name="item_name" value="Birthday - Cake and Candle">
+							  <input type="hidden" name="amount" value="3.95">
+							  <input type="hidden" name="currency_code" value="USD">
+
+							  
+							  <input type="image" name="submit"
+							    src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png"
+							    alt="Paypal - The safer, easeir way to pay online">
+							  <img alt="" width="1" height="1"
+							    src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif">
+							</form> -->
 					</div>
+
+					
+							
+					
 						
 				</div>
 			</div>

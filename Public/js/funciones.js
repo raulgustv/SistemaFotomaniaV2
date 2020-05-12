@@ -254,9 +254,6 @@ $(document).ready(function(){
 		});
 	}
 
-	
-
-	
 
 	/*----------  Update quanties  ----------*/
 
@@ -266,14 +263,25 @@ $(document).ready(function(){
 		var precio = $("#precio-"+pid).val();
 		var total = qty * precio;
 
-		$("#total-"+pid).val(total);
-		calcSum();
+		$("#total-"+pid).val(total);		
+
 
 
 	});
 
 	/*----------  Calcular subtotal  ----------*/
-
+	
+		pagar();
+		function pagar(){
+		$.ajax({
+			url:'../acciones/main.php',
+			method: "POST",
+			data: {pagar: 1},
+			success: function(data){
+				$("#cartCheckout").html(data);
+			}
+		});
+	}
 	
 	
 

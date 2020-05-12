@@ -121,6 +121,7 @@
 		 $q2 = $con->query("SELECT * FROM productos WHERE id='$prodId'");
 		 $row = mysqli_fetch_array($q2);
 		 $precio = $row['precio'];
+		 $nombreProd = $row['nombre'];
 		 $total = $cant * $precio;
 
 		 $q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid' and idProducto ='$prodId'");
@@ -129,8 +130,8 @@
 		 	echo "Productos agregados correctamente";
 		 }else{
 
-		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,cantidad,precio,total) VALUES (?,?,?,?,?)");
-		 	 $stmt->bind_param("iiiii", $uid,$prodId,$cant,$precio,$total);
+		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,nombreProducto,cantidad,precio,total) VALUES (?,?,?,?,?,?)");
+		 	 $stmt->bind_param("iisiii", $uid,$prodId,$nombreProd,$cant,$precio,$total);
 
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
@@ -208,6 +209,48 @@
 
 
 	}
+
+	/*========================================
+	=            Carrito Checkout            =
+	========================================*/
+	
+	if(isset($_POST['pagar'])){
+
+		$uid = $row['id'];
+
+		echo '<form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">							
+				<input type="hidden" name="business" value="sb-g47dzi1245437@business.example.com">
+				<input type="hidden" name="cmd" value="_cart">
+				<input type="hidden" name="upload" value="1">';
+
+			$x = 0;
+			$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+			while($r=mysqli_fetch_array($sql)){
+				$x++;
+
+				echo '<input type="hidden" name="item_name_'.$x.'" value="'.$r['nombreProducto'].'">
+					  <input type="hidden" name="item_number_'.$x.'" value="'.$x.'">
+					  <input type="hidden" name="amount_'.$x.'" value="'.$r['precio'].'">
+					  <input type="hidden" name="quantity_'.$x.'" value="'.$r['cantidad'].'">';
+
+			}
+
+			echo '<input type="hidden" name="return" value="http://localhost/sistemafotomaniav2/vistas/pago.php"/>
+					<input type="hidden" name="cancel_return" value="http://localhost/sistemafotomaniav2/vistas/pagoCancelado.php"/>
+						<input type="hidden" name="currency_code" value="USD"/>
+						<input class="botonPay" type="image" name="submit"
+						src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png"
+						alt="Paypal - The safer, easeir way to pay online">
+						<img alt="" width="1" height="1"
+						src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif">
+				</form>';
+
+				
+	}
+	
+	
+	/*=====  End of Carrito Checkout  ======*/
+	
 	
 	
 	
