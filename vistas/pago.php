@@ -9,10 +9,15 @@
 </head>
 <body>
 
-<div class="d-flex justify-content-md-center align-items-center vh-100">
-	<div class="card shadow p-3 mb-5 bg-white rounded">
-		<div class="card-header bg-success">Pago realizado con éxito</div>
 
+
+<div class="d-flex justify-content-md-center align-items-center vh-100 bg-dark">
+		<div class="card">
+	  <div class="card-header"><h5>Gracias Pablo</h5><p>Tu pago ha sido realizado con éxito</p></div>
+	  <div class="card-body">
+	    <h5 class="card-title">El número de transacción es: ABC</h5>	    
+	    <a href="principal.php" class="btn btn-primary">Volver a página princial</a>
+	  </div>
 	</div>
 </div>
 
