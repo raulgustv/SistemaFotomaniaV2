@@ -47,6 +47,8 @@
 					</div>
 
 					<div id="cartCheckout">
+
+
 						<!-- <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 
 							
@@ -68,6 +70,8 @@
 							    src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif">
 							</form> -->
 					</div>
+
+					<a id="sinProd" class="btn btn-warning" href="cart.php" hidden>No hay productos en el carrito. Volver a tienda</a>
 
 					
 							

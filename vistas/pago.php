@@ -11,11 +11,61 @@
 
 
 
+<?php
+
+
+include '../includes/db.php';
+include '../acciones/sesion.php';
+
+
+
+
+
+$cookie = $_COOKIE['mTotal'];
+$uid = $row['id'];
+$username = $row['usuario']; 
+
+
+
+$transaccion = $_GET['tx'];
+$resultado = $_GET['st'];
+$monto = $_GET['amt'];
+$clientId = $_GET['cm'];
+
+if($cookie == $monto && $resultado = 'Completed' && $clientId = $uid){
+	$sql = $con->query("SELECT * FROM carro where idCliente = '$uid'");
+	if(mysqli_num_rows($sql) > 0){
+		while($r = mysqli_fetch_array($sql)){
+			$productId[] = $r['idProducto'];
+			$cant = $r['cantidad'];
+			$nombre = $r['nombreProducto'];
+			$precio = $r['precio'];
+
+			$prodArray = array($productId);
+		}
+
+		for($i=0; $i < count($productId); $i++){
+			$con->query("INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `monto`, `transaccionId`, `FechaCompra`) VALUES (NULL, '$uid', '".$productId[$i]."', '$monto', '$transaccion', current_timestamp())");		
+		}
+
+		$con->query("DELETE FROM carro WHERE idCliente = '$uid'");
+
+	}
+
+
+}
+
+	
+
+?>
+
+
+
 <div class="d-flex justify-content-md-center align-items-center vh-100 bg-dark">
 		<div class="card">
-	  <div class="card-header"><h5>Gracias Pablo</h5><p>Tu pago ha sido realizado con éxito</p></div>
+	  <div class="card-header"><h5>Gracias <?php echo $username; ?> </h5><p>Tu pago ha sido realizado con éxito</p></div>
 	  <div class="card-body">
-	    <h5 class="card-title">El número de transacción es: ABC</h5>	    
+	    <h5 class="card-title">El número de transacción es: <?php echo $transaccion; ?> </h5>	    
 	    <a href="principal.php" class="btn btn-primary">Volver a página princial</a>
 	  </div>
 	</div>

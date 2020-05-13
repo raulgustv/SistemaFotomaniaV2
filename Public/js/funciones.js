@@ -282,6 +282,12 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	/*----------  Disable pay  ----------*/
+
+	//function disablePay()
+
+
 	
 	
 

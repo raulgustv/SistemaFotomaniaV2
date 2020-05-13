@@ -199,13 +199,30 @@
 	if(isset($_POST['getTotal'])){
 
 		$uid = $row['id'];
+		$montoTotal = 0;
 
-
+/*
 		$queryTotal = $con->query("SELECT SUM(total) AS montoTotal FROM carro WHERE idCliente ='$uid'");
 		$r = mysqli_fetch_assoc($queryTotal);
 		$sum = $r['montoTotal'];
 
 		echo "<div class='col-lg-12'><b>Total: $$sum</b></div>";
+*/
+		$q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+		while ($r = mysqli_fetch_array($q)){
+
+			$total = $r['total']; 
+			$precioArray = array($total);
+			$total_sum = array_sum($precioArray);
+			$montoTotal = $montoTotal + $total_sum;
+			setcookie('mTotal', $montoTotal, strtotime("+1day"), "/", "", "", TRUE);
+
+		}
+
+		
+
+		echo "<div class='col-lg-12'><b id='montoPagar'>Total: $$montoTotal</b></div>";
+
 
 
 	}
@@ -238,7 +255,8 @@
 			echo '<input type="hidden" name="return" value="http://localhost/sistemafotomaniav2/vistas/pago.php"/>
 					<input type="hidden" name="cancel_return" value="http://localhost/sistemafotomaniav2/vistas/pagoCancelado.php"/>
 						<input type="hidden" name="currency_code" value="USD"/>
-						<input class="botonPay" type="image" name="submit"
+						<input type="hidden" name="custom" value="'.$uid.'">
+						<input class="botonPay" type="image" name="submit" 
 						src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png"
 						alt="Paypal - The safer, easeir way to pay online">
 						<img alt="" width="1" height="1"

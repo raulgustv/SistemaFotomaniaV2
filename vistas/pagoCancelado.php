@@ -8,8 +8,17 @@
 </head>
 <body>
 
-<?php ?>
 
+
+<div class="d-flex justify-content-md-center align-items-center vh-100 bg-dark">
+		<div class="card">
+	  <div class="card-header"><h5>Lo sentimos...!<i class="fas fa-sad-cry"></i></h5><p>Tu pago no se ha podido completar</p></div>
+	  <div class="card-body">
+	    <h5 class="card-title"></h5>	    
+	    <a href="cart.php" class="btn btn-primary">Volver al carrito</a>
+	  </div>
+	</div>
+</div>
 
 
 <footer>
