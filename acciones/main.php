@@ -183,7 +183,7 @@
 				<td class='col-1'><input type='text' class='form-control' value='$0' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
 				<td class='col-2'>
-					<a class='btn btn-danger' href='#'><i class='fas fa-trash'></i></a>
+					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>
 					<a class='btn btn-success' href='#'><i class='fas fa-check-circle'></i></a>
 				</td>
 			</tr>";
@@ -221,7 +221,7 @@
 
 		
 
-		echo "<div class='col-lg-12'><b id='montoPagar'>Total: $$montoTotal</b></div>";
+		echo "<div class='col-lg-12' id='montoPagar'><b>Total: $$montoTotal</b></div>";
 
 
 
@@ -265,9 +265,22 @@
 
 				
 	}
+
+
 	
 	
 	/*=====  End of Carrito Checkout  ======*/
+
+	if(isset($_POST['removerCarro'])){
+		$prodId = $_POST['idRemover'];
+		$uid = $row['id'];
+
+		$sql = $con->prepare("DELETE FROM carro WHERE idCliente =? AND idProducto=?");
+		$sql->bind_param("ii", $uid,$prodId);
+		$sql->execute();
+		$sql->close();
+
+	}
 	
 	
 	

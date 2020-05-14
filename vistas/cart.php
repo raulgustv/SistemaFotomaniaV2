@@ -71,7 +71,7 @@
 							</form> -->
 					</div>
 
-					<a id="sinProd" class="btn btn-warning" href="cart.php" hidden>No hay productos en el carrito. Volver a tienda</a>
+				
 
 					
 							

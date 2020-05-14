@@ -285,7 +285,24 @@ $(document).ready(function(){
 
 	/*----------  Disable pay  ----------*/
 
-	//function disablePay()
+	$("body").delegate("#removeProduct", "click", function(e){
+		e.preventDefault();
+
+		var prodId = $(this).attr("removeId");
+
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {removerCarro:1, idRemover: prodId},
+			success: function(data){
+				cartCheckout();
+				getTotal();
+
+			}
+		});
+
+	});
+
 
 
 	
