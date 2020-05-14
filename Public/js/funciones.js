@@ -263,8 +263,9 @@ $(document).ready(function(){
 		var precio = $("#precio-"+pid).val();
 		var total = qty * precio;
 
-		$("#total-"+pid).val(total);		
+		$("#total-"+pid).val(total);	
 
+		
 
 
 	});
@@ -290,31 +291,46 @@ $(document).ready(function(){
 
 		var prodId = $(this).attr("removeId");
 
-		$.ajax({
+				
+		Swal.fire({
+		  title: 'Are you sure?',
+		  text: "You won't be able to revert this!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		  if (result.value) {
+
+		  	$.ajax({
 			url: '../acciones/main.php',
 			method: 'POST',
 			data: {removerCarro:1, idRemover: prodId},
 			success: function(data){
+				message('Se borró correctamente el producto', 2000, 'success');
 				cartCheckout();
 				getTotal();
 
 			}
 		});
+		    
+		  }
+		})
+
+
+
+
+
+
+
+
+
+
+
 
 	});
 
-
-
-	
-	
-
-
-
-
-	
-	
-
-	
 
 
 });
