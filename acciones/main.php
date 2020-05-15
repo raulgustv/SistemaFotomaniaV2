@@ -184,7 +184,7 @@
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
 				<td class='col-2'>
 					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>
-					<a class='btn btn-success' href='#'><i class='fas fa-check-circle'></i></a>
+					<a class='btn btn-success' id='updateProduct' updateId='$idProducto' href='#'><i class='fas fa-check-circle'></i></a>
 				</td>
 			</tr>";
 			
@@ -271,6 +271,10 @@
 	
 	/*=====  End of Carrito Checkout  ======*/
 
+	/*========================================
+	=            Acciones Carrito            =
+	========================================*/
+	
 	if(isset($_POST['removerCarro'])){
 		$prodId = $_POST['idRemover'];
 		$uid = $row['id'];
@@ -281,6 +285,26 @@
 		$sql->close();
 
 	}
+
+	if(isset($_POST['updateQty'])){
+		$prodId = $_POST['updateId'];
+		$cant = $_POST['cant'];
+		$precio = $_POST['precio'];
+		$total = $_POST['total'];
+		$uid = $row['id'];
+
+		$sql = $con->prepare("UPDATE carro set cantidad =?, precio =?, total=? WHERE idProducto = '$prodId' AND idCliente='$uid'");
+		$sql->bind_param("iii", $cant,$precio,$total);
+		$sql->execute();
+		$sql->close();
+	}
+
+	
+	/*=====  End of Acciones Carrito  ======*/
+	
+
+	
+
 	
 	
 	

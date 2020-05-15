@@ -263,9 +263,10 @@ $(document).ready(function(){
 		var precio = $("#precio-"+pid).val();
 		var total = qty * precio;
 
-		$("#total-"+pid).val(total);	
+		$("#total-"+pid).val(total);
 
-		
+		$(".botonPay").attr('disabled', true);
+
 
 
 	});
@@ -293,8 +294,8 @@ $(document).ready(function(){
 
 				
 		Swal.fire({
-		  title: 'Are you sure?',
-		  text: "You won't be able to revert this!",
+		  title: 'Deseas borrar el producto del carrito?',
+		  text: "Puedes volver a la tienda para agregar nuevamente",
 		  icon: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
@@ -312,24 +313,36 @@ $(document).ready(function(){
 				cartCheckout();
 				getTotal();
 
+				//despues de borra el SWAL
+
 			}
 		});
 		    
 		  }
 		})
 
+});
 
+	$("body").delegate("#updateProduct", "click", function(e){
+		e.preventDefault();
 
+		var pid = $(this).attr("updateId");
+		var qty = $("#qty-"+pid).val();
+		var precio = $("#precio-"+pid).val();
+		var total = $("#total-"+pid).val();
 
-
-
-
-
-
-
-
-
-	});
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {updateQty:1, updateId: pid, cant: qty, precio:precio, total:total},
+			success: function(data){
+				message('Cantidad de productos actualizada', 2000, 'success');
+				getTotal();
+				//$(".botonPay").attr('disabled', true);
+				$(".botonPay").removeAttr("disabled");
+			}
+		});
+	})
 
 
 
