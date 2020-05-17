@@ -176,7 +176,8 @@ $(document).ready(function(){
 			}
 		});
 	});
-
+	
+		
 	$("#searchBtn").click(function(e){
 		e.preventDefault();
 
@@ -192,6 +193,8 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+
 
 	/*----------  Agregar a carrito  ----------*/
 
@@ -343,6 +346,34 @@ $(document).ready(function(){
 			}
 		});
 	})
+
+	/*----------  Search Autocomplete  ----------*/
+
+	$("#search").keyup(function(){
+		var busqueda = $(this).val();
+
+		if(busqueda != ''){
+			$.ajax({
+				url: '../acciones/main.php',
+				method: 'POST',
+				data: {query:busqueda},
+				success: function(data){
+					$('#listaProductos').fadeIn();
+					$('#listaProductos').html(data);
+				}
+			});
+		}else{
+			$('#listaProductos').fadeOut();
+		}
+	});
+
+
+	$(document).on('click', '.liResult', function(){
+		$('#search').val($(this).text());
+		$('#listaProductos').fadeOut();
+
+	});
+	
 
 
 

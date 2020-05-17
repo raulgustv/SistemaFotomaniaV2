@@ -50,7 +50,20 @@ img.cartDisplay{
 	height: 100px;
 }
 
-/*Pago confirmado*/
+nav.paginate{
+	margin-top: 10px;
+}
+
+/*Ajax Search Auto*/
+
+ul.ulResult{
+	background-color: #eee;
+	cursor: pointer;
+}
+
+li.liResult{
+	padding: 12px;
+}
 
 
 

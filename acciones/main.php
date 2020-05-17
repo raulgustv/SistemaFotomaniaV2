@@ -301,6 +301,38 @@
 
 	
 	/*=====  End of Acciones Carrito  ======*/
+
+	/*==================================================
+	=            Prueba Autocomplete search            =
+	==================================================*/
+	
+	if(isset($_POST['query'])){
+
+		$producto = $_POST['query'];
+
+		$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$producto%'");
+
+		echo "<ul class='list-unstyled ulResult'>";
+
+		if(mysqli_num_rows($sql) > 0){
+			while ($r = mysqli_fetch_array($sql)){
+
+				$res = $r['nombre'];
+
+				echo "<li class='liResult'>$res</li>";
+			}
+		}else{
+			echo "<div class='alert alert-danger' role='alert'>
+				  No se encontró ningún producto bajo esta búsqueda
+				</div>";
+		}
+
+		echo "</ul>";
+		
+	}
+	
+	/*=====  End of Prueba Autocomplete search  ======*/
+	
 	
 
 	
