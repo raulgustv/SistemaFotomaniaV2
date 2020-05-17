@@ -59,11 +59,10 @@
 	</div>
 
 <nav aria-label="Page navigation paginate">
-  <ul class="pagination justify-content-center">
+  <ul class="pagination justify-content-center" id="pageNo">
     
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a page='$i' id='page' class="page-link" href="#">1</a></li>
+    
     
   </ul>
 </nav>

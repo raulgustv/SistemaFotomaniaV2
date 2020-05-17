@@ -373,6 +373,38 @@ $(document).ready(function(){
 		$('#listaProductos').fadeOut();
 
 	});
+
+	/*----------  Paginacion  ----------*/
+	
+	page();
+	function page(){
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {page:1},
+			success: function(data){
+				$("#pageNo").html(data);
+			}
+		});
+	}
+
+	
+
+	$("body").delegate("#page", "click", function(){
+
+		var pn = $(this).attr("page");
+
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {getProduct:1, setPage:1, pageNumber:pn},
+			success: function(data){
+				$("#getProduct").html(data);
+			}
+		});
+	});
+
+	
 	
 
 

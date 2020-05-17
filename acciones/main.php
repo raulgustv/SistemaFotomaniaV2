@@ -29,7 +29,17 @@
 	/*=====  End of Obtener categorias  ======*/
 
 	if(isset($_POST['getProduct'])){
-		$prodQuery = $con->query("SELECT * FROM productos");
+
+		$limit = 8;
+
+		if(isset($_POST['setPage'])){
+			$pageNo = $_POST['pageNumber'];
+			$start = ($pageNo * $limit) - $limit;
+		}else{
+			$start = 0;
+		}
+
+		$prodQuery = $con->query("SELECT * FROM productos LIMIT $start, $limit");
 
 		if(mysqli_num_rows($prodQuery)){
 			while($row = mysqli_fetch_array($prodQuery)){
@@ -332,6 +342,25 @@
 	}
 	
 	/*=====  End of Prueba Autocomplete search  ======*/
+
+	/*==================================
+	=            Paginación            =
+	==================================*/
+	
+	if(isset($_POST['page'])){
+		$sql=$con->query("SELECT * FROM productos");
+		$count = mysqli_num_rows($sql);
+		$pageNo = ceil($count/8);
+
+		for($i=1; $i<=$pageNo; $i++){
+			echo "<li class='page-item'><a page='$i' id='page' class='page-link' href='#'>$i</a></li>";
+		}
+	}
+
+
+	
+	/*=====  End of Paginación  ======*/
+	
 	
 	
 
