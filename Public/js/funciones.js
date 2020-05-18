@@ -220,10 +220,12 @@ $(document).ready(function(){
 				data: {addToCart:1, prodId: pid, qty:cant},
 				success: function(data){
 					message(data, 2000, 'success');
+					sumMiniCart();
+					mostrarMiniCart();
 				}
 			});
-		}else if(cant < 0){
-			message('Debes ingresar más de 0 productos', 2000, 'error');
+		}else if(cant < 0 || !cant){
+			message('Debes ingresar al menos 1 producto', 2000, 'error');
 		}	
 	});
 
@@ -284,6 +286,7 @@ $(document).ready(function(){
 			data: {pagar: 1},
 			success: function(data){
 				$("#cartCheckout").html(data);
+				getTotal();
 			}
 		});
 	}
@@ -314,6 +317,8 @@ $(document).ready(function(){
 			success: function(data){
 				message('Se borró correctamente el producto', 2000, 'success');
 				cartCheckout();
+				sumMiniCart();
+				mostrarMiniCart();
 				getTotal();
 
 				//despues de borra el SWAL
@@ -325,6 +330,7 @@ $(document).ready(function(){
 		})
 
 });
+
 
 	$("body").delegate("#updateProduct", "click", function(e){
 		e.preventDefault();
@@ -345,7 +351,8 @@ $(document).ready(function(){
 				$(".botonPay").removeAttr("disabled");
 			}
 		});
-	})
+	});
+
 
 	/*----------  Search Autocomplete  ----------*/
 
@@ -404,8 +411,33 @@ $(document).ready(function(){
 		});
 	});
 
-	
-	
+	/*----------  MiniCart display  ----------*/
+	mostrarMiniCart();
+	function mostrarMiniCart(){
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {getMiniCart:1},
+			success: function(data){
+				$("#miniCart").html(data);
+
+			}
+		});
+	}
+
+	sumMiniCart();
+	function sumMiniCart(){
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {sumMiniCart:1},
+			success: function(data){
+				$("#cartSum").html(data);
+			}
+		});
+	}
+
+
 
 
 

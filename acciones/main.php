@@ -173,6 +173,8 @@
 
 		$q1 = $con->query("SELECT * FROM carro WHERE idCliente ='$uid'");
 
+		if(mysqli_num_rows($q1) > 0){
+
 		while($r=mysqli_fetch_array($q1)){
 			$q2 = $con->query("SELECT * FROM productos WHERE id = '".$r['idProducto']."'");
 			$row = mysqli_fetch_array($q2);
@@ -199,9 +201,13 @@
 			</tr>";
 			
 			}
-
-		}		
-	}
+		}else{
+			echo "<div class='alert alert-danger text-center' role='alert'>
+				  Carrito está vacío
+				</div>";
+		}
+	}		
+}
 
 	
 	/*=====  End of Obtener productos Carro  ======*/
@@ -252,6 +258,7 @@
 
 			$x = 0;
 			$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+			if(mysqli_num_rows($sql) > 0){
 			while($r=mysqli_fetch_array($sql)){
 				$x++;
 
@@ -273,8 +280,10 @@
 						src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif">
 				</form>';
 
-				
-	}
+	}else{
+		echo "";
+	}			
+}
 
 
 	
@@ -313,7 +322,7 @@
 	/*=====  End of Acciones Carrito  ======*/
 
 	/*==================================================
-	=            Prueba Autocomplete search            =
+	=             Autocomplete search            =
 	==================================================*/
 	
 	if(isset($_POST['query'])){
@@ -341,7 +350,7 @@
 		
 	}
 	
-	/*=====  End of Prueba Autocomplete search  ======*/
+	/*=====  End of  Autocomplete search  ======*/
 
 	/*==================================
 	=            Paginación            =
@@ -360,6 +369,48 @@
 
 	
 	/*=====  End of Paginación  ======*/
+
+
+	/*========================================
+	=            Llenar Mini Cart            =
+	========================================*/
+	
+	if(isset($_POST['getMiniCart'])){
+		$uid = $row['id'];
+
+		$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+
+		if(mysqli_num_rows($sql) > 0){
+			while($r = mysqli_fetch_array($sql)){
+				$idProd = $r['idProducto'];
+
+				$q = $con->query("SELECT * FROM productos WHERE id = '$idProd'");
+				$reg = mysqli_fetch_array($q);
+
+				$img = $reg['imagen'];
+				$nombre = $reg['nombre'];
+				$precio =  $reg['precio'];
+
+				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
+                     <div class='col-lg-4'>$nombre</div> 
+                     <div class='col-lg-4'>$precio</div>";
+				
+			}
+		}		
+	}
+
+	if(isset($_POST['sumMiniCart'])){
+		$uid = $row['id'];
+		$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+		$count = mysqli_num_rows($sql);
+
+		echo $count;
+	}
+	
+	/*=====  End of Llenar Mini Cart  ======*/
+	
+
+
 	
 	
 	

@@ -32,7 +32,7 @@ require '../acciones/sesion.php';
       <li class="nav-item">
         <a class="nav-link" href="tienda.php">Tienda</a>
       </li>
-       <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span class="badge-dark">0</span><i class="fas fa-cart-plus"></i></a>
+       <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span id="cartSum" class="badge-dark"></span><i class="fas fa-cart-plus"></i></a>
        <div class="dropdown-menu dropMenuSize">
           <div class="card">
               <div class="card-header bg-info">
@@ -43,11 +43,16 @@ require '../acciones/sesion.php';
                   </div>
               </div>
               <div class="card-body">
-                  <div class="row">
-                     <div class="col-lg-4"><img class="miniCart" src="imagenes/batidora.png"></div> 
+                  <div class="row" id="miniCart">
+                    <!-- <div class="col-lg-4"><img class="miniCart" src="imagenes/batidora.png"></div> 
                      <div class="col-lg-4">Batidora</div> 
-                     <div class="col-lg-4">$45</div> 
-                  </div>                  
+                     <div class="col-lg-4">$45</div> -->
+
+
+                  </div>  
+                  <div>
+                      <a href="cart.php" class="btn btn-warning float-right">Ir a Carrito</a>
+                  </div>                
               </div>
           </div>
        </div> 
