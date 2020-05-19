@@ -45,7 +45,8 @@
 				<img class="card-img-top mx-auto imgPanel" src="../logos/cameraLens.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra los productos mostrados en la tienda</p>
-					<a href="#" data-toggle="modal" data-target="#category" class="btn btn-primary">Ver y Administrar productos</a>
+					<a href="#" data-toggle="modal" data-target="#form_productos" class="btn btn-primary">Agregar Productos</a>
+					<a href="#"class="btn btn-success">Ver Productos</a>
 				</div>
 			</div>
 		</div>
@@ -55,7 +56,8 @@
 				<img class="card-img-top mx-auto imgPanel" src="../logos/categorías.svg" alt="Card image cap">					  
 				<div class="card-body">					
 					<p class="card-text">Administra las categorías mostrados en la tienda</p>
-					<a href="#" class="btn btn-primary">Ver y Administrar categorías</a>
+					<a href="#" data-toggle="modal" data-target="#form_categorias" class="btn btn-primary">Agregar Categorías</a>
+					<a href="#"class="btn btn-success">Ver Categorías</a>
 				</div>
 			</div>
 		</div>
@@ -65,7 +67,8 @@
 				<img class="card-img-top mx-auto imgPanel" src="../logos/galeria.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
-					<a href="#" class="btn btn-primary">Ver y Administrar Imágenes</a>
+					<a href="#" data-toggle="modal" data-target="#form_imagenes" class="btn btn-primary">Agregar Imágenes</a>
+					<a href="#"class="btn btn-success">Ver Imágenes</a>
 				</div>
 			</div>
 		</div>
@@ -75,5 +78,8 @@
 </div>
 
 <?php include_once 'agregarCategoria.php' ?>
+<?php include_once 'agregarProductos.php' ?>
+<?php include_once 'agregarImagenes.php' ?>
+
 
 <?php include_once '../templates/footerAdmin.php'; ?> 
