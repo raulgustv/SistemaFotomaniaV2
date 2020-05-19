@@ -4,7 +4,7 @@
 	<div class="card mx-auto">
 		<div class="header bg-success text-center"><h3>Registro</h3></div>
 		<div class="card-body">
-			<form id="registerform">
+			<form action="" method="post" role="form" class="p-2" id="registerform">
 				<div class="form-group">
 					<label for="username">Nombre Completo</label>
 					<input type="text" name="username" class="form-control" id="username" placeholder="Ingresa el Nombre Completo">
@@ -24,10 +24,10 @@
 				<div class="form-group">
 					<label for="tipoUsuario">Tipo de Usuario</label>
 					<select class="form-control" name="tipoUsuario" id="tipoUsuario">
-						<option value="0">Admin</option>
-						<option value="1">Otro</option>
+						<option value="Admin">Admin</option>
+						<option value="Otro">Otro</option>
 					</select>
-					<button type="submit" name="registroAdminUsuario" class="btn btn-primary"><span class="fas fa-user"></span>&nbsp; Registrar</button>
+					<button type="submit" name="registroAdminUsuario" class="btn btn-primary mt-3"><span class="fas fa-user"></span>&nbsp; Registrar</button>
 				</div>
 			</form>
 		</div>
@@ -38,8 +38,5 @@
 </div>
 
 
-
-
-
-
 <?php include_once '../templates/footerAdmin.php'; ?>
+
