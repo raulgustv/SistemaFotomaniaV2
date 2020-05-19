@@ -15,7 +15,7 @@
 		  </div> 
 		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>
 		  <span>
-		  	<a href="#">Registrar</a>
+		  	<a href="registroAdmin.php">Registrar</a>
 		  </span>
 		</form>
 	  </div>
