@@ -66,5 +66,24 @@ li.liResult{
 }
 
 
+/*Panel Admin*/
+
+img.imgLoginAdmin{
+	width: 60% !important;
+}
+
+img.imgPanel{
+	width: 50% !important;
+	height: 50% !important;
+}
+
+div.adminJmb{
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
 
 
