@@ -68,8 +68,10 @@ if(isset($_POST['loginAdmin'])){
 			$_SESSION['userId'] = $row['id'];
 			$_SESSION['user'] = $row['user'];
 			$_SESSION['ultimoLogin'] = $row['fechaLogin'];
+			$_SESSION['userRole'] = $row['tipoUsuario'];
 
-			$ultimo_Login = date("Y-m-d h:m:s");
+
+			$ultimo_Login = date("Y-m-d h:i:s");
 
 			$stmt = $con->prepare("UPDATE admin SET fechaLogin = ? WHERE email = ?");
 			$stmt->bind_param("ss", $ultimo_Login, $email);

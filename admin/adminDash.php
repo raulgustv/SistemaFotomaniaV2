@@ -6,7 +6,10 @@ include_once '../includes/funciones.php';
 session_start();
 checkAdmin();
 
-echo ($_SESSION['userId'])." - ".($_SESSION['user']). " - ".($_SESSION['ultimoLogin']);
+$userId =($_SESSION['userId']);
+$userName = ($_SESSION['user']);
+$ultimoLogin = ($_SESSION['ultimoLogin']);
+$role = ($_SESSION['userRole']);
 
 
 	
@@ -19,9 +22,9 @@ echo ($_SESSION['userId'])." - ".($_SESSION['user']). " - ".($_SESSION['ultimoLo
 			  <img class="card-img-top mx-auto imgLoginAdmin" src="../logos/user.png" alt="Card image cap">
 			  <div class="card-body">
 			  	<h4 class="card-title">Información Perfil</h4>
-			    <p class="card-text"><i class="fas fa-user-circle">&nbsp</i>Raul Rodríguez</p>
-			    <p class="card-text"><i class="far fa-id-card">&nbsp</i>Admin</p>
-			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: xxxx-xx-xx</p>
+			    <p class="card-text"><i class="fas fa-user-circle">&nbsp</i><?php echo $userName; ?></p>
+			    <p class="card-text"><i class="far fa-id-card">&nbsp</i><?php echo $role ?></p>
+			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: <?php echo $ultimoLogin; ?></p>
 			    <a href="#" class="btn btn-primary"><i class="fas fa-user-edit">&nbsp</i>Editar Perfil</a>
 			    
 			  </div>
