@@ -82,6 +82,14 @@ div.adminJmb{
 	height: 100%;
 }
 
+.error{
+	color: #F00;	
+}
+
+input.error{
+	border:1px solid #F00;
+}
+
 
 
 

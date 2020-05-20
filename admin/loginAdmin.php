@@ -4,14 +4,14 @@
 	<div class="card mx-auto" style="width: 18rem;">
 	  <img class="card-img-top imgLoginAdmin mx-auto" src="../logos/login.png" alt="Card image cap">
 	  <div class="card-body">
-	    <form>
+	    <form method="post" role="form" id="loginForm">
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">Email</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tu Email">	    
+		    <label for="emailLogin">Email</label>
+		    <input type="email" name="emailLogin" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Tu Email">	    
 		  </div>
 		  <div class="form-group">
-		    <label for="exampleInputPassword1">Contraseña</label>
-		    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tu contraseña">
+		    <label for="adminPass">Contraseña</label>
+		    <input type="password" class="form-control" name="adminPass" id="adminPass" placeholder="Tu contraseña">
 		  </div> 
 		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>
 		  <span>

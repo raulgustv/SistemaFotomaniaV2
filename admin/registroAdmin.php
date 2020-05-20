@@ -11,7 +11,7 @@
 				</div>
 				<div class="form-group">
 					<label for="email">Correo Electrónico</label>
-					<input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingresa el correo electrónico">
+					<input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingresa el correo electrónico" required>
 				</div>
 				<div class="form-group">
 					<label for="password1">Contraseña</label>

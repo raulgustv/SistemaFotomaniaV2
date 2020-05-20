@@ -1,3 +1,10 @@
+<?php 
+
+require_once '../includes/funciones.php';
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +27,7 @@
         <a class="nav-link" href="#"><i class="fas fa-home">&nbsp</i> Home <span class="sr-only">(current)</span></a>
       </li>   
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-sign-out-alt">&nbsp</i>Cerrar Sesión</a>
+        <a class="nav-link" href="../admin/accionesAdmin/cerrarSessionAdmin.php"><i class="fas fa-sign-out-alt">&nbsp</i>Cerrar Sesión</a>
       </li>      
     </ul>
   </div>

@@ -1,4 +1,16 @@
-<?php include_once '../templates/headerAdmin.php'; ?> 
+<?php 
+
+include_once '../templates/headerAdmin.php';
+include_once '../includes/funciones.php';
+
+session_start();
+checkAdmin();
+
+echo ($_SESSION['userId'])." - ".($_SESSION['user']). " - ".($_SESSION['ultimoLogin']);
+
+
+	
+ ?> 
 
 <div class="container mt-2">
 	<div class="row">
@@ -11,6 +23,7 @@
 			    <p class="card-text"><i class="far fa-id-card">&nbsp</i>Admin</p>
 			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: xxxx-xx-xx</p>
 			    <a href="#" class="btn btn-primary"><i class="fas fa-user-edit">&nbsp</i>Editar Perfil</a>
+			    
 			  </div>
 			</div>
 		</div>
