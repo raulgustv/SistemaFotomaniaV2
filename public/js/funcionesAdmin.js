@@ -155,6 +155,28 @@ $("#frmCategoria").validate({
 
 });
 
+/*----------  Ver Categorias  ----------
+
+verCategorias();
+function verCategorias(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getCats:1},
+		success:function(data){
+
+			$("#tableCats").html(data);
+
+			//alert(data);
+		}
+	})
+}
+
+*/
+
+$("#dtTabla").DataTable();
+
+
 
 
 

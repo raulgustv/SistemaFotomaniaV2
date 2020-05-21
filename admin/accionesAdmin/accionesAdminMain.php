@@ -34,5 +34,27 @@ if(isset($_POST['agregarCat'])){
 
 /*=====  End of Agregar Categoría  ======*/
 
+/*======================================
+=            Ver categorías            =
+======================================*/
+
+if(isset($_POST['getCats'])){
+	
+	echo "<tr>
+				<td>01</td>
+				<td>hola</td>
+				<td><a href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a></td>
+			</tr>
+			<tr>
+				<td>33</td>
+				<td>buenas</td>
+				<td><a href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a></td>
+			</tr>";
+}
+
+
+/*=====  End of Ver categorías  ======*/
+
+
 
 ?>

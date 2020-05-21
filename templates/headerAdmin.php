@@ -12,6 +12,8 @@ require_once '../includes/funciones.php';
 	<title>Panel Administrativo</title>
 	<link rel="stylesheet" type="text/css" href="../public/fontawesome/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../public/DataTables/DataTables-1.10.20/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" type="text/css" href="../public/DataTables/Buttons-1.6.1/css/buttons.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
 </head>
 <body>
