@@ -239,21 +239,57 @@ $(document).on("click", "#btnDelete", function(){
 
 });
 
-/*----------  Editar categoria  ----------*/
+/*----------  Obtener categoria  ----------*/
 
 $(document).on("click", "#editarCat", function(){
 	fila = $(this).closest("tr");
 	catId = parseInt(fila.find('td:eq(0)').text());
+	var nuevaCat = $("#nuevaCat").val();
 
 	$.ajax({
 		url: 'accionesAdmin/accionesAdminMain.php',
 		method: 'POST',
 		data: {
-			editarCategoria:1,
-			catId:catId
+			cargarCategoria:1,
+			catId:catId,	
+
 		},
 		success: function(data){
-			dataCats.ajax.reload();
+			
+			$("#newCat").html(data);
+			
+			//dataCats.ajax.reload();
+
+
+		}
+	});
+});
+
+$(document).on("click", "#newCategory", function(){
+	var catId = $("#nuevaCat").attr('editcatid');
+	var newCatName = $("#nuevaCat").val();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data:{
+			editarCat:1,
+			catId: catId,
+			newCatName: newCatName
+		},
+		success: function(data){
+
+			if(data === "false"){
+				message("Esta categoria ya existe", 2000, 'error');
+			}else{
+
+			dataCats.ajax.reload();			
+			message("La categoría se editó correctamente", 2000, 'success');		
+			$("#formEditCats").modal('hide');
+
+		}
+
+			
 
 		}
 	});

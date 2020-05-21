@@ -19,12 +19,13 @@ include_once '../includes/funciones.php';
         </button>
       </div>
       <div class="modal-body">
-         <form method="post" id="frmEditCats" role="form">
-            <div class="form-group">
-              <label for="categoria">Categoría</label>
-              <input name="categoria" class="form-control" id="categoria" placeholder="Ingresa la nueva categoría">             
-            </div>                      
-            <button type="submit" class="btn btn-primary">Guardar</button>
+         
+            <div class="form-group" id="newCat">
+              <!-- <label for="categoria">Categoría</label>
+              <input name="categoria" class="form-control" id="categoria" placeholder="Ingresa la nueva categoría">  -->           
+            </div>                 
+            
+            <input type="submit" id="newCategory" name="newCategory" class="btn btn-primary" value="Guardar">
         </form>
       </div>      
     </div>

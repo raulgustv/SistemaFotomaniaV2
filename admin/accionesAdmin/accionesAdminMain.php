@@ -78,7 +78,36 @@ if(isset($_POST['borrarCat'])){
 =            Editar Categoría            =
 ========================================*/
 
+if(isset($_POST['cargarCategoria'])){
+	$catId = $_POST['catId'];
 
+	$q = $con->query("SELECT * FROM categorias WHERE idCategoria = '$catId' ");
+	//$q->bind_param("s", $catId);
+	//$q->execute();
+
+	$row = mysqli_fetch_array($q);
+	$nombre = $row['nombre'];
+
+	echo "<label for='categoria'>Categoría</label>
+         <input id='nuevaCat' editCatId='$catId' name='categoria' class='form-control' id='categoria' placeholder='$nombre'>";
+}
+
+if(isset($_POST['editarCat'])){
+
+	$catId = $_POST['catId'];
+	$catName = $_POST['newCatName'];
+
+	$sql = $con->query("SELECT * FROM categorias WHERE nombre = '$catName' ");
+	if(mysqli_num_rows($sql) > 0){
+		echo "false";
+	}else{
+		$q = $con->query("UPDATE categorias SET nombre = '$catName' WHERE idCategoria = '$catId' ");
+	}
+
+	
+	//$q->bind_param("ss", $catId, $catName);
+	//$q->execute();
+}
 
 /*=====  End of Editar Categoría  ======*/
 
