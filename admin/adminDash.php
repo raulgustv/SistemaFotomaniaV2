@@ -73,7 +73,7 @@ $role = ($_SESSION['userRole']);
 				<div class="card-body">					
 					<p class="card-text">Administra las categorías mostrados en la tienda</p>
 					<a href="#" data-toggle="modal" data-target="#form_categorias" class="btn btn-primary">Agregar Categorías</a>
-					<a href="#"class="btn btn-success">Ver Categorías</a>
+					<a href="verCategoria.php"class="btn btn-success">Ver Categorías</a>
 				</div>
 			</div>
 		</div>
@@ -83,7 +83,7 @@ $role = ($_SESSION['userRole']);
 				<img class="card-img-top mx-auto imgPanel" src="../logos/galeria.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
-					<a href="#" data-toggle="modal" data-target="#form_imagenes" class="btn btn-primary">Agregar Imágenes</a>
+					<a href="#" data-toggle="modal" data-target="#form_editCats" class="btn btn-primary">Agregar Imágenes</a>
 					<a href="#"class="btn btn-success">Ver Imágenes</a>
 				</div>
 			</div>

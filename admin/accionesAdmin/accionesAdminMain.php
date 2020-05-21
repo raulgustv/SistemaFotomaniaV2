@@ -58,6 +58,32 @@ if(isset($_POST['getCats'])){
 
 /*=====  End of Ver categorías  ======*/
 
+/*========================================
+=            Borrar Categoría            =
+========================================*/
+
+if(isset($_POST['borrarCat'])){
+	$catId = $_POST['catId'];
+
+	$sql = $con->prepare("DELETE FROM categorias WHERE idCategoria = ? ");
+	$sql->bind_param("i", $catId);
+	$sql->execute();
+
+
+}
+
+/*=====  End of Borrar Categoría  ======*/
+
+/*========================================
+=            Editar Categoría            =
+========================================*/
+
+
+
+/*=====  End of Editar Categoría  ======*/
+
+
+
 
 
 ?>

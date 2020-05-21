@@ -146,8 +146,10 @@ $("#frmCategoria").validate({
 			success: function(data){
 				if(data === "false"){
 					message("La categoría indicada ya existe", 2000, 'error');
+					$("#frmCategoria").trigger("reset");
 				}else{
 					message("Categoría agregada con éxito", 2000, 'success');
+					$("#frmCategoria").trigger("reset");
 				}
 			}
 		});
@@ -158,8 +160,15 @@ $("#frmCategoria").validate({
 
 /*----------  Ver Categorias  ----------*/
 
+var dataCats;
 
-$("#dtTabla").DataTable({
+dataCats = $("#dtTablaCats").DataTable({
+	"dom": "Bfrtip",
+	"buttons": "['copy', 'excel', 'pdf']",
+	"processing": true,	
+	"paging": false,
+	"responsive": true,
+	"destroy": true,	
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -172,9 +181,82 @@ $("#dtTabla").DataTable({
 
 		{"data": "idCategoria"},
 		{"data": "nombre"},
-		{"defaultContent": "<a id='+idCategoria+' href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a>"}
+		{"defaultContent": "<a href='#' id='btnDelete' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarCat' data-toggle='modal' data-target='#formEditCats' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
 
 	]
+});
+
+
+
+var fila;
+
+/*----------  Borrar Categoria  ----------*/
+
+
+$(document).on("click", "#btnDelete", function(){
+	fila = $(this).closest("tr");
+	catId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		title: 'Deseas borrar el producto del carrito?',
+		 text: "Producto será borrado",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				borrarCat:1,
+				catId:catId
+			},
+			success: function(data){
+
+				/*
+				$("#dtTablaCats").DataTable({
+					destroy: true,
+					
+				});
+
+				fila.remove();
+				*/
+
+				dataCats.ajax.reload();
+
+
+
+			}
+		});
+	}
+}
+
+
+)
+
+});
+
+/*----------  Editar categoria  ----------*/
+
+$(document).on("click", "#editarCat", function(){
+	fila = $(this).closest("tr");
+	catId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			editarCategoria:1,
+			catId:catId
+		},
+		success: function(data){
+			dataCats.ajax.reload();
+
+		}
+	});
 });
 
 

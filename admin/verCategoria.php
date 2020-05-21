@@ -7,12 +7,12 @@ include '../includes/db.php';
 ?>
 
 <div class="container-fluid mt-2">
-	<table class="table table-striped" id="dtTabla">
+	<table class="table table-striped" id="dtTablaCats">
 		<thead>
 			<tr>
-				<th>Producto</th>
-				<th>Nombre Producto</th>										
-				<th>Accion</th>
+				<th>Id Categoría</th>
+				<th>Categoría</th>										
+				<th>Acciones</th>
 			</tr>	
 		</thead>
 
@@ -29,7 +29,11 @@ include '../includes/db.php';
 			</tr>-->
 
 	</table>
-</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
 
 
 
@@ -43,4 +47,6 @@ include '../includes/db.php';
 
 <?php
 
-include_once '../templates/footerAdmin.php'; ?>
+include_once '../templates/footerAdmin.php';
+include_once 'editarCategoria.php';
+ ?>
