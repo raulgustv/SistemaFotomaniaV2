@@ -265,6 +265,9 @@ $(document).on("click", "#editarCat", function(){
 	});
 });
 
+/*----------  Editar Categoria  ----------*/
+
+
 $(document).on("click", "#newCategory", function(){
 	var catId = $("#nuevaCat").attr('editcatid');
 	var newCatName = $("#nuevaCat").val();
@@ -294,6 +297,21 @@ $(document).on("click", "#newCategory", function(){
 		}
 	});
 });
+
+/*----------  Llenar Categoría   ----------*/
+
+llenarCatAddProd();
+function llenarCatAddProd(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getCategoryProd:1},
+		success: function(data){
+			$("#catAddProd").html(data);
+		}
+	});
+}
+
 
 
 

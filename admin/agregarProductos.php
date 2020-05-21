@@ -8,11 +8,41 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <form method="post" id="frmProductos" role="form">
+          <div class="form-group">
+              <label for="nombreProd">Nombre</label>
+              <input type="text" class="form-control" name="nombreProd" id="#nombreProd" placeholder="Nombre del producto"> 
+          </div>
+          <div class="form-group">
+              <label for="descProd">Descripción</label>
+              <textarea  type="text" rows="3" class="form-control" name="descProd" id="#descProd" placeholder="Descripción del producto"></textarea> 
+          </div>
+          <div class="form-group">
+              <label for="precioProd">Precio</label>
+              <input type="text" class="form-control" name="precioProd" id="#precioProd" placeholder="Nombre del producto"> 
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFile01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="imgProd" aria-describedby="inputGroupFileAddon01" name="imgProd">
+                <label class="custom-file-label" for='imgProd'>Buscar Archivo</label>
+            </div>
+          </div>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <label class="input-group-text" for="catProd">Categoría</label>
+                  <select class="custom-select" id="catAddProd">
+                    <!-- <option value="1">Videojuegos</option> 
+                     <option value="2">Cocina</option> 
+                     <option value="3">Ferretería</option> -->
+                  </select> 
+              </div>
+          </div>
+        </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     
       </div>
     </div>
   </div>

@@ -111,6 +111,18 @@ if(isset($_POST['editarCat'])){
 
 /*=====  End of Editar Categoría  ======*/
 
+if(isset($_POST['getCategoryProd'])){
+
+	$q = $con->query("SELECT * FROM categorias");
+
+	while($row = mysqli_fetch_array($q)){
+		$catId = $row['idCategoria'];
+		$catName = $row['nombre'];
+		echo "<option value='$catId'>$catName</option>";
+	}
+
+}
+
 
 
 
