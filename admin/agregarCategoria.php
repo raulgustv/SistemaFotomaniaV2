@@ -8,12 +8,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+         <form method="post" id="frmCategoria" role="form">
+            <div class="form-group">
+              <label for="categoria">Categoría</label>
+              <input name="categoria" class="form-control" id="categoria" placeholder="Ingresa la nueva categoría">             
+            </div>                      
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>      
     </div>
   </div>
 </div>

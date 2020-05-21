@@ -121,5 +121,41 @@ $("#loginForm").validate({
 });
 
 
+/*----------  Insertar Categoria  ----------*/
+
+$("#frmCategoria").validate({
+
+	rules:{
+		categoria:{
+			required: true,
+			rangelength: [3,25]
+		},
+	},
+	messages:{
+		categoria:{
+			required: "Por favor ingrese el nombre de la categoría",
+			rangelength: "Categoría debe tener entre 3 y 25 caractéres"
+		},
+	},
+	submitHandler: function(form){
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: $("#frmCategoria").serialize()+"&agregarCat",
+			success: function(data){
+				if(data === "false"){
+					message("La categoría indicada ya existe", 2000, 'error');
+				}else{
+					message("Categoría agregada con éxito", 2000, 'success');
+				}
+			}
+		});
+	}
+
+
+});
+
+
+
 
 });
