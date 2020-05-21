@@ -138,6 +138,7 @@ $("#frmCategoria").validate({
 		},
 	},
 	submitHandler: function(form){
+
 		$.ajax({
 			url: 'accionesAdmin/accionesAdminMain.php',
 			method: 'POST',
@@ -155,26 +156,27 @@ $("#frmCategoria").validate({
 
 });
 
-/*----------  Ver Categorias  ----------
+/*----------  Ver Categorias  ----------*/
 
-verCategorias();
-function verCategorias(){
-	$.ajax({
-		url: 'accionesAdmin/accionesAdminMain.php',
-		method: 'POST',
-		data: {getCats:1},
-		success:function(data){
 
-			$("#tableCats").html(data);
+$("#dtTabla").DataTable({
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getCats":1
+		},
+		"dataSrc": ""
+	},
+	"columns": [
 
-			//alert(data);
-		}
-	})
-}
+		{"data": "idCategoria"},
+		{"data": "nombre"},
+		{"defaultContent": "<a id='+idCategoria+' href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a>"}
 
-*/
+	]
+});
 
-$("#dtTabla").DataTable();
 
 
 

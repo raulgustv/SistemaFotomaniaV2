@@ -39,18 +39,21 @@ if(isset($_POST['agregarCat'])){
 ======================================*/
 
 if(isset($_POST['getCats'])){
+
+
+	$q = $con->query("SELECT * FROM categorias");
+
+	$rows = array();
+
+	while($row=mysqli_fetch_array($q)){
+		$rows[] = $row;
+	}
+
+	echo json_encode($rows);
+
+ }
 	
-	echo "<tr>
-				<td>01</td>
-				<td>hola</td>
-				<td><a href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a></td>
-			</tr>
-			<tr>
-				<td>33</td>
-				<td>buenas</td>
-				<td><a href='#' class='btn btn-danger'><i class='fas fa-trash'></i></a></td>
-			</tr>";
-}
+
 
 
 /*=====  End of Ver categorías  ======*/
