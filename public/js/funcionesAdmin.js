@@ -312,6 +312,88 @@ function llenarCatAddProd(){
 	});
 }
 
+/*
+$("#frmProductos").validate({
+
+	rules:{
+		nombreProd:{
+			required: true,
+			rangelength: [3,25]
+		},
+		descProd:{
+			required: true,
+			maxlength: 1000
+		},
+		precioProd:{
+			required: true, 
+			range: [1,99999]
+		},
+		imgProd:{
+			required: true,			
+			extension: "png|jpeg|jpg"
+		},
+	},
+	messages:{
+		nombreProd:{
+			required: "Ingrese el nombre de la categoría",
+			rangelength: "Categoría debe tener entre 3 y 25 caractéres"
+		},
+		descProd:{
+			required: "Ingrese la descripción del producto",
+			maxlength: "Máximo 1000 caractéres"
+		},
+		precioProd:{
+			required: "Ingrese el precio del producto",
+			range: 'Mínimo $1, Máximo $99999'
+		},
+		imgProd:{
+			required: "Debe subir una imagen",
+			extension: "Imagen debe contener extensión válida"
+		},
+	},submitHandler: function(form){
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			data: $("#frmProductos").serialize()+"&agregarProducto",
+			success: function(data){
+				alert(data);
+			}
+		});
+	}
+
+
+	
+
+}); */
+
+/*----------  Prueba   ----------*/
+
+$("#frmProductos").on("submit", function(e){
+	e.preventDefault();
+	var formData = new FormData(this);	
+	//var form = $("#frmProductos").serialize()+"&agregarProducto";
+
+	$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',				
+			data: formData,
+			success: function(data){
+				alert(data);			
+			},
+			contentType: false,
+			processData: false,
+			cache: false
+
+		})
+	
+}); 
+
+
+
+
+
+
 
 
 

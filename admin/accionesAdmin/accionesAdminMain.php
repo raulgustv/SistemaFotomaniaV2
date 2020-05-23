@@ -111,6 +111,10 @@ if(isset($_POST['editarCat'])){
 
 /*=====  End of Editar Categoría  ======*/
 
+/*=============================================
+=            Section obtener categoria           =
+=============================================*/
+
 if(isset($_POST['getCategoryProd'])){
 
 	$q = $con->query("SELECT * FROM categorias");
@@ -122,6 +126,19 @@ if(isset($_POST['getCategoryProd'])){
 	}
 
 }
+
+/*=====  End of Section obtener categoria ======*/
+
+if(isset($_FILES['imgProd'])){
+
+	$imagen = $_FILES['imgProd']['name'];
+	$storeImg = uniqid($imagen,true);
+
+	
+	
+}
+
+
 
 
 
