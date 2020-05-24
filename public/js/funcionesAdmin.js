@@ -379,7 +379,8 @@ $("#frmProductos").on("submit", function(e){
 			method: 'POST',				
 			data: formData,
 			success: function(data){
-				alert(data);			
+				message("Producto insertado correctamente", 2000, 'succcess');	
+				$("#frmProductos").trigger("reset");		
 			},
 			contentType: false,
 			processData: false,

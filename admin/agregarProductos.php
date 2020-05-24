@@ -21,9 +21,14 @@
               <label for="precioProd">Precio</label>
               <input type="text" class="form-control" name="precioProd" id="#precioProd" placeholder="Precio producto"> 
           </div>                    
-            <div class="form-group mb-3">
-               
-                <input type="file" name="imgProd" id="imgProd" class="form-control">              
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                   <div class="custom-file">
+                     <input type="file" name="imgProd" class="custom-file-input" id="imgProd">
+                     <label class="custom-file-label" for="imgProd">Seleccionar Archivo</label>
+                   </div> 
+                </div> 
+                            
             </div>            
          
 

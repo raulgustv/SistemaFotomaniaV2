@@ -46,11 +46,11 @@ if(isset($_POST['registrarAdmin'])){
 if(isset($_POST['loginAdmin'])){
 
 
+	$q = $con->prepare("SELECT * FROM admin WHERE email = ? ");
 
 	$email = checkInput($_POST['emailLogin']);
 	$password = checkInput($_POST['adminPass']);
 
-	$q = $con->prepare("SELECT * FROM admin WHERE email = ? ");
 	$q->bind_param("s", $email);
 	$q->execute();
 

@@ -3,6 +3,7 @@
 include '../../includes/db.php';
 include '../../includes/funciones.php';
 
+
 /*=========================================
 =            Agregar Categoría            =
 =========================================*/
@@ -132,7 +133,26 @@ if(isset($_POST['getCategoryProd'])){
 if(isset($_FILES['imgProd'])){
 
 	$imagen = $_FILES['imgProd']['name'];
-	$storeImg = uniqid($imagen,true);
+	$storeImg = uniqid($imagen,true).".png";
+
+	$nombre = $_POST['nombreProd'];
+	$descripcion = $_POST['descProd'];
+	$precio = $_POST['precioProd'];
+	$catProd = $_POST['catAddProd'];
+
+	
+
+
+	if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
+		move_uploaded_file($_FILES['imgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
+		//echo "true";
+	}
+
+	$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
+	$sql->bind_param("sssss", $nombre, $descripcion, $precio, $catProd, $storeImg);
+	$sql->execute();
+	
+
 
 	
 	
