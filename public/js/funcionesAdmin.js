@@ -367,7 +367,7 @@ $("#frmProductos").validate({
 
 }); */
 
-/*----------  Prueba   ----------*/
+/*----------  Carga producto nuevo   ----------*/
 
 $("#frmProductos").on("submit", function(e){
 	e.preventDefault();
@@ -379,8 +379,12 @@ $("#frmProductos").on("submit", function(e){
 			method: 'POST',				
 			data: formData,
 			success: function(data){
-				message("Producto insertado correctamente", 2000, 'succcess');	
-				$("#frmProductos").trigger("reset");		
+				if(data === "false"){
+					message("El producto ya existe", 2000, 'error');
+				}else{
+					message("Producto insertado correctamente", 2000, 'success');	
+					$("#frmProductos").trigger("reset");
+				}		
 			},
 			contentType: false,
 			processData: false,
@@ -389,6 +393,28 @@ $("#frmProductos").on("submit", function(e){
 		})
 	
 }); 
+
+
+/*----------  Ver imagen previo a subir  ----------*/
+
+	function readURL(input){
+		var reader = new FileReader();
+
+		var file = input.files[0];
+
+		if(file){
+			reader.onload = function(e){
+			$("#imgPrev").attr('src', e.target.result);
+		}
+			reader.readAsDataURL(file);
+
+	}
+
+}
+
+	$("#imgProd").change(function(){
+		readURL(this);
+	});
 
 
 

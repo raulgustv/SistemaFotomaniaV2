@@ -140,17 +140,28 @@ if(isset($_FILES['imgProd'])){
 	$precio = $_POST['precioProd'];
 	$catProd = $_POST['catAddProd'];
 
-	
+	$q = $con->prepare("SELECT nombre FROM productos WHERE nombre = ?" );
+	$q->bind_param("s", $nombre);
+	$q->execute();
 
+	$row = $q->get_result();
 
-	if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
+	if($row->num_rows > 0){
+		echo "false";
+	}else{
+
+		if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
 		move_uploaded_file($_FILES['imgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
 		//echo "true";
 	}
 
-	$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
-	$sql->bind_param("sssss", $nombre, $descripcion, $precio, $catProd, $storeImg);
-	$sql->execute();
+		$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
+		$sql->bind_param("sssss", $nombre, $descripcion, $precio, $catProd, $storeImg);
+		$sql->execute();
+	}
+
+
+
 	
 
 

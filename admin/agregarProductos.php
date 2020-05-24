@@ -29,7 +29,11 @@
                    </div> 
                 </div> 
                             
-            </div>            
+            </div>   
+
+            <div class="mb-3" id="prevContainer">
+               <img class="imgPrev" id="imgPrev" src="#">
+            </div>         
          
 
           <div class="input-group mb-3">
