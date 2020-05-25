@@ -215,7 +215,7 @@ if(isset($_POST['getEditProd'])){
 	$precio = $row['precio'];
 	$img = $row['imagen'];
 
-	echo "<form method='post' id='frmProductos' enctype='multipart/form-data'>
+	echo "<form method='post' id='frmEditProductos' enctype='multipart/form-data'>
 			<div class='form-group'>
               <label for='editNombre'>Nombre</label>
               <input type='text' class='form-control' name='editNombre' id='editNombre' value='$nombre'> 
@@ -251,10 +251,17 @@ if(isset($_POST['getEditProd'])){
 				</div>
 			</div>
 
+			 <input type='submit' id='editProdInfo' idProducto='$prodId' name='editProdInfo' class='btn btn-primary' value='Guardar'>
+
 			 </form>";
 
 
 
+}
+
+if(isset($_FILES['editImgProd'])){
+	print_r($_POST);
+	print_r($_FILES);
 }
 
 

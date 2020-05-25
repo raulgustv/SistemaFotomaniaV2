@@ -52,7 +52,7 @@ checkAdmin();
 					<td><img class="dtProductos" src="../vistas/imagenes/<?php echo $imagen ?>"></td>
 					<td>
 						<a href="#" class="btn btn-danger" id="btnBorrarProd"><i class="fas fa-trash"></i></a>
-						<a href="#" data-toggle="modal" data-target="#formEditProd" class="btn btn-primary" id="btnEditProd" ><i class="fas fa-edit"></i></a>
+						<a href="#" data-toggle="modal" idProducto="<?php echo $idProd; ?>" data-target="#formEditProd" class="btn btn-primary" id="btnEditProd" ><i class="fas fa-edit"></i></a>
 					</td>
 				</tr>
 

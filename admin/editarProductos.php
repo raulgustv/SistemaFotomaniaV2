@@ -19,6 +19,10 @@ include_once '../includes/funciones.php';
         </button>
       </div>
       <div class="modal-body" id="editProds">
+
+        <form method='post' id='frmEditProductos' enctype='multipart/form-data' id="">
+          
+       
          
            <!--  <div class="form-group">
               <label for="editNombre">Nombre</label>
@@ -58,8 +62,9 @@ include_once '../includes/funciones.php';
 
             
             
-            <input type="submit" id="editProdInfo" name="editProdInfo" class="btn btn-primary" value="Guardar">
-        
+          </form> 
+
+               
       </div>      
     </div>
   </div>

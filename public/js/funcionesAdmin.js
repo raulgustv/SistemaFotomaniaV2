@@ -372,6 +372,7 @@ $("#frmProductos").validate({
 $("#frmProductos").on("submit", function(e){
 	e.preventDefault();
 	var formData = new FormData(this);	
+	console.log('hola');
 	//var form = $("#frmProductos").serialize()+"&agregarProducto";
 
 	$.ajax({
@@ -443,7 +444,7 @@ $("#frmProductos").on("submit", function(e){
 
 /*----------  Get Products  ----------*/
 
-
+var dataProds;
 dataProds = $("#dtTablaProds").DataTable({
 	dom: 'Bfrtip',
 	buttons: [
@@ -479,7 +480,9 @@ $(document).on("click", "#btnBorrarProd", function(){
 				method: 'POST',
 				data: {borrarProd: 1, productoId: prodId},
 				success: function(data){
-					message("Producto borrado con éxito", 2000, 'success');				}
+					message("Producto borrado con éxito", 2000, 'success');	
+					//dataProds.ajax.reload();
+				}
 			});
 		}
 	});
@@ -496,7 +499,7 @@ $(document).on("click", "#btnEditProd", function(){
 	fila = $(this).closest("tr");
 	prodId = parseInt(fila.find('td:eq(0)').text());
 
-	//console.log(prodId);
+	console.log(prodId);
 
 	$.ajax({
 		url: 'accionesAdmin/accionesAdminMain.php',
@@ -510,6 +513,46 @@ $(document).on("click", "#btnEditProd", function(){
 });
 
 /*=====  End of Obtener Datos Producto Edit  ======*/
+
+/*=============================================
+=            Section comment block            =
+=============================================*/
+
+$("body").delegate("#frmEditProductos", "submit", function(e){
+	e.preventDefault();
+	var prodId = $("#editProdInfo").attr("idProducto");
+
+	alert(prodId);
+	var formData = new FormData(this);
+
+	
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: formData,
+		success: function(data){
+			alert(data);
+		},
+		contentType: false,
+		processData: false,
+		cache: false
+	});
+});
+
+	
+
+
+
+	
+	
+
+
+
+
+
+
+/*=====  End of Section comment block  ======*/
+
 
 
 
