@@ -26,7 +26,7 @@ include_once '../includes/funciones.php';
             </div>                 
             
             <input type="submit" id="newCategory" name="newCategory" class="btn btn-primary" value="Guardar">
-        </form>
+        
       </div>      
     </div>
   </div>

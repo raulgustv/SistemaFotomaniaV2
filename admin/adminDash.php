@@ -62,7 +62,7 @@ $role = ($_SESSION['userRole']);
 				<div class="card-body">					
 					<p class="card-text">Administra los productos mostrados en la tienda</p>
 					<a href="#" data-toggle="modal" data-target="#form_productos" class="btn btn-primary">Agregar Productos</a>
-					<a href="#"class="btn btn-success">Ver Productos</a>
+					<a href="verProductos.php"class="btn btn-success">Ver Productos</a>
 				</div>
 			</div>
 		</div>

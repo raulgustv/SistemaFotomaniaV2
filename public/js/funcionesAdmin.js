@@ -417,6 +417,102 @@ $("#frmProductos").on("submit", function(e){
 	});
 
 
+	/*----------  Productos Data table  ----------
+
+
+
+	 var dataProds
+
+	 dataProds = $("#dtTablaProds").DataTable({
+	 	"processing": true,
+	 	"paging": true,
+	 	"responsive": true,
+	 	"destroy": true,
+	 	"ajax":{
+	 		"url": "accionesAdmin/accionesAdminMain.php",
+	 		"method": "POST",
+	 		"data": {
+	 			"getProds":1
+	 		},	 
+	 		"dataSrc" : ""		
+	 	},
+
+	 });
+	
+*/
+
+/*----------  Get Products  ----------*/
+
+
+dataProds = $("#dtTablaProds").DataTable({
+	dom: 'Bfrtip',
+	buttons: [
+		'copy', 'excel', 'pdf'
+	],
+	aoColumnDefs:[
+		{sWidth: 200, aTargets:[4]}
+	],
+	fixedColums:true
+});
+
+
+/*=======================================
+=            Borrar Producto            =
+=======================================*/
+
+$(document).on("click", "#btnBorrarProd", function(){
+	fila = $(this).closest("tr");
+	prodId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		 title: 'Deseas borrar el producto?',
+		 text: "Producto será borrado",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+				url: 'accionesAdmin/accionesAdminMain.php',
+				method: 'POST',
+				data: {borrarProd: 1, productoId: prodId},
+				success: function(data){
+					message("Producto borrado con éxito", 2000, 'success');				}
+			});
+		}
+	});
+});
+
+
+/*=====  End of Borrar Producto  ======*/
+
+/*===================================================
+=            Obtener Datos Producto Edit            =
+===================================================*/
+$(document).on("click", "#btnEditProd", function(){
+
+	fila = $(this).closest("tr");
+	prodId = parseInt(fila.find('td:eq(0)').text());
+
+	//console.log(prodId);
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getEditProd:1, prodId:prodId},
+		success: function(data){
+			$("#editProds").html(data);
+		}
+	});
+
+});
+
+/*=====  End of Obtener Datos Producto Edit  ======*/
+
+
+
 
 
 
