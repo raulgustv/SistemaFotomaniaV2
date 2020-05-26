@@ -520,9 +520,9 @@ $(document).on("click", "#btnEditProd", function(){
 
 $("body").delegate("#frmEditProductos", "submit", function(e){
 	e.preventDefault();
-	var prodId = $("#editProdInfo").attr("idProducto");
+	//var prodId = $("#editProdInfo").attr("idProducto");
 
-	alert(prodId);
+	//alert(prodId);
 	var formData = new FormData(this);
 
 	
@@ -531,7 +531,8 @@ $("body").delegate("#frmEditProductos", "submit", function(e){
 		method: 'POST',
 		data: formData,
 		success: function(data){
-			alert(data);
+			// alert(data);
+			message("Producto editado correctamente", 2000, 'success');
 		},
 		contentType: false,
 		processData: false,

@@ -209,13 +209,18 @@ if(isset($_POST['getEditProd'])){
 
 	$r = $stmt->get_result();
 	$row = mysqli_fetch_array($r);
-
+	$idProducto = $row['id'];
 	$nombre = $row['nombre'];
 	$des = $row['Descripcion'];
 	$precio = $row['precio'];
 	$img = $row['imagen'];
 
 	echo "<form method='post' id='frmEditProductos' enctype='multipart/form-data'>
+
+			<div class='form-group'>
+              
+              <input type='hidden' class='form-control' name='idProducto' id='idProducto' value='$idProducto'> 
+          </div>
 			<div class='form-group'>
               <label for='editNombre'>Nombre</label>
               <input type='text' class='form-control' name='editNombre' id='editNombre' value='$nombre'> 
@@ -231,7 +236,7 @@ if(isset($_POST['getEditProd'])){
             <div class='input-group mb-3'>
                 <div class='input-group-prepend'>
                    <div class='custom-file'>
-                     <input type='file' name='editImgProd' class='custom-file-input' id='editImgProd'>
+                     <input type='file' name='editImgProd' class='custom-file-input' value='$img' id='editImgProd'>
                      <label class='custom-file-label' for='editImgProd'>Seleccionar Archivo</label>
                    </div> 
                 </div> 
@@ -260,8 +265,40 @@ if(isset($_POST['getEditProd'])){
 }
 
 if(isset($_FILES['editImgProd'])){
-	print_r($_POST);
-	print_r($_FILES);
+	
+	$eId = $_POST['idProducto'];
+	$eNombre = $_POST['editNombre'];
+	$eDescripcion = $_POST['editDesc'];
+	$ePrecio = $_POST['editPrecio'];
+	$eImg = $_FILES['editImgProd']['name'];
+	//$oldImg = $_POST['editImgProd'];
+
+	$storeImg = uniqid($eImg,true).".png";
+
+	$q = $con->query("SELECT * FROM productos WHERE id = '$eId'");
+
+	//$r = $q->get_result();
+	$row = mysqli_fetch_array($q);
+
+	$oldImg = $row['imagen'];
+
+	print_r($oldImg);
+
+	//echo $eNombre." - ".$eDescripcion." - ". $ePrecio." - ".$storeImg." - ".$oldImg;
+
+	if(is_uploaded_file($_FILES['editImgProd']['tmp_name'])){
+		move_uploaded_file($_FILES['editImgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
+		unlink('../../vistas/imagenes/'.$oldImg);
+	} 
+
+	$stmt = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ?, imagen = ?  WHERE id = ? ");
+	$stmt->bind_param("sissi", $eNombre, $ePrecio, $eDescripcion, $storeImg, $eId);
+	$stmt->execute();
+	$stmt->close(); 
+
+
+
+
 }
 
 
