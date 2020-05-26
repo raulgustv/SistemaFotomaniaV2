@@ -515,7 +515,7 @@ $(document).on("click", "#btnEditProd", function(){
 /*=====  End of Obtener Datos Producto Edit  ======*/
 
 /*=============================================
-=            Section comment block            =
+=            Section Editar Producto            =
 =============================================*/
 
 $("body").delegate("#frmEditProductos", "submit", function(e){
@@ -533,6 +533,8 @@ $("body").delegate("#frmEditProductos", "submit", function(e){
 		success: function(data){
 			// alert(data);
 			message("Producto editado correctamente", 2000, 'success');
+			location.reload();			
+
 		},
 		contentType: false,
 		processData: false,
@@ -540,19 +542,8 @@ $("body").delegate("#frmEditProductos", "submit", function(e){
 	});
 });
 
-	
 
-
-
-	
-	
-
-
-
-
-
-
-/*=====  End of Section comment block  ======*/
+/*=====  End of Section Editar Producto  ======*/
 
 
 

@@ -289,12 +289,19 @@ if(isset($_FILES['editImgProd'])){
 	if(is_uploaded_file($_FILES['editImgProd']['tmp_name'])){
 		move_uploaded_file($_FILES['editImgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
 		unlink('../../vistas/imagenes/'.$oldImg);
-	} 
 
-	$stmt = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ?, imagen = ?  WHERE id = ? ");
-	$stmt->bind_param("sissi", $eNombre, $ePrecio, $eDescripcion, $storeImg, $eId);
-	$stmt->execute();
-	$stmt->close(); 
+		$stmt = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ?, imagen = ?  WHERE id = ? ");
+		$stmt->bind_param("sissi", $eNombre, $ePrecio, $eDescripcion, $storeImg, $eId);
+		$stmt->execute();
+		$stmt->close(); 
+	}else{
+		$sql = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ? WHERE id = ? ");
+		$sql->bind_param("sisi", $eNombre, $ePrecio, $eDescripcion, $eId);
+		$sql->execute();
+		$sql->close(); 
+	}
+
+	
 
 
 
