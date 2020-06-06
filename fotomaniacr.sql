@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2020 a las 15:41:24
+-- Tiempo de generación: 30-05-2020 a las 06:06:21
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.29
 
@@ -33,16 +33,23 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `user` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `pass` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `name` varchar(50) COLLATE utf8_spanish2_ci NOT NULL
+  `email` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `pass` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `tipoUsuario` enum('Admin','Otro') COLLATE utf8_spanish2_ci NOT NULL,
+  `fechaRegistro` datetime NOT NULL,
+  `fechaLogin` datetime NOT NULL,
+  `notas` varchar(255) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `admin`
 --
 
-INSERT INTO `admin` (`id`, `user`, `pass`, `name`) VALUES
-(1, 'admin', '1234', 'admin');
+INSERT INTO `admin` (`id`, `user`, `email`, `pass`, `tipoUsuario`, `fechaRegistro`, `fechaLogin`, `notas`) VALUES
+(1, 'admin', 'admin@admin.com', '1234', 'Admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
+(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-05-29 09:45:45', ''),
+(20, 'Erick Torres', 'erick@gmail.com', '$2y$08$prx6hA2Bg5EX.mzeHqKxYeXO9cIGQvbVo5abkONdprVv1UK0HJnwu', 'Admin', '2020-05-20 08:52:57', '2020-05-20 08:52:57', ''),
+(21, 'rmmirand', 'rmmirand@amazon.com', '$2y$08$pADaL82JgQaOUEtxsWBNqOQS1H8GSqPWIIw3mp7w1hYA8o7DBA8LS', 'Admin', '2020-05-20 11:58:55', '2020-05-20 11:59:37', '');
 
 -- --------------------------------------------------------
 
@@ -66,8 +73,10 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id`, `idCliente`, `idProducto`, `nombreProducto`, `cantidad`, `precio`, `total`) VALUES
-(131, 31, 13, 'Canon EOS SL2', 1, 499, 499),
-(136, 32, 12, 'Nikon D780', 7, 349, 2443);
+(136, 32, 12, 'Nikon D780', 7, 349, 2443),
+(151, 31, 10, 'NIKON D5200', 4, 499, 1996),
+(152, 31, 15, 'Kit Go Pro', 3, 139, 417),
+(153, 31, 52, 'Prueba', 6, 255, 1530);
 
 -- --------------------------------------------------------
 
@@ -88,7 +97,9 @@ CREATE TABLE `categorias` (
 INSERT INTO `categorias` (`idCategoria`, `nombre`) VALUES
 (1, 'Accesorios'),
 (6, 'Camaras'),
-(11, 'Cámaras de video');
+(59, 'Cámaras de video'),
+(66, 'Go Pro'),
+(70, 'Lentes ');
 
 -- --------------------------------------------------------
 
@@ -118,7 +129,6 @@ INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `creado`, `t
 (26, 'test', 'test', '', '$2y$10$jTdHlVLuExtYtRuSZ4SuBua86u1W4s/jTUkRskzXlymw01J8KjF8S', '0000-00-00', '', '2020-05-06 17:15:38'),
 (27, 'soyPrueba', 'prueba', '', '$2y$10$apxfHu20Zt0oBYz3nRZmm.baagpCd2fDwn3QfsUj2R3eScR4f7IAG', '0000-00-00', '', '2020-05-06 17:15:38'),
 (28, 'testuser', 'test2', '', '$2y$10$KHI/ZjPOgXyrHqcG7HMyrudYzfYiKfo4GrvuPA1B1ZpSba7yQSEiG', '0000-00-00', '', '2020-05-06 17:15:38'),
-(29, 'Nelson Gonzalez Q', 'nelson', 'nelsongq18@gmail.com', '$2y$10$/qIbEbZtswqQ6rTOBO8EieECntqi41jRBpfZGRPNYxT945qQAUtYG', '0000-00-00', '', '2020-05-06 17:15:38'),
 (31, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-07', 'bd11tgcraw', '2020-05-08 03:32:18'),
 (32, 'Raul Rodriguez', 'rgus', 'raulgust@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-07', '', '2020-05-07 18:20:52'),
 (33, 'user', 'usuario', 'user@user.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-11', '', '2020-05-10 22:18:52');
@@ -217,7 +227,9 @@ INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `monto`, 
 (8, 31, 11, 2890, '85D23806X5026954K', '2020-05-13 02:56:18'),
 (9, 31, 14, 2890, '85D23806X5026954K', '2020-05-13 02:56:19'),
 (10, 31, 10, 2890, '85D23806X5026954K', '2020-05-13 02:56:19'),
-(11, 31, 14, 199, '56H18721AR351283X', '2020-05-13 02:58:04');
+(11, 31, 14, 199, '56H18721AR351283X', '2020-05-13 02:58:04'),
+(12, 31, 13, 798, '383662756W254891H', '2020-05-18 16:13:24'),
+(13, 31, 11, 798, '383662756W254891H', '2020-05-18 16:13:24');
 
 -- --------------------------------------------------------
 
@@ -366,11 +378,12 @@ INSERT INTO `productos` (`id`, `nombre`, `idCategoria`, `precio`, `Descripcion`,
 (13, 'Canon EOS SL2', 6, 499, '', 'Canon EOS SL2681.png'),
 (14, 'Tripode MacTrem', 1, 199, '', 'Tripode MacTrem490.png'),
 (15, 'Kit Go Pro', 1, 139, 'This kit features The Handler (Floating Hand Grip) for handheld footage in and out of the water, a Head Strap for immersive point-of-view shots and a QuickClip for attaching your GoPro to a baseball cap. ', 'Kit Go Pro113.png'),
-(42, 'Sony XHR NX5', 0, 1589, 'Full HD compact professional NXCAM camcorder', 'Sony XHR NX5572.png'),
-(51, 'iPhone 6', 6, 699, 'Iphone 6 Old model', 'iPhone6.png'),
-(52, 'Huaweii P20', 6, 299, 'Huaweii phone', 'huaweiip20.png'),
+(42, 'Sony XHR NX5', 0, 1488, 'Full HD compact professional NXCAM camcorder', 'Sony XHR NX5572.png'),
+(51, 'iPhone 6 white', 6, 699, 'Iphone 6 Old model', 'iPhone6.png'),
+(52, 'Prueba', 6, 255, 'Huaweii phones pruebas', 'anuncio1.jpg5ecc6b55f06681.34106328.png'),
 (53, 'iPhone 11 promax', 6, 1599, 'Best iphone', 'iphone11 pro max.png'),
-(54, 'HDMI HP', 1, 12, 'Cable HDMI para conectar', 'hdmiCableHP.png');
+(54, 'HDMI HP', 1, 13, 'Cable HDMI para conectarse a televisores, consolas o blu ray', 'plancha.PNG5ecc6de0f34ab2.32607349.png'),
+(64, '', 1, 0, '', 'bluray.PNG5ed1d73758b7d5.22803537.png');
 
 -- --------------------------------------------------------
 
@@ -540,19 +553,19 @@ ALTER TABLE `quienessomos`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `carro`
 --
 ALTER TABLE `carro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -570,7 +583,7 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `comprafinalizada`
 --
 ALTER TABLE `comprafinalizada`
-  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `concurso`
@@ -606,7 +619,7 @@ ALTER TABLE `ofertas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `productoscompra`
