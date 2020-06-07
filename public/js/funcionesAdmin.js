@@ -444,112 +444,33 @@ $("#frmProductos").on("submit", function(e){
 
 /*----------  Get Products  ----------*/
 
-var dataProds;
-dataProds = $("#dtTablaProds").DataTable({
-	dom: 'Bfrtip',
-	buttons: [
-		'copy', 'excel', 'pdf'
-	],
-	aoColumnDefs:[
-		{sWidth: 200, aTargets:[4]}
-	],
-	fixedColums:true
-});
 
+var dataProducts 
 
-/*=======================================
-=            Borrar Producto            =
-=======================================*/
-
-$(document).on("click", "#btnBorrarProd", function(){
-	fila = $(this).closest("tr");
-	prodId = parseInt(fila.find('td:eq(0)').text());
-
-	Swal.fire({
-		 title: 'Deseas borrar el producto?',
-		 text: "Producto será borrado",
-		 icon: 'warning',
-		 showCancelButton: true,
-		 confirmButtonColor: '#3085d6',
-		 cancelButtonColor: '#d33',
-		 confirmButtonText: 'Si, borrar'
-	}).then((result)=>{
-		if(result.value){
-			$.ajax({
-				url: 'accionesAdmin/accionesAdminMain.php',
-				method: 'POST',
-				data: {borrarProd: 1, productoId: prodId},
-				success: function(data){
-					message("Producto borrado con éxito", 2000, 'success');	
-					//dataProds.ajax.reload();
-				}
-			});
-		}
-	});
-});
-
-
-/*=====  End of Borrar Producto  ======*/
-
-/*===================================================
-=            Obtener Datos Producto Edit            =
-===================================================*/
-$(document).on("click", "#btnEditProd", function(){
-
-	fila = $(this).closest("tr");
-	prodId = parseInt(fila.find('td:eq(0)').text());
-
-	console.log(prodId);
-
-	$.ajax({
-		url: 'accionesAdmin/accionesAdminMain.php',
-		method: 'POST',
-		data: {getEditProd:1, prodId:prodId},
-		success: function(data){
-			$("#editProds").html(data);
-		}
-	});
-
-});
-
-/*=====  End of Obtener Datos Producto Edit  ======*/
-
-/*=============================================
-=            Section Editar Producto            =
-=============================================*/
-
-$("body").delegate("#frmEditProductos", "submit", function(e){
-	e.preventDefault();
-	//var prodId = $("#editProdInfo").attr("idProducto");
-
-	//alert(prodId);
-	var formData = new FormData(this);
-
-	
-	$.ajax({
-		url: 'accionesAdmin/accionesAdminMain.php',
-		method: 'POST',
-		data: formData,
-		success: function(data){
-			// alert(data);
-			message("Producto editado correctamente", 2000, 'success');
-			location.reload();			
-
+dataProducts = $("#dtTablaProds").DataTable({
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getProds":1
 		},
-		contentType: false,
-		processData: false,
-		cache: false
-	});
-});
+		"dataSrc": ""
+	},
+	"columns": [
 
+		{"data": "id"},
+		{"data": "nombre"},
+		{"data": "nombreCategoria"},
+		{"data": "precio"},
+		{"data": "Descripcion"},
+		{"data": "imagen", render: getImg}
 
-/*=====  End of Section Editar Producto  ======*/
+	]
+})
 
-
-
-
-
-
+function getImg(imagen){
+	return '<img class="dtProductos" src="../vistas/imagenes/' + imagen + '">';
+}
 
 
 

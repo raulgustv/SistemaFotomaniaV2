@@ -308,6 +308,26 @@ if(isset($_FILES['editImgProd'])){
 
 }
 
+/*========================================
+=            Obtener Producto            =
+========================================*/
+
+
+if(isset($_POST['getProds'])){
+	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria");
+
+	$data = array();
+
+	while ($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+/*=====  End of Obtener Producto  ======*/
+
+
 
 
 
