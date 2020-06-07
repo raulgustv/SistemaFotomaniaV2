@@ -198,8 +198,8 @@ $(document).on("click", "#btnDelete", function(){
 	catId = parseInt(fila.find('td:eq(0)').text());
 
 	Swal.fire({
-		title: 'Deseas borrar el producto del carrito?',
-		 text: "Producto será borrado",
+		title: 'Deseas borrar esta categoría?',
+		 text: "Borrar esta categoría borrará el producto de inventario. Se recomienda borrar productos con esta categoría primero! No podrás deshacer estra acción!!",
 		 icon: 'warning',
 		 showCancelButton: true,
 		 confirmButtonColor: '#3085d6',
@@ -463,7 +463,8 @@ dataProducts = $("#dtTablaProds").DataTable({
 		{"data": "nombreCategoria"},
 		{"data": "precio"},
 		{"data": "Descripcion"},
-		{"data": "imagen", render: getImg}
+		{"data": "imagen", render: getImg},
+		{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteProd'><i class='fas fa-trash'></i></a> <a href='#' id='editarProd' data-toggle='modal' data-target='formEditProd' class='btn btn-primary'><i class='fas fa-edit'></i></a> " }
 
 	]
 })
@@ -471,6 +472,24 @@ dataProducts = $("#dtTablaProds").DataTable({
 function getImg(imagen){
 	return '<img class="dtProductos" src="../vistas/imagenes/' + imagen + '">';
 }
+
+/*----------  Borrar Producto  ----------*/
+
+$(document).on("click", "#btnDeleteProd", function(){
+	fila = $(this).closest("tr");
+	prodId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			borrarProd:1, prodId: prodId
+		},
+		success: function(data){
+			dataCats.ajax.reload();
+		}
+	});
+});
 
 
 

@@ -19,7 +19,7 @@ checkAdmin();
 				<th>Precio</th>
 				<th>Descripcion</th>
 				<th>Imagen Producto</th>
-				<!-- <th>Acciones</th> -->
+				<th>Acciones</th>
 														
 				
 			</tr>	

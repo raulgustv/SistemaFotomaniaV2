@@ -169,144 +169,6 @@ if(isset($_FILES['imgProd'])){
 
 /*=====  End of Agregar Productos  ======*/
 
-/*===========================================
-=            Ver Tabla productos            =
-===========================================*/
-
-if(isset($_POST['borrarProd'])){
-	$prodId = $_POST['productoId'];
-
-	$qImg = $con->prepare("SELECT * FROM productos WHERE id = ? ");
-	$qImg->bind_param("i", $prodId);
-	$qImg->execute();
-
-	$r = $qImg->get_result();
-
-	while ($row = mysqli_fetch_array($r)){
-		$imagen = $row['imagen'];
-		unlink('../../vistas/imagenes/'.$imagen);
-	}
-
-	$stmt = $con->prepare("DELETE FROM productos WHERE id = ? ");
-	$stmt->bind_param("i", $prodId);
-	$stmt->execute();
-	//$stmt->close();
-
-	
-
-
-}
-
-/*=====  End of Ver Tabla productos  ======*/
-
-if(isset($_POST['getEditProd'])){
-
-	$prodId = $_POST['prodId'];
-
-	$stmt = $con->prepare("SELECT * FROM productos WHERE id = ? ");
-	$stmt->bind_param("i", $prodId);
-	$stmt->execute();
-
-	$r = $stmt->get_result();
-	$row = mysqli_fetch_array($r);
-	$idProducto = $row['id'];
-	$nombre = $row['nombre'];
-	$des = $row['Descripcion'];
-	$precio = $row['precio'];
-	$img = $row['imagen'];
-
-	echo "<form method='post' id='frmEditProductos' enctype='multipart/form-data'>
-
-			<div class='form-group'>
-              
-              <input type='hidden' class='form-control' name='idProducto' id='idProducto' value='$idProducto'> 
-          </div>
-			<div class='form-group'>
-              <label for='editNombre'>Nombre</label>
-              <input type='text' class='form-control' name='editNombre' id='editNombre' value='$nombre'> 
-          </div>
-          <div class='form-group'>
-              <label for='editDesc'>Descripción</label>
-              <textarea  type='text' rows='3' class='form-control' name='editDesc' id='editDesc'>$des</textarea> 
-          </div>
-          <div class='form-group'>
-              <label for='editPrecio'>Precio</label>
-              <input type='text' class='form-control' name='editPrecio' id='editPrecio' value='$precio'> 
-          </div>                    
-            <div class='input-group mb-3'>
-                <div class='input-group-prepend'>
-                   <div class='custom-file'>
-                     <input type='file' name='editImgProd' class='custom-file-input' value='$img' id='editImgProd'>
-                     <label class='custom-file-label' for='editImgProd'>Seleccionar Archivo</label>
-                   </div> 
-                </div> 
-                            
-            </div>  
-
-            <div class='row'>
-				<div class='col-sm-6'>
-					<div class='mb-3' id='prevContainer'>
-		               <img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$img'>
-		            </div>
-				</div>
-				<div class='col-sm-6'>
-					<div class='mb-3' id='prevContainer'>
-		               <img class='imgPrev' id='editImgPrev' src='#'>
-		            </div>
-				</div>
-			</div>
-
-			 <input type='submit' id='editProdInfo' idProducto='$prodId' name='editProdInfo' class='btn btn-primary' value='Guardar'>
-
-			 </form>";
-
-
-
-}
-
-if(isset($_FILES['editImgProd'])){
-	
-	$eId = $_POST['idProducto'];
-	$eNombre = $_POST['editNombre'];
-	$eDescripcion = $_POST['editDesc'];
-	$ePrecio = $_POST['editPrecio'];
-	$eImg = $_FILES['editImgProd']['name'];
-	//$oldImg = $_POST['editImgProd'];
-
-	$storeImg = uniqid($eImg,true).".png";
-
-	$q = $con->query("SELECT * FROM productos WHERE id = '$eId'");
-
-	//$r = $q->get_result();
-	$row = mysqli_fetch_array($q);
-
-	$oldImg = $row['imagen'];
-
-	print_r($oldImg);
-
-	//echo $eNombre." - ".$eDescripcion." - ". $ePrecio." - ".$storeImg." - ".$oldImg;
-
-	if(is_uploaded_file($_FILES['editImgProd']['tmp_name'])){
-		move_uploaded_file($_FILES['editImgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
-		unlink('../../vistas/imagenes/'.$oldImg);
-
-		$stmt = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ?, imagen = ?  WHERE id = ? ");
-		$stmt->bind_param("sissi", $eNombre, $ePrecio, $eDescripcion, $storeImg, $eId);
-		$stmt->execute();
-		$stmt->close(); 
-	}else{
-		$sql = $con->prepare("UPDATE productos SET nombre = ?, precio = ?, Descripcion = ? WHERE id = ? ");
-		$sql->bind_param("sisi", $eNombre, $ePrecio, $eDescripcion, $eId);
-		$sql->execute();
-		$sql->close(); 
-	}
-
-	
-
-
-
-
-}
 
 /*========================================
 =            Obtener Producto            =
@@ -326,6 +188,23 @@ if(isset($_POST['getProds'])){
 }
 
 /*=====  End of Obtener Producto  ======*/
+
+/*=======================================
+=            Borrar Producto            =
+=======================================*/
+
+if(isset($_POST['borrarProd'])){
+
+	$prodId = $_POST['prodId'];
+
+	$q = $con->prepare("DELETE FROM productos WHERE id = ?");
+	$q->bind_param("i", $prodId);
+	$q->execute();
+	$q->close();
+}
+
+/*=====  End of Borrar Producto  ======*/
+
 
 
 
