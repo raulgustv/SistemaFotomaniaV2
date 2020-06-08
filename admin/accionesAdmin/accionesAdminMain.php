@@ -230,6 +230,7 @@ if(isset($_POST['cargarProducto'])){
 	$precio = $row['precio'];
 	$imagen = $row['imagen'];
 
+	
 	echo "<div class='form-group'>
               <label for='editNombre'>Nombre</label>
               <input type='text' class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
@@ -255,10 +256,40 @@ if(isset($_POST['cargarProducto'])){
                 </div>                             
             </div> 
 
+            <div class='row'>
+				<div class='col-sm-6'>
+					<div class='mb-3' id='prevContainer'>
+                		<img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
+            		</div>  
+				</div>
+				<div class='col-sm-6'>
+					<div class='mb-3' id='prevContainer'>
+                		<img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
+            		</div>  
+				</div>
+            </div>
 
-            <div class='mb-3' id='prevContainer'>
-               <img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
-            </div>   
+            <div class='input-group mb-3'>
+              <div class='input-group-prepend'>
+                  <label class='input-group-text' for='catProd'>Categoría</label>
+                  <select class='custom-select' name='catAddProd' id='catAddProd'>";
+
+                  $sql = $con->query("SELECT * FROM categorias");
+					while($row = mysqli_fetch_array($sql)){
+					$catId = $row['idCategoria'];
+					$catName = $row['nombre'];
+					echo "<option value='$catId'>$catName</option>";
+						
+
+				}
+
+                   		
+                  "</select> 
+              </div>
+          </div>
+
+
+             
 
 
 

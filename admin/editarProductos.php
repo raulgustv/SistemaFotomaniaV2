@@ -48,7 +48,7 @@ include_once '../includes/funciones.php';
 
             <div class="mb-3" id="prevContainer">
                <img class="imgPrev" id="imgPrev" src="#">
-            </div>         
+            </div>   -->       
          
 
           <div class="input-group mb-3">
@@ -58,7 +58,7 @@ include_once '../includes/funciones.php';
                    
                   </select> 
               </div>
-          </div>  --> 
+          </div>  
 
             
             
