@@ -233,7 +233,7 @@ if(isset($_POST['cargarProducto'])){
 	
 	echo "<div class='form-group'>
               <label for='editNombre'>Nombre</label>
-              <input type='text' class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+              <input type='text' editProdId='$prodId' class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
           </div>
 	
 			 <div class='form-group'>
@@ -281,26 +281,33 @@ if(isset($_POST['cargarProducto'])){
 					echo "<option value='$catId'>$catName</option>";
 						
 
-				}
-
-                   		
+				}                   		
                   "</select> 
               </div>
           </div>
 
-
-             
-
-
-
-
-
           ";
+
+          echo "<div class='form-control mt-5'>
+              <input type='submit' name='editNewProd' id='editNewProd' class='btn btn-primary' value='Guardar'>
+            </div>";
 
 
 }
 
 /*=====  End of Obtener producto Editar  ======*/
+
+/*=======================================
+=            Editar Producto            =
+=======================================*/
+
+if(isset($_FILES['editImgProd'])){
+	print_r($_FILES);
+	print_r($_POST);
+}
+
+/*=====  End of Editar Producto  ======*/
+
 
 
 

@@ -533,6 +533,28 @@ $(document).on("click", "#editarProd", function(){
 
 });
 
+/*----------  Editar Producto  ----------*/
+
+$("#frmEditProductos").on("submit", function(e){
+	e.preventDefault();
+
+	var formData = new FormData(this);
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: formData,
+		success: function(data){
+			//alert(data);
+		},
+		contentType: false,
+		processData: false,
+		cache: false
+	})
+
+})
+
+
 
 
 

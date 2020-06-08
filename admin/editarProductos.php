@@ -51,19 +51,13 @@ include_once '../includes/funciones.php';
             </div>   -->       
          
 
-          <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                  <label class="input-group-text" for="catProd">Categoría</label>
-                  <select class="custom-select" name="catAddProd" id="catAddProd">
-                   
-                  </select> 
-              </div>
-          </div>  
+       
 
             
             
           </form>  
-
+  
+  
                
       </div>      
     </div>
