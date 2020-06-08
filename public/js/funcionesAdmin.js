@@ -545,7 +545,9 @@ $("#frmEditProductos").on("submit", function(e){
 		method: 'POST',
 		data: formData,
 		success: function(data){
-			//alert(data);
+			dataProducts.ajax.reload();
+			message("Producto editado con éxito", 2000, 'success');			
+			$("#formEditProd").modal('hide');
 		},
 		contentType: false,
 		processData: false,

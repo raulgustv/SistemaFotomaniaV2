@@ -224,6 +224,7 @@ if(isset($_POST['cargarProducto'])){
 
 	$row = mysqli_fetch_array($r);
 
+	
 	$nombre = $row['nombre'];
 	$cat = $row['nombreCategoria'];
 	$descripcion = $row['Descripcion'];
@@ -231,9 +232,14 @@ if(isset($_POST['cargarProducto'])){
 	$imagen = $row['imagen'];
 
 	
-	echo "<div class='form-group'>
+	echo "
+			<div class='form-group'>              
+              <input type='hidden' name='prodId' value='$prodId'> 
+          	</div>
+
+			<div class='form-group'>
               <label for='editNombre'>Nombre</label>
-              <input type='text' editProdId='$prodId' class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
           </div>
 	
 			 <div class='form-group'>
@@ -264,7 +270,7 @@ if(isset($_POST['cargarProducto'])){
 				</div>
 				<div class='col-sm-6'>
 					<div class='mb-3' id='prevContainer'>
-                		<img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
+                		<img class='imgPrev' id='editImgPrev' src='#'>
             		</div>  
 				</div>
             </div>
@@ -302,8 +308,49 @@ if(isset($_POST['cargarProducto'])){
 =======================================*/
 
 if(isset($_FILES['editImgProd'])){
-	print_r($_FILES);
-	print_r($_POST);
+	$img = $_FILES['editImgProd']['name'];
+	$newStoreImg = uniqid($img, true).".png";
+	$nuevaImg = $_FILES['editImgProd']['tmp_name'];
+
+	$id = $_POST['prodId'];
+	$nombre = $_POST['editNombre'];
+	$descripcion = $_POST['editDesc'];	
+	$precio = $_POST['editPrecio'];
+	$categoria = $_POST['catAddProd'];
+
+	
+	
+
+	if(is_uploaded_file($nuevaImg)){
+		move_uploaded_file($nuevaImg, "../../vistas/imagenes/".$newStoreImg);
+
+		$qImg = $con->prepare("SELECT * FROM productos WHERE id = ?");
+		$qImg->bind_param("i", $id);
+		$qImg->execute();
+		//$qImg->close();
+
+		$r = $qImg->get_result(); 
+		$row = mysqli_fetch_array($r);
+		$oldImg = $row['imagen'];
+		unlink('../../vistas/imagenes/'.$oldImg);
+
+		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ?, imagen = ? WHERE id = ? ");
+		$q->bind_param("siissi", $nombre, $categoria, $precio, $descripcion, $newStoreImg, $id);
+		$q->execute();
+		$q->close();
+	}else{
+		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ? WHERE id = ? ");
+		$q->bind_param("siisi", $nombre, $categoria, $precio, $descripcion, $id);
+		$q->execute();
+		$q->close();
+	}
+
+	
+
+	
+	
+
+
 }
 
 /*=====  End of Editar Producto  ======*/
