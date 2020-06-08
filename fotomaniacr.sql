@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-05-2020 a las 06:06:21
+-- Tiempo de generación: 08-06-2020 a las 22:52:21
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.29
 
@@ -47,7 +47,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `user`, `email`, `pass`, `tipoUsuario`, `fechaRegistro`, `fechaLogin`, `notas`) VALUES
 (1, 'admin', 'admin@admin.com', '1234', 'Admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-05-29 09:45:45', ''),
+(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-06-08 09:56:31', ''),
 (20, 'Erick Torres', 'erick@gmail.com', '$2y$08$prx6hA2Bg5EX.mzeHqKxYeXO9cIGQvbVo5abkONdprVv1UK0HJnwu', 'Admin', '2020-05-20 08:52:57', '2020-05-20 08:52:57', ''),
 (21, 'rmmirand', 'rmmirand@amazon.com', '$2y$08$pADaL82JgQaOUEtxsWBNqOQS1H8GSqPWIIw3mp7w1hYA8o7DBA8LS', 'Admin', '2020-05-20 11:58:55', '2020-05-20 11:59:37', '');
 
@@ -73,10 +73,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id`, `idCliente`, `idProducto`, `nombreProducto`, `cantidad`, `precio`, `total`) VALUES
-(136, 32, 12, 'Nikon D780', 7, 349, 2443),
-(151, 31, 10, 'NIKON D5200', 4, 499, 1996),
-(152, 31, 15, 'Kit Go Pro', 3, 139, 417),
-(153, 31, 52, 'Prueba', 6, 255, 1530);
+(136, 32, 12, 'Nikon D780', 7, 349, 2443);
 
 -- --------------------------------------------------------
 
@@ -95,11 +92,11 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`idCategoria`, `nombre`) VALUES
-(1, 'Accesorios'),
-(6, 'Camaras'),
-(59, 'Cámaras de video'),
-(66, 'Go Pro'),
-(70, 'Lentes ');
+(77, 'Lentes de Cámaras'),
+(78, 'Cámaras de video'),
+(79, 'Cámara fotográfica'),
+(80, 'Televisores'),
+(81, 'Cables');
 
 -- --------------------------------------------------------
 
@@ -129,7 +126,7 @@ INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `creado`, `t
 (26, 'test', 'test', '', '$2y$10$jTdHlVLuExtYtRuSZ4SuBua86u1W4s/jTUkRskzXlymw01J8KjF8S', '0000-00-00', '', '2020-05-06 17:15:38'),
 (27, 'soyPrueba', 'prueba', '', '$2y$10$apxfHu20Zt0oBYz3nRZmm.baagpCd2fDwn3QfsUj2R3eScR4f7IAG', '0000-00-00', '', '2020-05-06 17:15:38'),
 (28, 'testuser', 'test2', '', '$2y$10$KHI/ZjPOgXyrHqcG7HMyrudYzfYiKfo4GrvuPA1B1ZpSba7yQSEiG', '0000-00-00', '', '2020-05-06 17:15:38'),
-(31, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-07', 'bd11tgcraw', '2020-05-08 03:32:18'),
+(31, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-07', '3dq5awbfsg', '2020-06-06 03:51:02'),
 (32, 'Raul Rodriguez', 'rgus', 'raulgust@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-07', '', '2020-05-07 18:20:52'),
 (33, 'user', 'usuario', 'user@user.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-05-11', '', '2020-05-10 22:18:52');
 
@@ -372,18 +369,10 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `idCategoria`, `precio`, `Descripcion`, `imagen`) VALUES
-(10, 'NIKON D5200', 6, 499, '', 'Nikon D5200528.png'),
-(11, 'Canon X420', 6, 299, '', 'Canon X420495.png'),
-(12, 'Nikon D780', 6, 349, '', 'Nikon D780415.png'),
-(13, 'Canon EOS SL2', 6, 499, '', 'Canon EOS SL2681.png'),
-(14, 'Tripode MacTrem', 1, 199, '', 'Tripode MacTrem490.png'),
-(15, 'Kit Go Pro', 1, 139, 'This kit features The Handler (Floating Hand Grip) for handheld footage in and out of the water, a Head Strap for immersive point-of-view shots and a QuickClip for attaching your GoPro to a baseball cap. ', 'Kit Go Pro113.png'),
-(42, 'Sony XHR NX5', 0, 1488, 'Full HD compact professional NXCAM camcorder', 'Sony XHR NX5572.png'),
-(51, 'iPhone 6 white', 6, 699, 'Iphone 6 Old model', 'iPhone6.png'),
-(52, 'Prueba', 6, 255, 'Huaweii phones pruebas', 'anuncio1.jpg5ecc6b55f06681.34106328.png'),
-(53, 'iPhone 11 promax', 6, 1599, 'Best iphone', 'iphone11 pro max.png'),
-(54, 'HDMI HP', 1, 13, 'Cable HDMI para conectarse a televisores, consolas o blu ray', 'plancha.PNG5ecc6de0f34ab2.32607349.png'),
-(64, '', 1, 0, '', 'bluray.PNG5ed1d73758b7d5.22803537.png');
+(71, 'Lente Tamron ', 77, 1469, 'Lente Tamron 200 50 profesional', 'lentetamron2.PNG5ede87a8222052.92921936.png'),
+(72, 'Lente Nikon 2', 77, 0, 'Lente Nikon1500', 'lente-nikon-200-500-af-s-56-e-impecable-D_NQ_NP_874198-MLA40407353800_012020-F.jpg5ede9ad5a2a9b5.44754485.png'),
+(73, 'Cámara video panasonic Pro', 78, 2389, 'Cámara profesional de video Panasonic', 'camPanasonic.jpg5ede9b059b1708.80965299.png'),
+(74, 'Televisor Samsung 700', 80, 0, 'Televisor Marca Samsung series 700 60\", 4K. Ultra HD', 'televisorSamsung.PNG5ede9b0c939c53.56754065.png');
 
 -- --------------------------------------------------------
 
@@ -531,7 +520,8 @@ ALTER TABLE `ofertas`
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idCategoria` (`idCategoria`);
 
 --
 -- Indices de la tabla `productoscompra`
@@ -559,13 +549,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de la tabla `carro`
 --
 ALTER TABLE `carro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -619,7 +609,7 @@ ALTER TABLE `ofertas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT de la tabla `productoscompra`

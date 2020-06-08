@@ -37,15 +37,15 @@ if($cookie == $monto && $resultado = 'Completed' && $clientId = $uid){
 	if(mysqli_num_rows($sql) > 0){
 		while($r = mysqli_fetch_array($sql)){
 			$productId[] = $r['idProducto'];
-			$cant = $r['cantidad'];
+			$cant[] = $r['cantidad'];
 			$nombre = $r['nombreProducto'];
-			$precio = $r['precio'];
+			$precio[] = $r['precio'];
 
 			$prodArray = array($productId);
 		}
 
 		for($i=0; $i < count($productId); $i++){
-			$con->query("INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `monto`, `transaccionId`, `FechaCompra`) VALUES (NULL, '$uid', '".$productId[$i]."', '$monto', '$transaccion', current_timestamp())");		
+			$con->query("INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`,  `cantidad`, `monto`, `transaccionId`, `FechaCompra`) VALUES (NULL, '$uid', '".$productId[$i]."', '".$cant[$i]."', '".$precio[$i]."', '$transaccion', current_timestamp())");		
 		}
 
 		$con->query("DELETE FROM carro WHERE idCliente = '$uid'");
