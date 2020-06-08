@@ -13,6 +13,8 @@ function message(titulo, tiempo, icono){
 		});
 }
 
+
+
 	/*----------  Registrar Usuario  ----------*/	
 
 $("#registerform").validate({
@@ -445,7 +447,7 @@ $("#frmProductos").on("submit", function(e){
 /*----------  Get Products  ----------*/
 
 
-var dataProducts 
+var dataProducts; 
 
 dataProducts = $("#dtTablaProds").DataTable({
 	"ajax": {
@@ -464,7 +466,7 @@ dataProducts = $("#dtTablaProds").DataTable({
 		{"data": "precio"},
 		{"data": "Descripcion"},
 		{"data": "imagen", render: getImg},
-		{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteProd'><i class='fas fa-trash'></i></a> <a href='#' id='editarProd' data-toggle='modal' data-target='formEditProd' class='btn btn-primary'><i class='fas fa-edit'></i></a> " }
+		{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteProd'><i class='fas fa-trash'></i></a> <a href='#' id='editarProd' data-toggle='modal' data-target='#formEditProd' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
 
 	]
 })
@@ -479,16 +481,56 @@ $(document).on("click", "#btnDeleteProd", function(){
 	fila = $(this).closest("tr");
 	prodId = parseInt(fila.find('td:eq(0)').text());
 
+	Swal.fire({
+		title: 'Deseas borrar esta categoría?',
+		 text: "Borrar esta categoría borrará el producto de inventario. Se recomienda borrar productos con esta categoría primero! No podrás deshacer estra acción!!",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				borrarProd:1, prodId: prodId
+			},
+			success: function(data){
+				dataProducts.ajax.reload();
+				}
+			});
+
+		}
+	})
+
+
+	
+});
+
+/*----------  Obtener productos Editar  ----------*/
+
+
+$(document).on("click", "#editarProd", function(){
+
+	fila = $(this).closest("tr");
+	prodId = parseInt(fila.find('td:eq(0)').text());
+
 	$.ajax({
 		url: 'accionesAdmin/accionesAdminMain.php',
 		method: 'POST',
 		data: {
-			borrarProd:1, prodId: prodId
+			cargarProducto:1,
+			prodId:prodId
 		},
 		success: function(data){
-			dataCats.ajax.reload();
+			$("#frmEditProductos").html(data);
+			//alert(data);
 		}
-	});
+	})
+
+
 });
 
 

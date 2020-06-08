@@ -49,4 +49,5 @@ checkAdmin();
 
 include_once '../templates/footerAdmin.php';
 include_once 'editarProductos.php';
+
  ?>

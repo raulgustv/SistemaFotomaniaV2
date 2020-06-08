@@ -206,6 +206,70 @@ if(isset($_POST['borrarProd'])){
 /*=====  End of Borrar Producto  ======*/
 
 
+/*===============================================
+=            Obtener producto Editar            =
+===============================================*/
+
+if(isset($_POST['cargarProducto'])){
+
+	$prodId = $_POST['prodId'];
+
+	//echo $prodId;
+
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ?");
+	$q->bind_param("i", $prodId);
+	$q->execute();
+
+	$r = $q->get_result();
+
+	$row = mysqli_fetch_array($r);
+
+	$nombre = $row['nombre'];
+	$cat = $row['nombreCategoria'];
+	$descripcion = $row['Descripcion'];
+	$precio = $row['precio'];
+	$imagen = $row['imagen'];
+
+	echo "<div class='form-group'>
+              <label for='editNombre'>Nombre</label>
+              <input type='text' class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+          </div>
+	
+			 <div class='form-group'>
+              <label for='editDesc'>Descripción</label>
+              <textarea  type='text' rows='3' class='form-control' name='editDesc' id='editDesc'>$descripcion</textarea> 
+          </div>
+
+          <div class='form-group'>
+              <label for='editPrecio'>Precio</label>
+              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$precio'> 
+          </div> 
+
+
+            <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                   <div class='custom-file'>
+                     <input type='file' name='editImgProd' class='custom-file-input' id='editImgProd'>
+                     <label class='custom-file-label' for='editImgProd'>Seleccionar Archivo</label>
+                   </div> 
+                </div>                             
+            </div> 
+
+
+            <div class='mb-3' id='prevContainer'>
+               <img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
+            </div>   
+
+
+
+
+
+          ";
+
+
+}
+
+/*=====  End of Obtener producto Editar  ======*/
 
 
 

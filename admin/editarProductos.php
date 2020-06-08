@@ -20,11 +20,11 @@ include_once '../includes/funciones.php';
       </div>
       <div class="modal-body" id="editProds">
 
-        <form method='post' id='frmEditProductos' enctype='multipart/form-data' id="">
+       <form method='post' id='frmEditProductos' enctype='multipart/form-data'>
           
        
          
-           <!--  <div class="form-group">
+        <!--      <div class="form-group">
               <label for="editNombre">Nombre</label>
               <input type="text" class="form-control" name="editNombre" id="editNombre" placeholder="Nombre del producto"> 
           </div>
@@ -35,15 +35,15 @@ include_once '../includes/funciones.php';
           <div class="form-group">
               <label for="editPrecio">Precio</label>
               <input type="text" class="form-control" name="editPrecio" id="editPrecio" placeholder="Precio producto"> 
-          </div>                    
+          </div> 
+
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                    <div class="custom-file">
                      <input type="file" name="editImgProd" class="custom-file-input" id="editImgProd">
                      <label class="custom-file-label" for="editImgProd">Seleccionar Archivo</label>
                    </div> 
-                </div> 
-                            
+                </div>                             
             </div>   
 
             <div class="mb-3" id="prevContainer">
@@ -62,7 +62,7 @@ include_once '../includes/funciones.php';
 
             
             
-          </form> 
+          </form>  
 
                
       </div>      
