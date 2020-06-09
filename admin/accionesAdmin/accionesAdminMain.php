@@ -144,6 +144,8 @@ if(isset($_FILES['imgProd'])){
 	$precio = $_POST['precioProd'];
 	$catProd = $_POST['catAddProd'];
 
+	/*
+
 	$q = $con->prepare("SELECT nombre FROM productos WHERE nombre = ?" );
 	$q->bind_param("s", $nombre);
 	$q->execute();
@@ -152,7 +154,7 @@ if(isset($_FILES['imgProd'])){
 
 	if($row->num_rows > 0){
 		echo "false";
-	}else{
+	}else{ */
 
 		if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
 		move_uploaded_file($_FILES['imgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
@@ -162,7 +164,7 @@ if(isset($_FILES['imgProd'])){
 		$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
 		$sql->bind_param("sssss", $nombre, $catProd, $precio, $descripcion, $storeImg);
 		$sql->execute();
-	}
+	//}
 	
 	
 }
@@ -176,7 +178,7 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria");
+	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
 
 	$data = array();
 
@@ -197,7 +199,7 @@ if(isset($_POST['borrarProd'])){
 
 	$prodId = $_POST['prodId'];
 
-	$q = $con->prepare("DELETE FROM productos WHERE id = ?");
+	$q = $con->prepare("UPDATE productos SET status = 0 WHERE id = ?");
 	$q->bind_param("i", $prodId);
 	$q->execute();
 	$q->close();
@@ -213,11 +215,12 @@ if(isset($_POST['borrarProd'])){
 if(isset($_POST['cargarProducto'])){
 
 	$prodId = $_POST['prodId'];
+	$stat = 1;
 
 	//echo $prodId;
 
 	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ?");
-	$q->bind_param("i", $prodId);
+	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();
 
 	$r = $q->get_result();
