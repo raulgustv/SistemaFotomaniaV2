@@ -45,11 +45,40 @@ $role = ($_SESSION['userRole']);
 					    <p class="card-text">Revisar Pedidos</p>
 					    <a href="#" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
+					</div>				
+				</div>
+				</div>
+				<h6>Pedidos recientes</h6>
+				<div class="row mt-2">
+					<div class="col-lg-12">
+						<table class="table table-bordered">
+							<thead class="table-info">
+								<th>Número de transación</th>
+								<th>Productos</th>
+								<th>Cliente</th>
+							</thead>
+							<tbody class="table-success">
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
 </div>
 
