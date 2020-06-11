@@ -56,23 +56,27 @@ $role = ($_SESSION['userRole']);
 								<th>Número de transación</th>
 								<th>Productos</th>
 								<th>Cliente</th>
+								<th>Fecha</th>
 							</thead>
-							<tbody class="table-success">
-								<tr>
+							<tbody class="table-success" id="lastOrders">
+								<!-- <tr>
 									<td>123</td>
 									<td>Cámara</td>
 									<td>Antonio</td>
+									<td>hoy</td>
 								</tr>
 								<tr>
 									<td>123</td>
 									<td>Cámara</td>
 									<td>Antonio</td>
+									<td>hoy</td>
 								</tr>
 								<tr>
 									<td>123</td>
 									<td>Cámara</td>
 									<td>Antonio</td>
-								</tr>
+									<td>hoy</td>
+								</tr> -->
 							</tbody>
 						</table>
 					</div>

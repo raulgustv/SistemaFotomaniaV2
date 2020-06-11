@@ -348,15 +348,41 @@ if(isset($_FILES['editImgProd'])){
 		$q->close();
 	}
 
-	
-
-	
-	
-
-
 }
 
 /*=====  End of Editar Producto  ======*/
+
+
+/*=========================================
+=            Pedidos recientes            =
+=========================================*/
+
+if(isset($_POST['getLastOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, productos.nombre AS prodNombre, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+
+	if(mysqli_num_rows($q) > 0){
+		while($r = mysqli_fetch_array($q)){
+			$idTrans = $r['trans'];
+			$producto = $r['prodNombre'];
+			$cliente = $r['clienteNombre'];
+			$fecha = $r['fechaCompra'];
+
+			echo "<tr>
+					<td>$idTrans</td>
+					<td>$producto</td>
+					<td>$cliente</td>
+					<td>$fecha</td>
+				  </tr>";
+
+
+		}
+	}
+
+}
+
+
+/*=====  End of Pedidos recientes  ======*/
+
 
 
 

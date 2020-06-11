@@ -554,7 +554,20 @@ $("#frmEditProductos").on("submit", function(e){
 		cache: false
 	})
 
-})
+});
+
+lastOrders();
+function lastOrders(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getLastOrders:1},
+		success: function(data){
+			$("#lastOrders").html(data);
+
+		}
+	});
+}
 
 
 
