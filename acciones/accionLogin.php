@@ -2,6 +2,7 @@
 
 include '../includes/funciones.php';
 include '../includes/db.php';
+include '../includes/smail.php';
 
 /*================================
 =            Registro            =
@@ -99,51 +100,47 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 	$femail = $_POST['femail'];
 
 
-	$stmt = $con->prepare("SELECT id FROM clientes WHERE email=?");
+	$stmt = $con->prepare("SELECT * FROM clientes WHERE email=?");
 	$stmt->bind_param("s", $femail);
 	$stmt->execute();
 
 	$res = $stmt->get_result();
 
 	if($res->num_rows>0){
-		$token = "pdtay345trbn1y4y7p1wqwcedrgfhppqads432"; //token aleatorio
-		$token = str_shuffle($token);
-		$token = substr($token, 0,10);
-
-		$sql = $con->prepare("UPDATE clientes SET token=?, tokenExpira=DATE_ADD(NOW(),INTERVAL 5 MINUTE) WHERE email=?");
-		$sql->bind_param("ss", $token, $femail);
-		$sql->execute();
-
-		include '../PHP-Mailer/PHPMailerAutoload.php';
-		$mail = new PHPMailer;
-
-		$mail->Host='smtp.gmail.com';
-		$mail->Port=587;
-		$mail->SMTPAuth=true;
-		$mail->SMTPSecure='tls';
-
-		$mail->Username='raulgust@gmail.com';
-		$mail->Password='Pareo-32451';
-
-		$mail->addAddress($femail);
-		$mail->setFrom('raulgust@gmail.com', 'Fotomania');
-
-		$mail->isHTML(true);
-		$mail->Subject="Prueba";
-		$mail->Body="<h3>Haz clic en el enlace para reestablecer tu contraseña</h3><br>
-					<a href='http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token'>http://localhost/sistemafotomaniav2/vistas/resetPassword.php?email=$femail&token=$token</a><br><h3>Saludos,<br>Fotomania CR</h3>";
-
-		if($mail->send()){
+		$stmt1 = $con->prepare("SELECT * FROM contrareset WHERE email=?");
+	    $stmt1->bind_param("s", $femail);
+		$stmt1->execute();
+		$resec = $stmt1->get_result();
+        if($resec->num_rows>0){
+		$stmt3 = $con->prepare("DELETE FROM contrareset WHERE email=?");
+	    $stmt3->bind_param("s", $femail);
+		$stmt3->execute(); 
+        }
+		$token = generarRandomString(40);
+		$stmt2 = $con->prepare("INSERT INTO contrareset(email, token) VALUES (?,?)");
+	    $stmt2->bind_param("ss", $femail,$token);
+		$stmt2->execute();
+		$stmt3 = $con->prepare("UPDATE contrareset SET tokenExpira=DATE_ADD(NOW(),INTERVAL 10 MINUTE)");
+		$stmt3->execute();
+        $titulo = 'Restablecimiento de contraseña para sistema FotomaniaCR';
+        $cuerpo = 'Usted solicito restablecer su contraseña para <b>FotomaniaCR</b><br>Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/vistas/resetPassword.php?token='.$token;
+        $cuerposimple = 'Usted solicito restablecer su contraseña para FotomaniaCR. Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/vistas/resetPassword.php?token='.$token;
+        if($func = emailreset($femail,$titulo,$cuerpo,$cuerposimple)){
 			echo "Reestablecimiento de contraseña enviado con éxito";
 		}else{
 			echo "Error al enviar mensaje, intente de nuevo";
 		}
+		
 
 
 
 
 		
-	}	
+	
+}
+
+
+	
 }
 
 /*=====  End of Contraseña Olvidada  ======*/

@@ -32,7 +32,7 @@ $role = ($_SESSION['userRole']);
 		</div>
 		<div class="col-lg-8">
 			<div class="jumbotron adminJmb">
-				<h3>Bienvenido Raúl</h3>
+				<h3>Bienvenido <?=$userName?></h3>
 				<div class="row">
 					<div class="col-sm-6">
 					<iframe src="http://free.timeanddate.com/clock/i7agqvqr/n225/szw110/szh110/cf100/hnce1ead6" frameborder="0" width="110" height="110"></iframe>
@@ -85,6 +85,17 @@ $role = ($_SESSION['userRole']);
 					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
 					<a href="#" data-toggle="modal" data-target="#form_editCats" class="btn btn-primary">Agregar Imágenes</a>
 					<a href="#"class="btn btn-success">Ver Imágenes</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="card">	
+				<div class="card-header text-center">Administrar Descuentos</div>	
+				<img class="card-img-top mx-auto imgPanel" src="../logos/descuento.svg" alt="Card image cap">				  
+				<div class="card-body">					
+					<p class="card-text">Administra los descuentos disponibles a los productos de la tienda</p>
+					<a href="#" data-toggle="modal" data-target="#form_editDesc" class="btn btn-primary">Agregar Descuento</a>
+					<a href="#"class="btn btn-success">Ver Descuentos</a>
 				</div>
 			</div>
 		</div>
