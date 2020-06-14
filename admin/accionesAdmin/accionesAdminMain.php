@@ -380,8 +380,28 @@ if(isset($_POST['getLastOrders'])){
 
 }
 
-
 /*=====  End of Pedidos recientes  ======*/
+
+
+/*=============================================
+=            Ver todos los pedidos            =
+=============================================*/
+
+if(isset($_POST['getOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado GROUP BY transaccionId");
+
+	$data = array();
+
+	while($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+
+/*=====  End of Ver todos los pedidos  ======*/
+
 
 
 

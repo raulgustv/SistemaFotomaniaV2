@@ -556,6 +556,8 @@ $("#frmEditProductos").on("submit", function(e){
 
 });
 
+/*----------  Listar últimos pedidos  ----------*/
+
 lastOrders();
 function lastOrders(){
 	$.ajax({
@@ -568,6 +570,32 @@ function lastOrders(){
 		}
 	});
 }
+
+
+/*----------  Listado todos los pedidos  ----------*/
+
+var dataOrders;
+
+dataOrders = $("#dtTablaPedidos").DataTable({
+	
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {"getOrders":1},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data" : "trans"},
+		{"data" : "nombre"},
+		{"data" : "FechaCompra"},
+		{"data" : "nombreEstado"},
+		{"data" : "monto"} 	 	
+
+	]
+
+})
+
 
 
 

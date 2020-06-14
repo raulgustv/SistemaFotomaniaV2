@@ -43,7 +43,7 @@ $role = ($_SESSION['userRole']);
 					  <div class="card-body">
 					    <h5 class="card-title">Pedidos</h5>
 					    <p class="card-text">Revisar Pedidos</p>
-					    <a href="#" class="btn btn-primary">Ir a Pedidos</a>
+					    <a href="verPedidos.php" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
 					</div>				
 				</div>
