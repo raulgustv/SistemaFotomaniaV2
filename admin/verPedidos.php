@@ -18,7 +18,7 @@ checkAdmin();
 				<th>Fecha Compra</th>
 				<th>Estado Pedido</th>
 				<th>Monto Total</th>
-			<!--	<th>Acciones</th> -->
+				<th>Acciones</th> 
 			</tr>	
 		</thead>
 
@@ -31,9 +31,12 @@ checkAdmin();
 
 
 
+
+
 <?php
 
 include_once '../templates/footerAdmin.php';
-include_once 'editarProductos.php';
+include_once 'editarEstadoPedido.php';
+
 
  ?>

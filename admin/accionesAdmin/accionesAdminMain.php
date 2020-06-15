@@ -219,7 +219,7 @@ if(isset($_POST['cargarProducto'])){
 
 	//echo $prodId;
 
-	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ?");
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
 	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();
 
@@ -358,18 +358,16 @@ if(isset($_FILES['editImgProd'])){
 =========================================*/
 
 if(isset($_POST['getLastOrders'])){
-	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, productos.nombre AS prodNombre, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId GROUP BY transaccionId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
 
 	if(mysqli_num_rows($q) > 0){
 		while($r = mysqli_fetch_array($q)){
-			$idTrans = $r['trans'];
-			$producto = $r['prodNombre'];
+			$idTrans = $r['trans'];			
 			$cliente = $r['clienteNombre'];
 			$fecha = $r['fechaCompra'];
 
 			echo "<tr>
-					<td>$idTrans</td>
-					<td>$producto</td>
+					<td>$idTrans</td>				
 					<td>$cliente</td>
 					<td>$fecha</td>
 				  </tr>";
@@ -401,6 +399,43 @@ if(isset($_POST['getOrders'])){
 
 
 /*=====  End of Ver todos los pedidos  ======*/
+
+
+/*============================================
+=            LLenar Status Pedido            =
+============================================*/
+
+if(isset($_POST['llenarEstado'])){
+	$idPedido = $_POST['idPedido'];	
+
+	
+
+	echo "<input type='hidden' name='idPedido' value='$idPedido'>
+        	<label for='statusPedido' class='input-group-text'>Cambiar Estado Pedido</label>
+		 <select class='custom-select' name='statusPedido' id='statusPedido'>";
+
+		 	$q = $con->prepare("SELECT * FROM estados");
+			$q->execute();
+			$r = $q->get_result();
+
+
+
+		while($row = mysqli_fetch_array($r)){
+		$statusId = $row['idEstado'];
+		$estado = $row['nombreEstado'];
+
+		echo "<option value='$statusId'>$estado</option>";
+	}
+	"<select>";
+
+	echo "<div class='modal-footer'>
+	        	 <input type='submit' name='editStatus' id='editStatus' class='btn btn-primary' value='Guardar'>   	
+	       </div> ";
+}
+
+
+/*=====  End of LLenar Status Pedido  ======*/
+
 
 
 

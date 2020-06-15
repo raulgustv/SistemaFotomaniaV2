@@ -590,11 +590,34 @@ dataOrders = $("#dtTablaPedidos").DataTable({
 		{"data" : "nombre"},
 		{"data" : "FechaCompra"},
 		{"data" : "nombreEstado"},
-		{"data" : "monto"} 	 	
+		{"data" : "monto"},
+		{"defaultContent" : "<a href='#' class='btn btn-primary' id='editProdStatus' data-toggle='modal' data-target='#formEditPedidoStatus'><i class='fas fa-edit'></i></a> <a href='#' class='btn btn-success'><i class='fas fa-eye'></i></a>"},	
 
 	]
 
+});
+
+
+
+
+/*----------  Obtener Estados de pedido  ----------*/
+
+$(document).on("click", "#editProdStatus", function(){
+	fila = $(this).closest("tr");
+	var pedido = fila.find('td:eq(0)').text();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: {llenarEstado:1, idPedido:pedido},
+		success: function(data){
+			$("#frmEditPedidoStatus").html(data);
+		}
+	})
+	
+	
 })
+
 
 
 

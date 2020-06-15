@@ -53,8 +53,7 @@ $role = ($_SESSION['userRole']);
 					<div class="col-lg-12">
 						<table class="table table-bordered">
 							<thead class="table-info">
-								<th>Número de transación</th>
-								<th>Productos</th>
+								<th>Número de transación</th>							
 								<th>Cliente</th>
 								<th>Fecha</th>
 							</thead>
