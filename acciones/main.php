@@ -39,7 +39,7 @@
 			$start = 0;
 		}
 
-		$prodQuery = $con->query("SELECT * FROM productos LIMIT $start, $limit");
+		$prodQuery = $con->query("SELECT * FROM productos WHERE status = 1 LIMIT $start, $limit");
 
 		if(mysqli_num_rows($prodQuery)){
 			while($row = mysqli_fetch_array($prodQuery)){

@@ -104,6 +104,23 @@ input.error{
 }
 
 
+/*Ver compra*/
+
+h6{
+	font-style: bold;
+	font-size: 1.5rem;
+}
+
+hr.solid{
+	border-top: 1px solid #999;
+}
+
+img.iconosPedido{
+	width: 80px;
+	height: 80px;
+}
+
+
 
 
 

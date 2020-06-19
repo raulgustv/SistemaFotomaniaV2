@@ -144,6 +144,8 @@ if(isset($_FILES['imgProd'])){
 	$precio = $_POST['precioProd'];
 	$catProd = $_POST['catAddProd'];
 
+	/*
+
 	$q = $con->prepare("SELECT nombre FROM productos WHERE nombre = ?" );
 	$q->bind_param("s", $nombre);
 	$q->execute();
@@ -152,7 +154,7 @@ if(isset($_FILES['imgProd'])){
 
 	if($row->num_rows > 0){
 		echo "false";
-	}else{
+	}else{ */
 
 		if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
 		move_uploaded_file($_FILES['imgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
@@ -162,7 +164,7 @@ if(isset($_FILES['imgProd'])){
 		$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
 		$sql->bind_param("sssss", $nombre, $catProd, $precio, $descripcion, $storeImg);
 		$sql->execute();
-	}
+	//}
 	
 	
 }
@@ -176,7 +178,7 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria");
+	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
 
 	$data = array();
 
@@ -197,7 +199,7 @@ if(isset($_POST['borrarProd'])){
 
 	$prodId = $_POST['prodId'];
 
-	$q = $con->prepare("DELETE FROM productos WHERE id = ?");
+	$q = $con->prepare("UPDATE productos SET status = 0 WHERE id = ?");
 	$q->bind_param("i", $prodId);
 	$q->execute();
 	$q->close();
@@ -213,11 +215,12 @@ if(isset($_POST['borrarProd'])){
 if(isset($_POST['cargarProducto'])){
 
 	$prodId = $_POST['prodId'];
+	$stat = 1;
 
 	//echo $prodId;
 
-	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ?");
-	$q->bind_param("i", $prodId);
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
+	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();
 
 	$r = $q->get_result();
@@ -345,15 +348,129 @@ if(isset($_FILES['editImgProd'])){
 		$q->close();
 	}
 
-	
-
-	
-	
-
-
 }
 
 /*=====  End of Editar Producto  ======*/
+
+
+/*=========================================
+=            Pedidos recientes            =
+=========================================*/
+
+if(isset($_POST['getLastOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId GROUP BY transaccionId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+
+	if(mysqli_num_rows($q) > 0){
+		while($r = mysqli_fetch_array($q)){
+			$idTrans = $r['trans'];			
+			$cliente = $r['clienteNombre'];
+			$fecha = $r['fechaCompra'];
+
+			echo "<tr>
+					<td>$idTrans</td>				
+					<td>$cliente</td>
+					<td>$fecha</td>
+				  </tr>";
+
+
+		}
+	}
+
+}
+
+/*=====  End of Pedidos recientes  ======*/
+
+
+/*=============================================
+=            Ver todos los pedidos            =
+=============================================*/
+
+if(isset($_POST['getOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado GROUP BY transaccionId");
+
+	$data = array();
+
+	while($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+
+/*=====  End of Ver todos los pedidos  ======*/
+
+
+/*============================================
+=            LLenar Status Pedido            =
+============================================*/
+
+if(isset($_POST['llenarEstado'])){
+	$idPedido = $_POST['idPedido'];	
+
+	
+
+	echo "<input type='hidden' name='idPedido' value='$idPedido'>
+        	<label for='statusPedido' class='input-group-text'>Cambiar Estado Pedido</label>
+		 <select class='custom-select' name='statusPedido' id='statusPedido'>";
+
+		 	$q = $con->prepare("SELECT * FROM estados");
+			$q->execute();
+			$r = $q->get_result();
+
+
+
+		while($row = mysqli_fetch_array($r)){
+		$statusId = $row['idEstado'];
+		$estado = $row['nombreEstado'];
+
+		echo "<option value='$statusId'>$estado</option>";
+	}
+	"<select>";
+
+	echo "<div class='modal-footer'>
+	        	 <input type='submit' name='editStatus' id='editStatus' class='btn btn-primary' value='Guardar'>   	
+	       </div> ";
+}
+
+
+/*=====  End of LLenar Status Pedido  ======*/
+
+
+/*============================================
+=            Editar Status pedido            =
+============================================*/
+
+if(isset($_POST['editarStatus'])){
+
+	$idPedido = $_POST['idPedido'];
+	$status = $_POST['statusPedido'];
+
+	$q = $con->prepare("UPDATE comprafinalizada SET estado = ? WHERE transaccionId = ?");
+	$q->bind_param("ss", $status, $idPedido);
+	$q->execute();
+	$q->close();
+
+	
+
+}
+
+/*=====  End of Editar Status pedido  ======*/
+
+/*===========================================
+=            Ver detalles Pedido            =
+===========================================*/
+
+if(isset($_POST['obtenerPedido'])){
+	echo 'hola';
+}
+
+/*=====  End of Ver detalles Pedido  ======*/
+
+
+
+
+
 
 
 

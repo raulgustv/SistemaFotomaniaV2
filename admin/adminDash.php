@@ -43,13 +43,45 @@ $role = ($_SESSION['userRole']);
 					  <div class="card-body">
 					    <h5 class="card-title">Pedidos</h5>
 					    <p class="card-text">Revisar Pedidos</p>
-					    <a href="#" class="btn btn-primary">Ir a Pedidos</a>
+					    <a href="verPedidos.php" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
+					</div>				
+				</div>
+				</div>
+				<h6>Pedidos recientes</h6>
+				<div class="row mt-2">
+					<div class="col-lg-12">
+						<table class="table table-bordered">
+							<thead class="table-info">
+								<th>Número de transación</th>							
+								<th>Cliente</th>
+								<th>Fecha</th>
+							</thead>
+							<tbody class="table-success" id="lastOrders">
+								<!-- <tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr> -->
+							</tbody>
+						</table>
 					</div>
 				</div>
-				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
 </div>
 

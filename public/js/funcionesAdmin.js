@@ -554,11 +554,116 @@ $("#frmEditProductos").on("submit", function(e){
 		cache: false
 	})
 
-})
+});
+
+/*----------  Listar últimos pedidos  ----------*/
+
+lastOrders();
+function lastOrders(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getLastOrders:1},
+		success: function(data){
+			$("#lastOrders").html(data);
+
+		}
+	});
+}
+
+
+/*----------  Listado todos los pedidos  ----------*/
+
+var dataOrders;
+
+dataOrders = $("#dtTablaPedidos").DataTable({
+	
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {"getOrders":1},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data" : "trans"},
+		{"data" : "nombre"},
+		{"data" : "FechaCompra"},
+		{"data" : "nombreEstado"},
+		{"data" : "monto"},
+		{"defaultContent" : "<a href='#' class='btn btn-primary' id='editProdStatus' data-toggle='modal' data-target='#formEditPedidoStatus'><i class='fas fa-edit'></i></a> <a href='#' class='btn btn-success' id='verPedidoCliente'><i class='fas fa-eye'></i></a> "},	
+
+	]
+
+});
 
 
 
 
+/*----------  Obtener Estados de pedido  ----------*/
+
+$(document).on("click", "#editProdStatus", function(){
+	
+	fila = $(this).closest("tr");
+	var pedido = fila.find('td:eq(0)').text();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: {llenarEstado:1, idPedido:pedido},
+		success: function(data){
+			$("#frmEditPedidoStatus").html(data);
+		}
+	}) 
+	
+	
+});
+
+/*----------  Editar Estado pedido  ----------*/
+
+
+$("#frmEditPedidoStatus").on("submit", function(e){
+	e.preventDefault();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: $("#frmEditPedidoStatus").serialize()+'&editarStatus',
+		success: function(data){
+			dataOrders.ajax.reload();
+			message("Estado acutalizado correctamente", 2000, 'success')			
+			$("#formEditPedidoStatus").modal('hide');
+		}
+	});
+
+
+
+	
+});
+
+/*----------  Ver pedido  ----------*/
+
+
+$(document).on("click", "#verPedidoCliente", function(){
+	fila = $(this).closest("tr");
+	var idPedido = fila.find('td:eq(0)').text();
+
+	window.open("verPedidoCliente.php?id="+idPedido, "_blank");
+
+});
+
+
+llenarDetallePedido()
+function llenarDetallePedido(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: {obtenerPedido: 1},
+		success: function(data){
+			
+		}
+	})
+}
 
 
 
