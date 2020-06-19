@@ -132,6 +132,9 @@ $idEstado = $r['idEstado']
 		<tbody>
 		<?php
 
+		$totalFinal = 0;
+
+
 		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$idPedido'");
 
 		while($r = mysqli_fetch_array($q2)){ 
@@ -140,6 +143,12 @@ $idEstado = $r['idEstado']
 			$monto = $r['monto'];
 
 			$montoFinal = $cant * $monto;
+			$totalFinal = $totalFinal + $montoFinal;
+			
+
+			
+
+
 
 
 
@@ -155,14 +164,20 @@ $idEstado = $r['idEstado']
 
 		<?php 	}
 	
-
-		?>
+			
+			
+		?> 
 
 		
 		
 					
 		</tbody>
 	</table>
+
+	<div class="shadow-lg p-3 mb-5 bg-white rounded">
+		<h2 class="text-primary">Total: $<?php echo $totalFinal ?></h2>
+	</div>
+
 </div>
 	
 
