@@ -34,8 +34,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'register'){
 		}else if ($row['email'] == $email){
 			echo "Este correo electrónico está en uso";
 		}else{
-			$stmt = $con->prepare("INSERT INTO clientes (nombre,usuario,email,pass,creado) VALUES (?,?,?,?,?) ");
-			$stmt->bind_param("sssss", $name,$uname,$email,$passHash,$created);
+			$stmt = $con->prepare("INSERT INTO clientes (nombre,usuario,email,pass) VALUES (?,?,?,?) ");
+			$stmt->bind_param("ssss", $name,$uname,$email,$passHash);
 
 			if($stmt->execute()){
 				echo "Registro Completado";

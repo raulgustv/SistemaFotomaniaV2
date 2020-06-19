@@ -63,7 +63,7 @@ require '../acciones/sesion.php';
     <ul class="navbar-nav ml-auto">
       
        <li class="nav-item">
-         <a class="nav-link" href="#">Hola <?php echo $username ?></a> 
+         <a class="nav-link" href="perfil.php">Hola <?php echo $username ?></a> 
       </li>
       <li class="nav-item">
          <a class="nav-link" href="../acciones/logout.php">Cerrar Sesión</a> 

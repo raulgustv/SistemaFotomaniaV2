@@ -146,7 +146,7 @@
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
 				}else{
-					echo "No se pudo registrar el usuario";
+					echo "No se pudieron agregar productos al carrito";
 				}
 
 				$stmt->close();
