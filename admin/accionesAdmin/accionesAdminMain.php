@@ -437,6 +437,39 @@ if(isset($_POST['llenarEstado'])){
 /*=====  End of LLenar Status Pedido  ======*/
 
 
+/*============================================
+=            Editar Status pedido            =
+============================================*/
+
+if(isset($_POST['editarStatus'])){
+
+	$idPedido = $_POST['idPedido'];
+	$status = $_POST['statusPedido'];
+
+	$q = $con->prepare("UPDATE comprafinalizada SET estado = ? WHERE transaccionId = ?");
+	$q->bind_param("ss", $status, $idPedido);
+	$q->execute();
+	$q->close();
+
+	
+
+}
+
+/*=====  End of Editar Status pedido  ======*/
+
+/*===========================================
+=            Ver detalles Pedido            =
+===========================================*/
+
+if(isset($_POST['obtenerPedido'])){
+	echo 'hola';
+}
+
+/*=====  End of Ver detalles Pedido  ======*/
+
+
+
+
 
 
 
