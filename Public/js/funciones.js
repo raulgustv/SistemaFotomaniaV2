@@ -20,7 +20,7 @@ $(document).ready(function(){
 	});
 
 	
-	$("#infoIcon").click(function(){
+	$(document).on("click", "#infoIcon",function(){
 		$('#editUser').tooltip('toggle');
 	});
 
