@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-06-2020 a las 06:11:49
+-- Tiempo de generación: 20-06-2020 a las 06:24:48
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.29
 
@@ -47,7 +47,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `user`, `email`, `pass`, `tipoUsuario`, `fechaRegistro`, `fechaLogin`, `notas`) VALUES
 (1, 'admin', 'admin@admin.com', '1234', 'Admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-06-08 09:56:31', ''),
+(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-06-19 09:52:09', ''),
 (20, 'Erick Torres', 'erick@gmail.com', '$2y$08$prx6hA2Bg5EX.mzeHqKxYeXO9cIGQvbVo5abkONdprVv1UK0HJnwu', 'Admin', '2020-05-20 08:52:57', '2020-05-20 08:52:57', ''),
 (21, 'rmmirand', 'rmmirand@amazon.com', '$2y$08$pADaL82JgQaOUEtxsWBNqOQS1H8GSqPWIIw3mp7w1hYA8o7DBA8LS', 'Admin', '2020-05-20 11:58:55', '2020-05-20 11:59:37', '');
 
@@ -73,7 +73,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id`, `idCliente`, `idProducto`, `nombreProducto`, `cantidad`, `precio`, `total`) VALUES
-(168, 34, 82, 'Cable HDMI', 2, 14, 28);
+(184, 37, 81, 'Lente Tamron  SP', 2, 1269, 2538);
 
 -- --------------------------------------------------------
 
@@ -111,19 +111,22 @@ CREATE TABLE `clientes` (
   `usuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `email` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `pass` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
-  `creado` date NOT NULL,
+  `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `token` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  `tokenExpira` timestamp NOT NULL DEFAULT current_timestamp()
+  `tokenExpira` timestamp NOT NULL DEFAULT current_timestamp(),
+  `idDireccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `creado`, `token`, `tokenExpira`) VALUES
-(34, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08', '', '2020-06-08 21:20:03'),
-(35, 'user', 'user', 'usuario@usuario.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08', '', '2020-06-08 21:35:20'),
-(37, 'Lulu Miranda', 'Lulu', 'lulumir@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-09', '', '2020-06-08 23:20:17');
+INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `creado`, `token`, `tokenExpira`, `idDireccion`) VALUES
+(34, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08 06:00:00', '', '2020-06-08 21:20:03', 0),
+(35, 'user', 'user', 'usuario@usuario.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08 06:00:00', '', '2020-06-08 21:35:20', 0),
+(37, 'Lulu Miranda', 'Lulu', 'lulumir@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-09 06:00:00', '', '2020-06-08 23:20:17', 0),
+(38, 'Arturo Mendoza', 'art12', 'art12@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-19 03:04:15', '', '2020-06-19 03:04:15', 0),
+(39, 'Raul R', 'raulgus', 'raulgust@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-20 06:00:00', '', '2020-06-20 04:08:33', 0);
 
 -- --------------------------------------------------------
 
@@ -206,23 +209,24 @@ CREATE TABLE `comprafinalizada` (
   `cantidad` int(11) NOT NULL,
   `monto` int(11) NOT NULL,
   `transaccionId` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `FechaCompra` timestamp NOT NULL DEFAULT current_timestamp()
+  `FechaCompra` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `comprafinalizada`
 --
 
-INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `cantidad`, `monto`, `transaccionId`, `FechaCompra`) VALUES
-(14, 34, 79, 0, 4998, '7JF62855E34122647', '2020-06-08 21:22:03'),
-(16, 35, 81, 0, 3067, '8YW366147S3720543', '2020-06-08 21:49:20'),
-(17, 37, 79, 0, 4297, '40G829242E545924P', '2020-06-08 23:22:53'),
-(20, 37, 81, 1, 3067, '1L393801BG619620K', '2020-06-08 23:31:53'),
-(21, 37, 82, 2, 295, '6CN839785M316394U', '2020-06-08 23:36:41'),
-(22, 37, 83, 3, 295, '6CN839785M316394U', '2020-06-08 23:36:42'),
-(24, 37, 82, 3, 14, '7TN16469HS962663E', '2020-06-08 23:53:48'),
-(25, 34, 82, 3, 487, '1ND54955LU299693U', '2020-06-09 00:15:53'),
-(26, 34, 83, 5, 487, '1ND54955LU299693U', '2020-06-09 00:15:54');
+INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `cantidad`, `monto`, `transaccionId`, `FechaCompra`, `estado`) VALUES
+(36, 34, 85, 2, 138, '0J620943PD7590623', '2020-06-12 19:36:09', 8),
+(37, 34, 83, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
+(38, 34, 85, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
+(39, 34, 82, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
+(40, 37, 81, 1, 1269, '15871900600026356', '2020-06-14 22:14:17', 1),
+(41, 34, 79, 4, 2499, '235548626N162371X', '2020-06-15 18:14:30', 9),
+(42, 34, 81, 2, 1269, '235548626N162371X', '2020-06-15 18:14:31', 9),
+(43, 34, 87, 2, 88, '2TM80116P07222703', '2020-06-19 02:47:15', 1),
+(44, 34, 84, 3, 15, '2TM80116P07222703', '2020-06-19 02:47:15', 1);
 
 -- --------------------------------------------------------
 
@@ -263,31 +267,40 @@ CREATE TABLE `contrareset` (
   `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `contrareset`
+--
+
+INSERT INTO `contrareset` (`id`, `email`, `token`) VALUES
+(26, 'raulgus@hotmail.com', 'OAgsOQvHFHpKWvIqfYuAaoTcElq57XCx4HWMcDSO'),
+(27, 'raulgust@gmail.com', 'jKux2wy52OEkBdCxiH5nNVqogL5oa0J6B5zBA8VH');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `direcciones`
+-- Estructura de tabla para la tabla `estados`
 --
 
-DROP TABLE IF EXISTS `direcciones`;
-CREATE TABLE `direcciones` (
-  `idDireccion` int(11) NOT NULL,
-  `idCliente` int(50) NOT NULL,
-  `direccion1` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  `direccion2` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  `provincia` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `ciudad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `codigoPostal` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `numTelefono` varchar(8) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `adicional` varchar(400) COLLATE utf8_unicode_ci DEFAULT NULL
+DROP TABLE IF EXISTS `estados`;
+CREATE TABLE `estados` (
+  `idEstado` int(11) NOT NULL,
+  `nombreEstado` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `direcciones`
+-- Volcado de datos para la tabla `estados`
 --
 
-INSERT INTO `direcciones` (`idDireccion`, `idCliente`, `direccion1`, `direccion2`, `provincia`, `ciudad`, `codigoPostal`, `numTelefono`, `adicional`) VALUES
-(1, 29, 'Atenas, Sabana Larg', 'Casa', 'Alajuela', 'Atenas', '20501', '24465432', 'nada');
+INSERT INTO `estados` (`idEstado`, `nombreEstado`) VALUES
+(1, 'Pedido Recibido'),
+(2, 'Preparando Entregado'),
+(3, 'Preparando Pedido/Enviando Pedido'),
+(4, 'Pedido en Camino'),
+(5, 'Atraso en el Envío'),
+(6, 'Pedido Previsto para la Entrega Hoy'),
+(7, 'Intento De Entrega Fallido'),
+(8, 'Problema con el Envío'),
+(9, 'No se pudo entregar el pedido');
 
 -- --------------------------------------------------------
 
@@ -357,19 +370,24 @@ CREATE TABLE `productos` (
   `idCategoria` int(11) NOT NULL,
   `precio` float NOT NULL,
   `Descripcion` text COLLATE utf8_spanish2_ci NOT NULL,
-  `imagen` varchar(255) COLLATE utf8_spanish2_ci NOT NULL
+  `imagen` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `idCategoria`, `precio`, `Descripcion`, `imagen`) VALUES
-(79, 'Cámara video panasonic Pro', 78, 2499, 'Cámara video profesional panasonic experta', 'camPanasonic.jpg5edeabb3f0a640.75901416.png'),
-(80, 'Lente Tamron', 77, 2359, 'Lente Tamron Profesional Cam 4k', 'lentetamron2.PNG5edeb18d45e998.10685181.png'),
-(81, 'Lente Tamron  SP', 77, 1269, 'Profesional Lente Full HD', 'leteTamron.PNG5edeb1f77ab011.47049899.png'),
-(82, 'Cable HDMI', 81, 14, 'Cable HDMI Marca HP', 'hdmiCableHP.PNG5edecadadff080.49662330.png'),
-(83, 'Reproductor de DVD ', 80, 89, 'Reproductor de DVD ', 'dvd.PNG5edecb2cb54b38.00239305.png');
+INSERT INTO `productos` (`id`, `nombre`, `idCategoria`, `precio`, `Descripcion`, `imagen`, `status`) VALUES
+(79, 'Cámara video panasonic Pro', 78, 2499, 'Cámara video profesional panasonic experta', 'camPanasonic.jpg5edeabb3f0a640.75901416.png', 1),
+(80, 'Lente Tamron', 77, 2359, 'Lente Tamron Profesional Cam 4k', 'lentetamron2.PNG5edeb18d45e998.10685181.png', 0),
+(81, 'Lente Tamron  SP', 77, 1269, 'Profesional Lente Full HD', 'leteTamron.PNG5edeb1f77ab011.47049899.png', 0),
+(82, 'Cable HDMI', 81, 14, 'Cable HDMI Marca HP', 'hdmiCableHP.PNG5edecadadff080.49662330.png', 0),
+(83, 'Reproductor de DVD ', 80, 89, 'Reproductor de DVD ', 'dvd.PNG5edecb2cb54b38.00239305.png', 0),
+(84, 'Cable HDMI', 81, 15, 'Cable HDMI 20\"', 'hdmiCableHP.PNG5edf14340ddc59.66137949.png', 1),
+(85, 'Plancha Samsung', 80, 69, 'Plancha para la casa ', 'plancha.PNG5ee30006a59bb4.57023261.png', 0),
+(86, 'Equipo de sonido', 80, 299, 'Equipo sony de sonido', 'equipo.PNG5ee3002bdb75b2.35288469.png', 0),
+(87, 'bati', 80, 88, 'jlñjk', 'batidora.png5ee7baf305ed24.73198341.png', 1);
 
 -- --------------------------------------------------------
 
@@ -481,7 +499,8 @@ ALTER TABLE `compra`
 ALTER TABLE `comprafinalizada`
   ADD PRIMARY KEY (`compraId`),
   ADD KEY `productoId` (`productoId`),
-  ADD KEY `clienteId` (`clienteId`);
+  ADD KEY `clienteId` (`clienteId`),
+  ADD KEY `estado` (`estado`);
 
 --
 -- Indices de la tabla `concurso`
@@ -497,10 +516,10 @@ ALTER TABLE `contrareset`
   ADD UNIQUE KEY `token` (`token`);
 
 --
--- Indices de la tabla `direcciones`
+-- Indices de la tabla `estados`
 --
-ALTER TABLE `direcciones`
-  ADD PRIMARY KEY (`idDireccion`);
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`idEstado`);
 
 --
 -- Indices de la tabla `galeria`
@@ -548,7 +567,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de la tabla `carro`
 --
 ALTER TABLE `carro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -560,7 +579,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -572,7 +591,7 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `comprafinalizada`
 --
 ALTER TABLE `comprafinalizada`
-  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `concurso`
@@ -584,13 +603,13 @@ ALTER TABLE `concurso`
 -- AUTO_INCREMENT de la tabla `contrareset`
 --
 ALTER TABLE `contrareset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT de la tabla `direcciones`
+-- AUTO_INCREMENT de la tabla `estados`
 --
-ALTER TABLE `direcciones`
-  MODIFY `idDireccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `estados`
+  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `galeria`
@@ -608,7 +627,7 @@ ALTER TABLE `ofertas`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `productoscompra`
@@ -631,7 +650,8 @@ ALTER TABLE `quienessomos`
 --
 ALTER TABLE `comprafinalizada`
   ADD CONSTRAINT `comprafinalizada_ibfk_1` FOREIGN KEY (`clienteId`) REFERENCES `clientes` (`id`),
-  ADD CONSTRAINT `comprafinalizada_ibfk_2` FOREIGN KEY (`productoId`) REFERENCES `productos` (`id`);
+  ADD CONSTRAINT `comprafinalizada_ibfk_2` FOREIGN KEY (`productoId`) REFERENCES `productos` (`id`),
+  ADD CONSTRAINT `comprafinalizada_ibfk_3` FOREIGN KEY (`estado`) REFERENCES `estados` (`idEstado`);
 
 --
 -- Filtros para la tabla `productos`
