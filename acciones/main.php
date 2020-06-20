@@ -408,6 +408,52 @@
 	}
 	
 	/*=====  End of Llenar Mini Cart  ======*/
+
+
+	/*============================================
+	=            LLenar datos cliente            =
+	============================================*/
+
+	if(isset($_POST['cargarCliente'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT nombre FROM clientes WHERE id = ? ");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+		$row = mysqli_fetch_array($r);
+
+		$nombre = $row['nombre'];
+
+		echo "<input id='editNombre' type='text' class='form-control' id='editNombre' name='editNombre' value='$nombre'>";
+
+	}
+
+	if(isset($_POST['cargarUser'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT usuario FROM clientes WHERE id = ? ");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+		$row = mysqli_fetch_array($r);
+
+		$user = $row['usuario'];
+
+		echo "<input data-toggle='tooltip' data-placement='right' title='No puedes editar el nombre de usuario' trigger='hover focus' type='text' class='form-control' id='editUser' name='editUser' value='$user' disabled>
+											<span class='input-group-addon'>
+												<i class='fas fa-info infoIcon' id='infoIcon'></i>
+											</span>";
+	}
+
+	
+	
+	
+	
+	/*=====  End of LLenar datos cliente  ======*/
+	
 	
 
 

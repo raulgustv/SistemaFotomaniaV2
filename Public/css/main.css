@@ -8,7 +8,7 @@
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box, #loader{
+#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #cancelGuardarNuevoPass, #cancelGuardarNombre{
 	display: none;
 }
 
@@ -118,6 +118,20 @@ hr.solid{
 img.iconosPedido{
 	width: 80px;
 	height: 80px;
+}
+
+div.editUser{
+	cursor:not-allowed;
+}
+
+div.groupUnstyle{
+	-webkit-border-radius: 4px;
+	-moz-border-radius:4px;
+	border-radius: 4px;
+}
+
+i.infoIcon{
+	padding-left: 2.3rem;
 }
 
 

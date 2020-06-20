@@ -12,6 +12,19 @@ $(document).ready(function(){
 		});
 	}
 	
+	/*=====  End of Tooltip  ======*/
+	
+
+	$('#editUser').tooltip({
+			trigger: 'manual'
+	});
+
+	
+	$("#infoIcon").click(function(){
+		$('#editUser').tooltip('toggle');
+	});
+
+
 
 	/*----------  Forms login mostrar/ocultar  ----------*/
 	
@@ -437,6 +450,69 @@ $(document).ready(function(){
 		});
 	}
 
+/*======================================
+=            Perfil usuario            =
+======================================*/
+
+/*----------  UI info usuario  ----------*/
+
+$(document).on('keyup', '#editNombre', function(){
+	$("#btnGuardarNombre").show();
+	$("#cancelGuardarNombre").show();
+});
+
+
+$(document).on("keyup", "#newPass", function(e){
+	e.stopImmediatePropagation(); 
+	$("#btnGuardarNuevoPass").show();
+	$("#cancelGuardarNuevoPass").show();
+	$("#confirmNewPass").show();
+
+});
+
+$("#cancelGuardarNombre").click(function(e){
+	e.preventDefault();
+	$("#btnGuardarNombre").hide();
+	$("#cancelGuardarNombre").hide();
+});
+
+$("#cancelGuardarNuevoPass").click(function(e){
+	e.preventDefault();
+	$("#btnGuardarNuevoPass").hide();
+	$("#confirmNewPass").hide();
+	$("#cancelGuardarNuevoPass").hide();
+})
+
+/*----------  Cargar datos cliente  ----------*/
+
+cargarCliente()
+function cargarCliente(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarCliente:1},
+		success: function(data){
+			$("#inputNombre").html(data);
+		}
+	});
+}
+
+cargarUserName()
+function cargarUserName(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarUser:1},
+		success: function(data){
+			$("#inputUserName").html(data);
+		}
+	});
+}
+
+
+
+
+/*=====  End of Perfil usuario  ======*/
 
 
 
