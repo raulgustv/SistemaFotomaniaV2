@@ -120,8 +120,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 		$stmt2 = $con->prepare("INSERT INTO contrareset(email, token) VALUES (?,?)");
 	    $stmt2->bind_param("ss", $femail,$token);
 		$stmt2->execute();
-		$stmt3 = $con->prepare("UPDATE contrareset SET tokenExpira=DATE_ADD(NOW(),INTERVAL 10 MINUTE)");
-		$stmt3->execute();
+		$stmt3 = $con->query("UPDATE contrareset SET tokenExpira=DATE_ADD(NOW(),INTERVAL 10 MINUTE)");
+		
         $titulo = 'Restablecimiento de contraseña para sistema FotomaniaCR';
         $cuerpo = 'Usted solicito restablecer su contraseña para <b>FotomaniaCR</b><br>Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/vistas/resetPassword.php?token='.$token;
         $cuerposimple = 'Usted solicito restablecer su contraseña para FotomaniaCR. Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/vistas/resetPassword.php?token='.$token;
