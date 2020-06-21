@@ -510,6 +510,63 @@ function cargarUserName(){
 }
 
 
+/*----------  Cargar Combos  ----------*/
+
+
+cargarProvincia()
+function cargarProvincia(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarProvincia:1},
+		success: function(data){
+			$("#provincia").html(data);
+		}
+	});
+}
+
+
+$(document).on("change", "#provincia", function(){
+
+	var idProv = $(this).val();
+
+	if(idProv){
+			$.ajax({
+				url: "../acciones/main.php",
+				method: "POST",
+				data: {cargarCanton:1, idProv:idProv},
+				success: function(data){
+					$("#canton").html(data);
+			}
+		});
+	}
+	
+});
+
+
+$(document).on("change", "#canton", function(){
+
+	var idCant = $(this).val();
+
+	if(idCant){
+			$.ajax({
+				url: "../acciones/main.php",
+				method: "POST",
+				data: {cargarDist:1, idCant:idCant},
+				success: function(data){
+					$("#distrito").html(data);
+			}
+		});
+	}
+	
+});
+
+
+
+
+
+
+
 
 
 /*=====  End of Perfil usuario  ======*/

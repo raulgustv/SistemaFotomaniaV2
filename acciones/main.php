@@ -447,12 +447,75 @@
 												<i class='fas fa-info infoIcon' id='infoIcon'></i>
 											</span>";
 	}
-
-	
 	
 	
 	
 	/*=====  End of LLenar datos cliente  ======*/
+
+	/*=============================================
+	=            Section Cargar datos direccion            =
+	=============================================*/
+	
+	if(isset($_POST['cargarProvincia'])){
+		
+		$q = $con->prepare("SELECT * FROM provincia");
+		//$q->bind_param();
+		$q->execute();
+
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$provId = $r['idProv'];
+			$provincia = $r['provincia'];
+
+			echo "<option value='$provId'>$provincia</option>";
+                      
+		}		
+	}
+
+	if(isset($_POST['cargarCanton'])){
+		$idProv = $_POST['idProv'];
+
+		$q = $con->prepare("SELECT idCanton, canton, provincia.provincia AS provincia FROM canton INNER JOIN provincia ON canton.idProv = provincia.idProv WHERE provincia.idProv = ?");
+		$q->bind_param("i", $idProv);
+		$q->execute();
+		
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$idCanton = $r['idCanton'];
+			$canton = $r['canton'];
+
+			echo "<option value='$idCanton'>$canton</option>";
+		}
+
+
+
+	}
+
+
+	if(isset($_POST['cargarDist'])){
+		$idCant = $_POST['idCant'];
+
+		$q = $con->prepare("SELECT idDistrito, distrito.distrito as distrito FROM canton INNER JOIN distrito on canton.idCanton = distrito.idCanton WHERE canton.idCanton = ?");
+		$q->bind_param("i", $idCant);
+		$q->execute();
+		
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$idDistrito = $r['idDistrito'];
+			$distrito = $r['distrito'];
+
+			echo "<option value='$idDistrito'>$distrito</option>";
+		}
+
+
+
+	}
+	
+	/*=====  End of Section Cargar datos direccion  ======*/
+	
 	
 	
 

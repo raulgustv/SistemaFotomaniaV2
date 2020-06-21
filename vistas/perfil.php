@@ -104,6 +104,10 @@
 									<div class="p-2">
 										<a href="#" class="btn btn-success">Editar Dirección</a> 
 									</div>
+									<div class="p-2">
+										<a href="#" data-toggle="modal" data-target="#form_direccion" class="btn btn-info">Añadir Dirección</a> 
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -123,6 +127,7 @@
 
 
 
-<?php include '../templates/mainFooter.php' ?>
+<?php include '../templates/mainFooter.php'; ?>
+<?php  include 'agregarDireccion.php'; ?>
 
 
