@@ -94,7 +94,7 @@ $role = ($_SESSION['userRole']);
 				<img class="card-img-top mx-auto imgPanel" src="../logos/descuento.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra los descuentos disponibles a los productos de la tienda</p>
-					<a href="#" data-toggle="modal" data-target="#form_editDesc" class="btn btn-primary">Agregar Descuento</a>
+					<a href="#" data-toggle="modal" data-target="#form_descuentos" class="btn btn-primary">Agregar Descuento</a>
 					<a href="#"class="btn btn-success">Ver Descuentos</a>
 				</div>
 			</div>
@@ -107,6 +107,7 @@ $role = ($_SESSION['userRole']);
 <?php include_once 'agregarCategoria.php' ?>
 <?php include_once 'agregarProductos.php' ?>
 <?php include_once 'agregarImagenes.php' ?>
+<?php include_once 'agregarDescuento.php' ?>
 
 
 <?php include_once '../templates/footerAdmin.php'; ?> 

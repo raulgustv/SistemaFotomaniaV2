@@ -357,8 +357,58 @@ if(isset($_FILES['editImgProd'])){
 
 
 
+/*=============================================
+=            Section obtener producto           =
+=============================================*/
+
+if(isset($_POST['getProdDesc'])){
+
+	$q = $con->query("SELECT * FROM productos");
+
+	while($row = mysqli_fetch_array($q)){
+		$prodId = $row['id'];
+		$prodName = $row['nombre'];
+		echo "<option value='$prodId'>$prodName</option>";
+	}
+
+}
+
+/*======End of obtener producto========== */
+
+
+/*=========================================
+=            Agregar Descuento            =
+=========================================*/
+
+if(isset($_POST['agregarDesc'])){
+	$categoria = $_POST['categoria'];
+	$categoria = $_POST['categoria'];
+	$categoria = $_POST['categoria'];
+	$categoria = $_POST['categoria'];
+	$categoria = $_POST['categoria'];
+
+	$sql = $con->prepare("SELECT * FROM ofertas WHERE nombre = ?");
+	$sql->bind_param("s", $categoria);
+	$sql->execute();
+
+	$r = $sql->get_result();
+
+	//print_r($r);
+
+	if($r->num_rows > 0){
+		echo "false";
+	}else{
+		$q = $con->prepare("INSERT INTO categorias (nombre) VALUES (?)");
+		$q->bind_param("s", $categoria);
+		$q->execute();
+		$q->close();
+	}
 
 
 
+	
+}
+
+/*=====  End of Agregar Descuento  ======*/
 
 ?>
