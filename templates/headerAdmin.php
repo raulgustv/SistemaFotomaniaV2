@@ -16,8 +16,6 @@ require_once '../includes/funciones.php';
   <link rel="stylesheet" type="text/css" href="../public/DataTables/Buttons-1.6.1/css/buttons.bootstrap4.css">
   <link rel="stylesheet" type="text/css" href="../public/css/main.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css"/>
 </head>
 <body>
 
