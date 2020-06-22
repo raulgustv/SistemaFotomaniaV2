@@ -457,30 +457,30 @@ $(document).ready(function(){
 /*----------  UI info usuario  ----------*/
 
 $(document).on('keyup', '#editNombre', function(){
-	$("#btnGuardarNombre").show();
-	$("#cancelGuardarNombre").show();
+	$("#btnGuardarNombre").fadeIn(300);
+	$("#cancelGuardarNombre").fadeIn(300);
 });
 
 
 $(document).on("keyup", "#newPass", function(e){
 	e.stopImmediatePropagation(); 
-	$("#btnGuardarNuevoPass").show();
-	$("#cancelGuardarNuevoPass").show();
-	$("#confirmNewPass").show();
+	$("#btnGuardarNuevoPass").fadeIn(300);
+	$("#cancelGuardarNuevoPass").fadeIn(300);
+	$("#confirmNewPass").fadeIn(300);
 
 });
 
 $("#cancelGuardarNombre").click(function(e){
 	e.preventDefault();
-	$("#btnGuardarNombre").hide();
-	$("#cancelGuardarNombre").hide();
+	$("#btnGuardarNombre").fadeOut(300);
+	$("#cancelGuardarNombre").fadeOut(300);
 });
 
 $("#cancelGuardarNuevoPass").click(function(e){
 	e.preventDefault();
-	$("#btnGuardarNuevoPass").hide();
-	$("#confirmNewPass").hide();
-	$("#cancelGuardarNuevoPass").hide();
+	$("#btnGuardarNuevoPass").fadeOut(300);
+	$("#confirmNewPass").fadeOut(300);
+	$("#cancelGuardarNuevoPass").fadeOut(300);
 })
 
 /*----------  Cargar datos cliente  ----------*/
@@ -671,6 +671,71 @@ $("#frmDireccion").validate({
 
 });
 
+
+/*----------  Editar Nombre  ----------*/
+
+$(document).on("click", "#btnGuardarNombre", function(e){
+	e.preventDefault();
+
+	var editNombre = $("#editNombre").val();
+
+	if(editNombre === ""){
+			$("#errorName").fadeIn(300);
+	}else{
+		$.ajax({
+			url: "../acciones/main.php",
+			method: "POST",
+			data: {updateNombre:1, editNombre:editNombre},
+			success: function(data){
+				cargarUserName();
+				$("#errorName").fadeOut(300);
+				$("#btnGuardarNombre").fadeOut(300);
+				$("#cancelGuardarNombre").fadeOut(300);	
+				message("Nombre se actualizó correctamente", 2000, 'success');
+					
+
+			}
+		});
+	}
+
+});
+
+
+$(document).on("click", "#btnGuardarNuevoPass", function(e){
+	e.preventDefault();
+
+	var editPass = $("#newPass").val();
+	var confirmEdit = $("#newPassConfirm").val();
+
+	console.log(editPass.length);
+
+	if(editPass === ""){
+		$("#errorPass").fadeIn(300);
+		$("#errorPassMatch").hide();
+		$("#errorPassSize").hide();
+	}else if(editPass !== confirmEdit){
+		$("#errorPassMatch").fadeIn(300);
+		$("#errorPass").hide();
+		$("#errorPassSize").hide();
+	}else if (editPass.length < 6 || editPass.length > 25){
+		$("#errorPassSize").fadeIn();
+		$("#errorPass").hide();
+		$("#errorPassMatch").hide();
+	}else{
+		$.ajax({
+			url: "../acciones/main.php",
+			method: "POST",
+			data: {updatePass:1, editPass:editPass},
+			success: function(data){
+				
+				$("#errorPass").fadeOut(300);
+				$("#errorPassMatch").fadeOut(300);
+				$("#errorPassSize").fadeOut(300);
+
+			}
+		});
+	}
+})
 
 
 

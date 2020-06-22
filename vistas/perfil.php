@@ -1,5 +1,25 @@
 <?php include '../templates/mainHeader.php' ?>
 
+<?php
+
+
+$uid = $row['id'];
+
+$q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id = ? ");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+		$row = mysqli_fetch_array($r);
+
+		$nombre = $row['nombre'];
+		$fecha = $row['fecha'];
+
+		$fechaC = date('d/m/Y', strtotime($fecha));		
+
+
+ ?>
+
 <div class="container-fluid mt-3">
 	
 
@@ -8,11 +28,11 @@
 		<div class="card">
 			<div class="card-header">
 				<img src="">
-				<h4 class="text-center">Perfil de: Art</h4>
+				<h4 class="text-center">Perfil de: <?php echo $nombre; ?></h4>
 			</div>
 			<div class="card-body">	
 				<div class="d-flex justify-content-end">
-					<p>Cliente desde: 12/12/2020</p>
+					<p>Cliente desde: <?php echo $fechaC; ?></p>
 				</div>			
 				<div class="row">
 					<div class="col-lg-6">
@@ -27,6 +47,10 @@
 									<div class="col-lg-4" id="inputNombre">
 										<!-- <input id="editNombre" type="text" class="form-control" id="editNombre" name="editNombre" value="Raul Rodriguez"> -->
 									</div>
+
+
+									
+
 									<div class="col-lg-4">
 									<span class="input-group-addon">										
 										<button id="btnGuardarNombre" class="btn btn-success"><i class="fas fa-check"></i></button>
@@ -35,6 +59,15 @@
 									</div>
 									</div>
 								</div>
+
+									<div class="row">
+										<div class="col-lg-offset 6 col-lg-6">
+											<div id="errorName" class="errorGeneral">
+												<small>Este campo es obligatorio <i class="fas fa-info"></i></small>
+											</div>
+										</div>
+									</div>
+
 								<div class="row mt-3">
 									<div class="col-lg-4">
 										<label><b>Nombre de usuario:</b></label>
@@ -58,7 +91,7 @@
 										<label><b>Contraseña:</b></label>
 									</div>
 									<div class="col-lg-4">
-										<input type="password" id="newPass" class="form-control" name="editPass" value="9999999">
+										<input type="password" id="newPass" class="form-control" name="newPass" value="9999999">
 									</div>
 									<div>
 									<span class="input-group-addon">
@@ -80,6 +113,30 @@
 									</div>
 									</div>									
 								</div>
+
+								<div class="row">
+										<div class="col-lg-offset 6 col-lg-6">
+											<div id="errorPass" class="errorGeneral">
+												<small>Este campo es obligatorio <i class="fas fa-info"></i></small>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-offset 6 col-lg-6">
+											<div id="errorPassMatch" class="errorGeneral">
+												<small>Contraseñas no coinciden <i class="fas fa-info"></i></small>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-offset 6 col-lg-6">
+											<div id="errorPassSize" class="errorGeneral">
+												<small>Contraseña debe tener entre 6 y 25 caracteres <i class="fas fa-info"></i></small>
+											</div>
+										</div>
+									</div>
 							
 							</div>
 						</div>

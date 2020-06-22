@@ -668,7 +668,12 @@
 			}
 
 			}
-		} 
+		}else{
+			echo "<div class='alert alert-danger' role='alert'>
+ 				 No existe una dirección registrada
+ 				 <a href='#' data-toggle='modal' data-target='#form_direccion'>Agrega una dirección</a>
+				 </div>";
+		}
 	}
 	
 	/*=====  End of Libreta Direcciones  ======*/
@@ -701,13 +706,31 @@
 		$q3->execute();
 
 
+	}
+	
+	/*=====  End of Direccion Principal Select  ======*/
 
-	//	$q2 = $con->prepare("UPDATE direccion ")
+	/*======================================================
+	=            Editar Nombre Apellido Usuario            =
+	======================================================*/
+	
+	if(isset($_POST['updateNombre'])){
+
+		$editNombre = $_POST['editNombre'];
+		$uid = $row['id'];
+
+		$q = $con->prepare("UPDATE clientes SET nombre = ? WHERE id = ? ");
+		$q->bind_param("si", $editNombre, $uid);
+		$q->execute();
+		$q->close();
 
 
 	}
 	
-	/*=====  End of Direccion Principal Select  ======*/
+	/*=====  End of Editar Nombre Apellido Usuario  ======*/
+	
+
+
 	
 	
 	

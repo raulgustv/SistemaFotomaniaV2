@@ -138,6 +138,16 @@ i.infoIcon{
 	padding-left: 2.3rem;
 }
 
+/*Error personalzado Perfil*/
+
+div.errorGeneral{
+	color: red;
+}
+
+div#errorName, #errorPassSize, #errorPassMatch, #errorPass{
+	display: none;
+}
+
 
 
 
