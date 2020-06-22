@@ -3,12 +3,16 @@
 	--naranja: #F5811E;
 	--azul: #2D8AA9;
 }
+
+/* Load screen */
+
+
 	
 
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #cancelGuardarNuevoPass, #cancelGuardarNombre{
+#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
 	display: none;
 }
 

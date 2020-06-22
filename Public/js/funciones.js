@@ -563,6 +563,126 @@ $(document).on("change", "#canton", function(){
 
 
 
+/*----------  Cargar direccion principal  ----------*/
+
+
+cargarDireccionMain();
+function cargarDireccionMain(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarDirMain:1},
+		success: function(data){
+			$("#verDireccionMain").html(data);
+		}
+	});
+}
+
+
+/*----------  Cargar Libreta Direcciones  ----------*/
+
+cargarLibretaDireccion();
+function cargarLibretaDireccion(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarLibretaDir:1},
+		success: function(data){
+			$("#libretaDir").html(data);
+		}
+	});
+}
+
+/*----------  Cambiar Direccion Principal  ----------*/
+
+$(document).on("change", "#dirPrincipal", function(){
+
+	var dirId = $(this).attr('idDir');
+
+	$("#loaderBS").show();
+
+	//console.log(dirId);
+
+
+
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {nuevaPrincipal:1, dirId:dirId},
+		success: function(data){
+			cargarLibretaDireccion();
+			$("#loaderBS").hide();
+			
+			//alert(data);
+		}
+	})
+})
+
+
+/*----------  Agregar Direccion  ----------*/
+
+$("#frmDireccion").validate({	
+	rules:{
+		canton:{
+			required: true
+			
+		},
+		distrito:{
+			required: true
+		},
+		addLine1:{
+			required: true,
+			rangelength: [5, 100]
+		},
+		zip:{
+			required: true,
+			rangelength: [5, 5]
+			
+		}
+	},
+	messages:{
+		canton:{
+			required: "Selecciona un cantón y una provincia"
+		},
+		distrito:{
+			required: "Selecciona un cantón y una provincia"
+		},
+		addLine1:{
+			required: "Este campo es requerido",
+			rangelength: "Dirección debe tener entre 5 y 100 caracteres"
+		},
+		zip: {
+			required: "Ingresa un código postal",
+			rangelength: "Código Postal debe tener 5 caractéres"
+		}
+	},	
+	submitHandler: function(form){
+		$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: $("#frmDireccion").serialize()+"&agregarDireccion",
+		success: function(data){
+			message("Dirección guardada con éxito", 2000, 'success');
+			cargarDireccionMain();
+
+		}
+	});
+	}
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -90,24 +90,22 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-6">
-										<h6>Direccion de Envío:</h6>
-										<p>Del parque de sabanilla 250m sur<br>
-										Sabanilla, Montes de Oca<br>
-										11502<br>
-										Teléfono: 8811-96-58</p>
+										<div id="verDireccionMain">
+											<!-- <h6>Direccion de Envío:</h6>
+											<p>Del parque de sabanilla 250m sur<br>
+											Sabanilla, Montes de Oca<br>
+											11502<br>
+											Teléfono: 8811-96-58</p> -->
+
+										</div>
+										
 									</div>
 									<div class="col-lg-6">
 										<img src="../logos/location.svg" class="iconosPedido">
 									</div>
 								</div>
 								<div class="d-flex flex-row-reverse">
-									<div class="p-2">
-										<a href="#" class="btn btn-success">Editar Dirección</a> 
-									</div>
-									<div class="p-2">
-										<a href="#" data-toggle="modal" data-target="#form_direccion" class="btn btn-info">Añadir Dirección</a> 
-									</div>
-
+										<a href="libretaDirecciones.php" class="btn btn-warning">Ver Libreta de direcciones</a>	
 								</div>
 							</div>
 						</div>
@@ -122,6 +120,8 @@
 				
 	</div>
 
+
+											
 
 </div>
 

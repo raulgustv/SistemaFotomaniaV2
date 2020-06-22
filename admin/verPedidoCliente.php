@@ -8,14 +8,17 @@ checkAdmin();
 
 $idPedido = $_GET['id'];
 
-$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado as estado, estados.idEstado as idEstado, productos.nombre as nombreProd, cantidad, productos.precio FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado WHERE transaccionId = '$idPedido' ");
+$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, comprafinalizada.idDireccion AS idDireccion, estados.nombreEstado as estado, estados.idEstado as idEstado, productos.nombre as nombreProd, cantidad, productos.precio FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado WHERE transaccionId = '$idPedido' ");
 
 $r = mysqli_fetch_array($q);
 
 $nombreProd = $r['nombreProd'];
 $fecha = $r['FechaCompra'];
 $estadoPedido = $r['estado'];
-$idEstado = $r['idEstado']
+$idEstado = $r['idEstado'];
+$idDireccion = $r['idDireccion'];
+
+
 
 ?>
 
@@ -84,13 +87,31 @@ $idEstado = $r['idEstado']
 			</div>			
 		</div>
 
+		<?php 
+
+			$qd = $con->query("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE idDir = '$idDireccion'");
+
+			$rd = mysqli_fetch_array($qd);
+
+			$addLine1 = $rd['direccion'];
+			$addLine2 = $rd['direccion2'];
+			$canton = $rd['cant'];
+			$distrito = $rd['distrito'];
+			$prov = $rd['prov'];
+			$zip = $rd['zip'];
+
+
+
+		 ?>
+
 		<div class="col-lg-6">
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-6">					
 					<h6>Direccion de Envío:</h6>
-					<p>Del parque de sabanilla 250m sur<br>
-					Sabanilla, Montes de Oca<br>
-					11502<br>
+					<p><?php echo $addLine1, $addLine2; ?><br>
+					<?php echo $canton; ?>, <?php echo $distrito; ?><br>
+					 <?php echo $prov; ?>,
+					 <?php echo $zip; ?><br>
 					Teléfono: 8811-96-58</p>
 				</div>
 				<div class="col-lg-6">
