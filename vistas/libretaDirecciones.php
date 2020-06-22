@@ -52,3 +52,4 @@
 
 <?php include '../templates/mainFooter.php' ?>
 <?php include 'agregarDireccion.php' ?>
+<?php include 'editarDireccion.php'; ?>

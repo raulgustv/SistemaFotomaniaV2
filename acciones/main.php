@@ -639,7 +639,7 @@
 							<div class='d-flex flex-row-reverse'>								
 									<a href='#' class='btn btn-danger'><i class='fas fa-window-close'></i></a> 
 
-									<a href='#' data-toggle='modal' data-target='#form_direccion' class='btn btn-info'><i class='fas fa-edit'></i></a> 
+									<a href='#' data-toggle='modal' data-target='#form_direccion' idEditDir='$idDir' class='btn btn-info'><i class='fas fa-edit'></i></a> 
 								</div>
 							</div>					
 						</div>
@@ -660,7 +660,7 @@
 							<div class='d-flex flex-row-reverse'>								
 									<a href='#' class='btn btn-danger'><i class='fas fa-window-close'></i></a> 
 
-									<a href='#' data-toggle='modal' data-target='#form_direccion' class='btn btn-info'><i class='fas fa-edit'></i></a> 
+									<a href='#' data-toggle='modal' data-target='#form_editDirecion' idEditDir='$idDir' class='btn btn-info'><i class='fas fa-edit'></i></a> 
 								</div>
 							</div>					
 						</div>
@@ -671,7 +671,7 @@
 		}else{
 			echo "<div class='alert alert-danger' role='alert'>
  				 No existe una dirección registrada
- 				 <a href='#' data-toggle='modal' data-target='#form_direccion'>Agrega una dirección</a>
+ 				 <a href='#' data-toggle='modal' data-target='#form_editDirecion'>Agrega una dirección</a>
 				 </div>";
 		}
 	}
