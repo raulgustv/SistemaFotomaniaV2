@@ -549,7 +549,7 @@
 			echo "<h6>Direccion de Envío:</h6>
 				  <p>$dir1<br>$dir2
 					$cant, $dist<br>
-					$zip<br>
+					$prov, $zip<br>
 					Teléfono: 8811-96-58</p>";
 
 		}else{
@@ -630,7 +630,7 @@
 						<div class='card-body'>
 							<p>$dir1 $dir2<br>
 							$cant, $dist<br>
-							$zip<br>
+							$prov, $zip<br>
 							Teléfono: 8811-96-58</p>
 							<div class='form-check'>
 								<input type='checkbox' class='form-check-input' name='dirPrincipal' idDir='$idDir' id='dirPrincipal'>
@@ -651,7 +651,7 @@
 						<div class='card-body'>
 							<p>$dir1 $dir2<br>
 							$cant, $dist<br>
-							$zip<br>
+							$prov, $zip<br>
 							Teléfono: 8811-96-58</p>
 							<div class='form-check'>
 								<input type='checkbox' class='form-check-input' name='dirPrincipal' id='dirPrincipal' idDir='$idDir' checked>
@@ -725,6 +725,35 @@
 		$q->close();
 
 
+	}
+
+	if(isset($_POST['updatePass'])){
+		$uid = $row['id'];
+		$editPass = $_POST['editPass'];
+		$newPassHash = sha1($editPass);
+
+
+
+		$q = $con->prepare("SELECT pass FROM clientes WHERE id =?");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+		$r = mysqli_fetch_array($row);
+
+		$passOld = $r['pass'];
+
+		if($passOld == $newPassHash){
+			echo "false";
+		}else{
+			echo "true";
+			$q2 = $con->prepare("UPDATE clientes SET pass = ? WHERE id = ?");
+			$q2->bind_param("si", $newPassHash, $uid);
+			$q2->execute();
+			//$q2->close();
+		}
+
+		
 	}
 	
 	/*=====  End of Editar Nombre Apellido Usuario  ======*/

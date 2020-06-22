@@ -727,10 +727,23 @@ $(document).on("click", "#btnGuardarNuevoPass", function(e){
 			method: "POST",
 			data: {updatePass:1, editPass:editPass},
 			success: function(data){
+
+				if(data === "false"){
+					message("Contraseña debe ser diferente de la última contraseña utilizada" , 2000, 'error');
+					$("#errorPass").fadeOut(300);
+					$("#errorPassMatch").fadeOut(300);
+					$("#errorPassSize").fadeOut(300);
+
+				}else if(data === "true"){
+					message("Se guardó la nueva contraseña", 2000, 'success');
+					$("#errorPass").fadeOut(300);
+					$("#errorPassMatch").fadeOut(300);
+					$("#errorPassSize").fadeOut(300);
+				}
 				
-				$("#errorPass").fadeOut(300);
-				$("#errorPassMatch").fadeOut(300);
-				$("#errorPassSize").fadeOut(300);
+				
+
+
 
 			}
 		});
