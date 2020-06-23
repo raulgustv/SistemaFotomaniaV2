@@ -7,7 +7,9 @@
 	/*==========================================
 	=            Obtener categorias            =
 	==========================================*/
-	
+	$yatermino = 0;
+	$yacomenzo = 0;
+
 	if(isset($_POST['category'])){
 		$catQuery = $con->query("SELECT * FROM categorias");
 
@@ -49,7 +51,27 @@
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
 
+				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
+				if(mysqli_num_rows($descQuery)){
+					while($rowDesc = mysqli_fetch_array($descQuery)){
+						$porcentDescuento= $rowDesc['totalOferta'];
+						$fechaInicio = $rowDesc['fechaInicio'];
+						$fechaFinal = $rowDesc['fechaFinal'];
+						date_default_timezone_set("America/Costa_Rica");
+						$fechahoy = date("Y-m-d h:i:s");
+						$yacomenzo = ($fechaInicio<$fechahoy);
+						$yatermino = ($fechaFinal>$fechahoy);
+						$totalDescuento= ($porcentDescuento/100)*$precioProducto;
+					}
+				}else{
+					$totalDescuento=0;
 
+				}
+				if($yacomenzo==1 && $yatermino==1){
+				$precioTotal = round($precioProducto - $totalDescuento);
+			}else{
+				$precioTotal =$precioProducto;
+			}
 
 				echo "<div class='col-lg-3'>
 								<div class='card-deck mb-3'>
@@ -59,7 +81,13 @@
 											<div class='card-title'>$nombreProducto</div>											
 										</div>
 										<div class='card-footer'>
-											<div class='card-text'>$$precioProducto<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
+											<div class='card-text'>";
+											if($precioProducto != $precioTotal){
+												echo "<strike style='color:black'>
+												<span style='color:red'>$$precioProducto<span>
+											  </strike>";
+											}
+											echo "$$precioTotal<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
@@ -82,14 +110,35 @@
 			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' ");
 		}
 
-		
-
-		if(mysqli_num_rows($sql) > 0){
+		if(mysqli_num_rows($sql)){
 			while($row = mysqli_fetch_array($sql)){
+
 				$idProducto = $row['id'];
 				$nombreProducto = $row['nombre'];
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
+
+				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
+				if(mysqli_num_rows($descQuery)){
+					while($rowDesc = mysqli_fetch_array($descQuery)){
+						$porcentDescuento= $rowDesc['totalOferta'];
+						$fechaInicio = $rowDesc['fechaInicio'];
+						$fechaFinal = $rowDesc['fechaFinal'];
+						date_default_timezone_set("America/Costa_Rica");
+						$fechahoy = date("Y-m-d h:i:s");
+						$yacomenzo = ($fechaInicio<$fechahoy);
+						$yatermino = ($fechaFinal>$fechahoy);
+						$totalDescuento= ($porcentDescuento/100)*$precioProducto;
+					}
+				}else{
+					$totalDescuento=0;
+
+				}
+				if($yacomenzo==1 && $yatermino==1){
+				$precioTotal = round($precioProducto - $totalDescuento);
+			}else{
+				$precioTotal =$precioProducto;
+			}
 
 				echo "<div class='col-lg-3'>
 								<div class='card-deck mb-3'>
@@ -99,12 +148,17 @@
 											<div class='card-title'>$nombreProducto</div>											
 										</div>
 										<div class='card-footer'>
-											<div class='card-text'>$$precioProducto<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
+											<div class='card-text'>";
+											if($precioProducto != $precioTotal){
+												echo "<strike style='color:black'>
+												<span style='color:red'>$$precioProducto<span>
+											  </strike>";
+											}
+											echo "$$precioTotal<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
 						</div>";
-
 			}
 		}else{
 			echo "<div class='alert alert-danger' role='alert'>
