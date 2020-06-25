@@ -76,10 +76,10 @@
 
 		if(isset($_POST['selectedCat'])){
 			$id = $_POST['catId'];
-			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' ");
+			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' AND status = 1 ");
 		}else if(isset($_POST['search'])){
 			$keyword = $_POST['keyword'];
-			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' ");
+			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' and status = 1 ");
 		}
 
 		
@@ -637,9 +637,8 @@
 								<label>Direccion Principal</label>
 							</div>
 							<div class='d-flex flex-row-reverse'>								
-									<a href='#' class='btn btn-danger'><i class='fas fa-window-close'></i></a> 
-
-									<a href='#' data-toggle='modal' data-target='#form_direccion' idEditDir='$idDir' class='btn btn-info'><i class='fas fa-edit'></i></a> 
+									<a href='#' class='btn btn-danger' id='borrarDir' idBorrarDir='$idDir'><i class='fas fa-window-close'></i></a> 
+ 
 								</div>
 							</div>					
 						</div>
@@ -658,9 +657,8 @@
 								<label>Direccion Principal</label>
 							</div>
 							<div class='d-flex flex-row-reverse'>								
-									<a href='#' class='btn btn-danger'><i class='fas fa-window-close'></i></a> 
-
-									<a href='#' data-toggle='modal' data-target='#form_editDirecion' idEditDir='$idDir' class='btn btn-info'><i class='fas fa-edit'></i></a> 
+									<a href='#' class='btn btn-danger' idBorrarDir='$idDir' id='borrarDir'><i class='fas fa-window-close' ></i></a> 
+									
 								</div>
 							</div>					
 						</div>
@@ -750,7 +748,7 @@
 			$q2 = $con->prepare("UPDATE clientes SET pass = ? WHERE id = ?");
 			$q2->bind_param("si", $newPassHash, $uid);
 			$q2->execute();
-			//$q2->close();
+			$q2->close();
 		}
 
 		
@@ -758,7 +756,44 @@
 	
 	/*=====  End of Editar Nombre Apellido Usuario  ======*/
 	
+	/*========================================
+	=           Borrar Dirección           =
+	========================================*/
+	
+	if(isset($_POST['borrarDir'])){
 
+		$idDir = $_POST['idDir']; 	
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT main FROM direccion WHERE idDir = ? AND idCliente = ?");
+		$q->bind_param("ii", $idDir, $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+		$r = mysqli_fetch_array($row);
+
+		$isMain = $r['main'];
+
+	//		echo $isMain;
+
+	
+		if($isMain == 1){		
+			echo "false";
+		}else {
+			$q2 = $con->prepare("UPDATE direccion SET status = 0 WHERE idDir = ? AND idCliente = ?");
+			$q2->bind_param("ii", $idDir, $uid);
+			$q2->execute();
+			$q2->close();
+			echo "true";
+		}
+
+		$q->close();
+
+		
+	}
+	
+	/*=====  End ofBorrar Dirección ======*/
+	
 
 	
 	

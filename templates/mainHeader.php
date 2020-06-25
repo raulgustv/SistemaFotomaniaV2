@@ -16,6 +16,8 @@ require '../acciones/sesion.php';
 	<link rel="stylesheet" type="text/css" href="../public/fontawesome/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
+
+ 
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">

@@ -1,7 +1,7 @@
 
 
 
-<div class="modal" tabindex="-1" role="dialog" id="form_editDirecion">
+<div class="modal" tabindex="-1" role="dialog" id="form_editDireccion">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,7 +12,7 @@
       </div>
       <div class="modal-body">
         <form method="post" id="frmDireccionEdit">
-            <div class="form-group">
+           <!-- <div class="form-group">
                 <label for="editAddLine1">Dirección 1*</label>
                 <textarea type="text" class="form-control" name="editAddLine1" placeholder=""></textarea>
             </div>
@@ -22,13 +22,11 @@
                 <input type="text" class="form-control" name="editAddLine2" placeholder="">
             </div>
 
-            <div class="input-group mb-3">
+             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="provinciaEdit">Provincia*</label>
-                    <select class="custom-select" name="provinciaEdit" id="provinciaEdit">
-                       <!--  <option value="1">San José</option>
-                        <option value="2">Alajuela</option>
-                         <option value="3">Cartago</option> -->
+                    <label class="input-group-text" for="provincia">Provincia*</label>
+                    <select class="custom-select" name="provincia" id="provincia">
+                      <option value="">Seleccione una provincia</option>                     
                     </select>
                 </div>
               </div>       
@@ -37,9 +35,7 @@
 
                     <label class="input-group-text" for="cantonEdit">Canton*</label>
                     <select id="cantonEdit" class="custom-select" name="cantonEdit">
-                       <!--  <option value="1">Desamparados</option>
-                        <option value="2">Alajuelita</option>
-                         <option value="3">La Unión</option> -->
+                     
                     </select>
                 </div>
               </div>
@@ -49,9 +45,7 @@
                  <div class="input-group-prepend">
                     <label class="input-group-text" for="distritoEdit">Distrito*</label>
                     <select class="custom-select" name="distritoEdit" id="distritoEdit">
-                       <!-- <option value="1">Desamparados</option>
-                        <option value="2">Alajuelita</option>
-                         <option value="3">La Unión</option> -->
+                   
                     </select>
                 </div>
                 </div>
@@ -68,7 +62,7 @@
 
              <div class="modal-footer">
                <input type="submit" id="guardarEditDireccion" class="btn btn-primary" value="Guardar Dirección">    
-            </div>
+            </div> -->
         </form> 
         <div class="d-flex flex-row-reverse">
           <small>* Campo Requerido</small>
@@ -80,3 +74,5 @@
     </div>
   </div>
 </div>
+
+<?php include_once 'agregarDireccion.php'; ?>

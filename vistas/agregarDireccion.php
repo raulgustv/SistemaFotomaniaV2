@@ -21,11 +21,12 @@
                <label for="addLine2">Dirección 2 (Opcional)</label>
                 <input type="text" class="form-control" name="addLine2" placeholder="#apartamento, #casa">
             </div>
-
+<option value="2">Alajuelita</option>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="provincia">Provincia*</label>
                     <select class="custom-select" name="provincia" id="provincia">
+                      <option value="">Seleccione una provincia</option>
                        <!--  <option value="1">San José</option>
                         <option value="2">Alajuela</option>
                          <option value="3">Cartago</option> -->

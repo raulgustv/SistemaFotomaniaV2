@@ -10,7 +10,8 @@ $(document).ready(function(){
 			icon: icono,
 			timerProgressBar: false
 		});
-	}
+	};
+
 	
 	/*=====  End of Tooltip  ======*/
 	
@@ -18,6 +19,8 @@ $(document).ready(function(){
 	$('#editUser').tooltip({
 			trigger: 'manual'
 	});
+
+	$("#idDirRestore").tooltip('show');
 
 	
 	$(document).on("click", "#infoIcon",function(){
@@ -515,15 +518,19 @@ function cargarUserName(){
 
 cargarProvincia()
 function cargarProvincia(){
+
+	
+
 	$.ajax({
 		url: "../acciones/main.php",
 		method: "POST",
 		data: {cargarProvincia:1},
 		success: function(data){
+
 			$("#provincia").html(data);
 		}
 	});
-}
+} 
 
 
 $(document).on("change", "#provincia", function(){
@@ -662,7 +669,8 @@ $("#frmDireccion").validate({
 		method: "POST",
 		data: $("#frmDireccion").serialize()+"&agregarDireccion",
 		success: function(data){
-			message("Dirección guardada con éxito", 2000, 'success');
+			message("Dirección guardada con éxito", 2000, 'success');		
+			cargarLibretaDireccion();
 			cargarDireccionMain();
 
 		}
@@ -699,6 +707,9 @@ $(document).on("click", "#btnGuardarNombre", function(e){
 	}
 
 });
+
+/*----------  Editar Password  ----------*/
+
 
 
 $(document).on("click", "#btnGuardarNuevoPass", function(e){
@@ -739,22 +750,61 @@ $(document).on("click", "#btnGuardarNuevoPass", function(e){
 					$("#errorPass").fadeOut(300);
 					$("#errorPassMatch").fadeOut(300);
 					$("#errorPassSize").fadeOut(300);
-				}
-				
-				
-
-
-
+				}	
 			}
 		});
 	}
-})
+});
 
 
+$(document).on("click", "#borrarDir", function(e){
 
+	var idDir = $(this).attr("idBorrarDir");
 
+	Swal.fire({
+		  title: 'Deseas borrar esta dirección',
+		  text: "Se recomienda agregar una nueva dirección actualizada",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Si, bórrala'
+		}).then((result) => {
+			if(result.value){
+				$.ajax({
+					url: "../acciones/main.php",
+					method: "POST",
+					data: {
+						borrarDir:1, 
+						idDir: idDir
+					},
+					success: function(data){							
+						if(data === "true"){
+							message("Dirección borrada", 2000, 'success');
+							cargarLibretaDireccion();
+						}else{
+							message("No puedes borrar tu dirección principal", 2000, 'error');
+						}
+					}
+				});
+			}
+		});
 
+});
 
+/*----------  Cargar Direcciones Viejas  ----------*/
+
+cargarDireccionInactiva();
+function cargarDireccionInactiva(){
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {dirInactiva:1},
+		success: function(data){
+			
+		}
+	});
+}
 
 
 
