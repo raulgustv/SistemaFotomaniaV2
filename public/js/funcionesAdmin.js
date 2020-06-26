@@ -577,6 +577,8 @@ function lastOrders(){
 var dataOrders;
 
 dataOrders = $("#dtTablaPedidos").DataTable({
+
+	"order": [[2, "desc"]],
 	
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
