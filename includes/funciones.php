@@ -6,6 +6,8 @@
 		echo "</pre>";
 	} */
 
+	
+
 	function checkInput($data){
 	$data = trim($data);
 	$data = htmlspecialchars($data);
@@ -21,6 +23,21 @@
 			<?php
 		}
 	}
+
+	
+
+	function checkUser(){
+		if(isset($row['id'])){
+			?> <script>
+				window.location.href='../index.php';
+			</script>
+			<?php
+		}
+	} 
+
+
+
+
 
 	function redir($var){
 		header("Location: ".$var."");

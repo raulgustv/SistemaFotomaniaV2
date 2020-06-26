@@ -1,4 +1,11 @@
-<?php include '../templates/mainHeader.php' ?>
+<?php include '../templates/mainHeader.php';
+include_once '../includes/funciones.php';
+include '../includes/db.php';
+checkUser();
+?>
+
+
+<input type="hidden" name="userId" id="userId" value="<?php echo $row['id']; ?>">
 
 <?php
 
@@ -19,6 +26,7 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 
 
  ?>
+
 
 <div class="container-fluid mt-3">
 	
@@ -172,15 +180,40 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 				</div>
 			</div>
 			</div>
-		</div>
-
-				
+		</div>				
 	</div>
-
-
-											
-
 </div>
+
+<!--=============================
+=            Pedidos            =
+==============================-->
+
+<div class="container-fluid">
+	<div class="row mt-3">
+		<div class="col-lg-12">
+			<div class="card bg-warning">
+				<div class="card-header">
+					<h4 class="text-center">Mis pedidos <i class="fas fa-truck"></i></h4>	
+				</div>
+			</div>
+			<table class="table table-striped" id="dtPedidoCliente">
+				<thead>
+					<tr>
+						<th>Id Pedido</th>					
+						<th>Fecha Compra</th>
+						<th>Estado Pedido</th>
+						<th>Monto Total</th>
+						<th>Acciones</th> 
+					</tr>	
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<!--====  End of Pedidos  ====-->
+
 
 
 

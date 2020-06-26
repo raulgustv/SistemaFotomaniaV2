@@ -864,6 +864,32 @@
 
 		
 	}
+
+	/*=======================================
+	=            Pedidos cliente            =
+	=======================================*/
+	
+	if(isset($_POST['getCustomerOrder'])){
+
+ 		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT comprafinalizada.transaccionId as trans, FechaCompra, estados.nombreEstado, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado WHERE clientes.id = ?  GROUP BY transaccionId");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+
+		$data = array();
+
+		while($row = mysqli_fetch_array($r)){
+			$data[] = $row;
+		}
+
+		echo json_encode($data);
+	}
+	
+	/*=====  End of Pedidos cliente  ======*/
+		
 	
 	
 

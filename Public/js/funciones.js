@@ -822,7 +822,7 @@ $(document).on("click", "#idDirRestore", function(e){
 	e.preventDefault();
 	var idRestore = $(this).attr("restore");
 
-	/* Swal.fire({
+	Swal.fire({
 		  title: 'Restaurar esta dirección',
 		  text: "La dirección será restaurada con los mismos datos",
 		  icon: 'info',
@@ -831,7 +831,7 @@ $(document).on("click", "#idDirRestore", function(e){
 		  cancelButtonColor: '#d33',
 		  confirmButtonText: 'Si, bórrala'
 		}).then((result) => {
-			if(result.value){ */
+			if(result.value){ 
 				$.ajax({
 					url: "../acciones/main.php",
 					method: "POST",
@@ -845,24 +845,70 @@ $(document).on("click", "#idDirRestore", function(e){
 						 cargarDireccionInactiva();
 					}
 				});
-			//}
-	// 	});
+			}
+		});
 
 
 }); 
 
-
-
-
-
-
-
-
-
-
-
-
 /*=====  End of Perfil usuario  ======*/
+
+/*=======================================
+=            Pedidos cliente            =
+=======================================*/
+
+/*----------  Ver todos los pedidos  ----------*/
+
+var dataOrdersCustomer;
+
+dataOrdersCustomer = $("#dtPedidoCliente").DataTable({
+
+	"order": [[2, "desc"]],
+	"searching": false,
+	"dom": '<"top"i>rt<"bottom"flp><"clear">',
+	"iDisplayLength": 5,
+	
+	"ajax": {
+		"url": "../acciones/main.php",
+		"method": "POST",
+		"data": {"getCustomerOrder":1},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data" : "trans"},
+		{"data" : "FechaCompra"},
+		{"data" : "nombreEstado"},
+		{"data" : "monto"},
+		{"defaultContent" : "</a> <a href='#' class='btn btn-success' id='verMiPedido'><i class='fas fa-eye'></i></a> "},	
+
+	]
+
+});
+
+
+/*----------  Ver Mi Pedido  ----------*/
+
+$(document).on("click", "#verMiPedido", function(e){
+
+	var userId = $("#userId").val();
+
+	fila = $(this).closest("tr");
+	var idPedido = fila.find('td:eq(0)').text();
+
+	window.open("verMiPedido.php?id="+idPedido+"&uid="+userId, "_blank");
+
+});
+
+
+
+
+
+
+
+
+/*=====  End of Pedidos cliente  ======*/
+
 
 
 

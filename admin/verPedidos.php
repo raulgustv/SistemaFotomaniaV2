@@ -23,7 +23,7 @@ checkAdmin();
 		</thead>
 
 		
-		</tbody>
+	
 			
 
 	</table>
