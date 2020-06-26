@@ -3,12 +3,16 @@
 	--naranja: #F5811E;
 	--azul: #2D8AA9;
 }
+
+/* Load screen */
+
+
 	
 
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box, #loader{
+#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
 	display: none;
 }
 
@@ -120,7 +124,40 @@ img.iconosPedido{
 	height: 80px;
 }
 
+div.editUser{
+	cursor:not-allowed;
+}
 
+div.groupUnstyle{
+	-webkit-border-radius: 4px;
+	-moz-border-radius:4px;
+	border-radius: 4px;
+}
+
+i.infoIcon{
+	padding-left: 2.3rem;
+}
+
+/*Error personalzado Perfil*/
+
+div.errorGeneral{
+	color: red;
+}
+
+div#errorName, #errorPassSize, #errorPassMatch, #errorPass{
+	display: none;
+}
+
+
+.collapsing{
+	position: relative;
+	height: 0;
+  -webkit-transition: all 0.7s;
+  -moz-transition: all 0.7s;
+  -ms-transition: all 0.7s;
+  -o-transition: all 0.7s;
+  transition: all 0.7s;
+}
 
 
 

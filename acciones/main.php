@@ -76,10 +76,10 @@
 
 		if(isset($_POST['selectedCat'])){
 			$id = $_POST['catId'];
-			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' ");
+			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' AND status = 1 ");
 		}else if(isset($_POST['search'])){
 			$keyword = $_POST['keyword'];
-			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' ");
+			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' and status = 1 ");
 		}
 
 		
@@ -146,7 +146,7 @@
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
 				}else{
-					echo "No se pudo registrar el usuario";
+					echo "No se pudieron agregar productos al carrito";
 				}
 
 				$stmt->close();
@@ -255,6 +255,7 @@
 				<input type="hidden" name="business" value="sb-g47dzi1245437@business.example.com">
 				<input type="hidden" name="cmd" value="_cart">
 				<input type="hidden" name="upload" value="1">';
+
 
 			$x = 0;
 			$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
@@ -408,6 +409,469 @@
 	}
 	
 	/*=====  End of Llenar Mini Cart  ======*/
+
+
+	/*============================================
+	=            LLenar datos cliente            =
+	============================================*/
+
+	if(isset($_POST['cargarCliente'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT nombre FROM clientes WHERE id = ? ");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+		$row = mysqli_fetch_array($r);
+
+		$nombre = $row['nombre'];
+
+		echo "<input id='editNombre' type='text' class='form-control' id='editNombre' name='editNombre' value='$nombre'>";
+
+	}
+
+	if(isset($_POST['cargarUser'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT usuario FROM clientes WHERE id = ? ");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$r = $q->get_result();
+		$row = mysqli_fetch_array($r);
+
+		$user = $row['usuario'];
+
+		echo "<input data-toggle='tooltip' data-placement='right' title='No puedes editar el nombre de usuario' trigger='hover focus' type='text' class='form-control' id='editUser' name='editUser' value='$user' disabled>
+											<span class='input-group-addon'>
+												<i class='fas fa-info infoIcon' id='infoIcon'></i>
+											</span>";
+	}
+	
+	
+	
+	/*=====  End of LLenar datos cliente  ======*/
+
+	/*=============================================
+	=            Section Cargar datos direccion            =
+	=============================================*/
+	
+	if(isset($_POST['cargarProvincia'])){
+		
+		$q = $con->prepare("SELECT * FROM provincia");
+		//$q->bind_param();
+		$q->execute();
+
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$provId = $r['idProv'];
+			$provincia = $r['provincia'];
+
+			echo "<option value='$provId'>$provincia</option>";
+                      
+		}		
+	}
+
+	if(isset($_POST['cargarCanton'])){
+		$idProv = $_POST['idProv'];
+
+		$q = $con->prepare("SELECT idCanton, canton, provincia.provincia AS provincia FROM canton INNER JOIN provincia ON canton.idProv = provincia.idProv WHERE provincia.idProv = ?");
+		$q->bind_param("i", $idProv);
+		$q->execute();
+		
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$idCanton = $r['idCanton'];
+			$canton = $r['canton'];
+
+			echo "<option value='$idCanton'>$canton</option>";
+		}
+
+
+
+	}
+
+
+	if(isset($_POST['cargarDist'])){
+		$idCant = $_POST['idCant'];
+
+		$q = $con->prepare("SELECT idDistrito, distrito.distrito as distrito FROM canton INNER JOIN distrito on canton.idCanton = distrito.idCanton WHERE canton.idCanton = ?");
+		$q->bind_param("i", $idCant);
+		$q->execute();
+		
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$idDistrito = $r['idDistrito'];
+			$distrito = $r['distrito'];
+
+			echo "<option value='$idDistrito'>$distrito</option>";
+		}
+
+
+
+	}
+	
+	/*=====  End of Section Cargar datos direccion  ======*/
+
+	/*==================================================
+	=            Cargar Main address Perfil            =
+	==================================================*/
+	
+
+	if(isset($_POST['cargarDirMain'])){
+		
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND main = 1 AND status =1");
+
+		$q->bind_param("i", $uid);
+		$q->execute();
+		//$q->close();
+
+		$row = $q->get_result();
+
+		if(mysqli_num_rows($row) > 0){
+			$r = mysqli_fetch_array($row);
+
+			$dir1 = $r['direccion'];
+			$dir2 = $r['direccion2'];
+			$prov = $r['prov'];
+			$cant = $r['cant'];
+			$dist = $r['distrito'];
+			$zip = $r['zip'];
+
+
+
+			echo "<h6>Direccion de Envío:</h6>
+				  <p>$dir1<br>$dir2
+					$cant, $dist<br>
+					$prov, $zip<br>
+					Teléfono: 8811-96-58</p>";
+
+		}else{
+			echo "<div class='alert alert-danger' role='alert'>
+ 				 No existe una dirección registrada
+ 				 <a href='#' data-toggle='modal' data-target='#form_direccion'>Agrega una dirección</a>
+				 </div>";
+		}
+
+
+
+	}	
+	
+	/*=====  End of Cargar Main address Perfil  ======*/
+
+	if(isset($_POST['agregarDireccion'])){
+		$uid = $row['id'];
+		$dir1 = $_POST['addLine1'];
+		$dir2 = $_POST['addLine2'];
+		$prov = $_POST['provincia'];
+		$cant = $_POST['canton'];
+		$dist = $_POST['distrito'];
+		$zip = $_POST['zip'];
+
+		$q = $con->prepare("SELECT * FROM direccion WHERE status = 1 AND idCliente = ?");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+
+		if(mysqli_num_rows($row) > 0){ //le mete cero
+			$q2 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,idCliente, main) VALUES (?,?,?,?,?,?,?,0)");
+			$q2->bind_param("ssiiisi", $dir1, $dir2,$prov,$cant,$dist,$zip,$uid);
+			$q2->execute();
+			$q2->close();
+			echo "bien";
+		}else{
+			$q3 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,idCliente, main) VALUES (?,?,?,?,?,?,?,1)");
+			$q3->bind_param("ssiiisi", $dir1, $dir2,$prov,$cant,$dist,$zip,$uid);
+			$q3->execute();
+			$q3->close();
+			echo "bien";
+		}
+
+	}
+
+	/*===========================================
+	=            Libreta Direcciones            =
+	===========================================*/
+	if(isset($_POST['cargarLibretaDir'])){
+	
+	$uid = $row['id'];
+
+	$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status =1");
+
+		$q->bind_param("i", $uid);
+		$q->execute();
+		
+
+		$row = $q->get_result();	
+
+		if(mysqli_num_rows($row) > 0){
+			while($r = mysqli_fetch_array($row)){
+
+
+			$idDir = $r['idDir'];
+			$dir1 = $r['direccion'];
+			$dir2 = $r['direccion2'];
+			$prov = $r['prov'];
+			$cant = $r['cant'];
+			$dist = $r['distrito'];
+			$zip = $r['zip'];
+			$main = $r['main'];
+
+			if($main!=1){
+				echo "<div class='col-lg-4 mb-2'>
+					<div class='card'>
+						<div class='card-body'>
+							<p>$dir1 $dir2<br>
+							$cant, $dist<br>
+							$prov, $zip<br>
+							Teléfono: 8811-96-58</p>
+							<div class='form-check'>
+								<input type='checkbox' class='form-check-input' name='dirPrincipal' idDir='$idDir' id='dirPrincipal'>
+								<label>Direccion Principal</label>
+							</div>
+							<div class='d-flex flex-row-reverse'>								
+									<a href='#' class='btn btn-danger' id='borrarDir' idBorrarDir='$idDir'><i class='fas fa-window-close'></i></a> 
+ 
+								</div>
+							</div>					
+						</div>
+					</div>";
+			}
+			else{
+				echo "<div class='col-lg-4 mb-2'>
+					<div class='card'>
+						<div class='card-body'>
+							<p>$dir1 $dir2<br>
+							$cant, $dist<br>
+							$prov, $zip<br>
+							Teléfono: 8811-96-58</p>
+							<div class='form-check'>
+								<input type='checkbox' class='form-check-input' name='dirPrincipal' id='dirPrincipal' idDir='$idDir' checked>
+								<label>Direccion Principal</label>
+							</div>
+							<div class='d-flex flex-row-reverse'>								
+									<a href='#' class='btn btn-danger' idBorrarDir='$idDir' id='borrarDir'><i class='fas fa-window-close' ></i></a> 
+									
+								</div>
+							</div>					
+						</div>
+					</div>";
+			}
+
+			}
+		}else{
+			echo "<div class='alert alert-danger' role='alert'>
+ 				 No existe una dirección registrada
+ 				 <a href='#' data-toggle='modal' data-target='#form_editDirecion'>Agrega una dirección</a>
+				 </div>";
+		}
+	}
+	
+	/*=====  End of Libreta Direcciones  ======*/
+
+
+	/*==================================================
+	=            Direccion Principal Select            =
+	==================================================*/
+	
+	if(isset($_POST['nuevaPrincipal'])){
+
+		$uid = $row['id'];
+		$idDir = $_POST['dirId']; //direccion nueva
+
+		$q = $con->prepare("SELECT idDir FROM direccion WHERE idCliente = ? AND main = 1");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+		$r = mysqli_fetch_array($row);
+
+		$idDirOld = $r['idDir']; //direccion vieja
+
+		$q2 = $con->prepare("UPDATE direccion SET main = 0 WHERE idCliente = ? AND idDir = ?");
+		$q2->bind_param("ii", $uid, $idDirOld);
+		$q2->execute();
+
+		$q3 = $con->prepare("UPDATE direccion SET main = 1 WHERE idCliente = ? AND idDir = ?");
+		$q3->bind_param("ii", $uid, $idDir);
+		$q3->execute();
+
+
+	}
+	
+	/*=====  End of Direccion Principal Select  ======*/
+
+	/*======================================================
+	=            Editar Nombre Apellido Usuario            =
+	======================================================*/
+	
+	if(isset($_POST['updateNombre'])){
+
+		$editNombre = $_POST['editNombre'];
+		$uid = $row['id'];
+
+		$q = $con->prepare("UPDATE clientes SET nombre = ? WHERE id = ? ");
+		$q->bind_param("si", $editNombre, $uid);
+		$q->execute();
+		$q->close();
+
+
+	}
+
+	if(isset($_POST['updatePass'])){
+		$uid = $row['id'];
+		$editPass = $_POST['editPass'];
+		$newPassHash = sha1($editPass);
+
+
+
+		$q = $con->prepare("SELECT pass FROM clientes WHERE id =?");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+		$r = mysqli_fetch_array($row);
+
+		$passOld = $r['pass'];
+
+		if($passOld == $newPassHash){
+			echo "false";
+		}else{
+			echo "true";
+			$q2 = $con->prepare("UPDATE clientes SET pass = ? WHERE id = ?");
+			$q2->bind_param("si", $newPassHash, $uid);
+			$q2->execute();
+			$q2->close();
+		}
+
+		
+	}
+	
+	/*=====  End of Editar Nombre Apellido Usuario  ======*/
+	
+	/*========================================
+	=           Borrar Dirección           =
+	========================================*/
+	
+	if(isset($_POST['borrarDir'])){
+
+		$idDir = $_POST['idDir']; 	
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT main FROM direccion WHERE idDir = ? AND idCliente = ?");
+		$q->bind_param("ii", $idDir, $uid);
+		$q->execute();
+
+		$row = $q->get_result();
+		$r = mysqli_fetch_array($row);
+
+		$isMain = $r['main'];
+
+	//		echo $isMain;
+
+	
+		if($isMain == 1){		
+			echo "false";
+		}else {
+			$q2 = $con->prepare("UPDATE direccion SET status = 0 WHERE idDir = ? AND idCliente = ?");
+			$q2->bind_param("ii", $idDir, $uid);
+			$q2->execute();
+			$q2->close();
+			echo "true";
+		}
+
+		$q->close();
+
+		
+	}
+	
+	/*=====  End ofBorrar Dirección ======*/
+
+
+	/*=============================================
+	=            Direcciones Inactivas            =
+	=============================================*/
+	
+	if(isset($_POST['dirInactiva'])){
+
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status = 0");
+
+		$q->bind_param("i", $uid);
+		$q->execute();
+		
+
+		$row = $q->get_result();
+
+		if(mysqli_num_rows($row)){
+
+			while($r = mysqli_fetch_array($row)){
+
+				$idDir = $r['idDir'];
+				$dir1 = $r['direccion'];
+				$dir2 = $r['direccion2'];
+				$prov = $r['prov'];
+				$cant = $r['cant'];
+				$dist = $r['distrito'];
+				$zip = $r['zip'];
+				$main = $r['main'];
+
+
+				echo "<div class='col-lg-4 mb-2'>
+					<div class='card'>
+						<div class='card-body'>
+							<p>$dir1 $dir2<br>
+							$cant, $dist<br>
+							$prov, $zip<br>
+							Teléfono: 8811-96-58</p>							
+							<div class='d-flex flex-row-reverse'>								
+									<a href='#' class='btn btn-success' restore = '$idDir' id='idDirRestore' data-toggle='tooltip' data-placement='right' title='Reactiva tu dirección'><i class='far fa-check-square'></i></a> 								
+								</div>
+							</div>					
+						</div>
+					</div>";
+			}
+		}else{
+			echo "false";
+		}
+
+		
+
+	}
+	
+	/*=====  End of Direcciones Inactivas  ======*/
+
+	if(isset($_POST['restoreDir'])){
+
+		$idRestore = $_POST['idRestore'];
+		$uid = $row['id'];
+
+
+		$q = $con->prepare("UPDATE direccion SET status = 1 WHERE idCliente = ? AND idDir = ?");
+		$q->bind_param("ii", $uid, $idRestore);
+		$q->execute();
+		$q->close();
+
+
+
+		
+	}
+	
+	
+
+	
+	
+	
+	
+	
 	
 
 

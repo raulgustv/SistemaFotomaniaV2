@@ -16,6 +16,8 @@ require '../acciones/sesion.php';
 	<link rel="stylesheet" type="text/css" href="../public/fontawesome/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
+
+ 
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
@@ -63,7 +65,7 @@ require '../acciones/sesion.php';
     <ul class="navbar-nav ml-auto">
       
        <li class="nav-item">
-         <a class="nav-link" href="#">Hola <?php echo $username ?></a> 
+         <a class="nav-link" href="perfil.php">Hola <?php echo $username ?></a> 
       </li>
       <li class="nav-item">
          <a class="nav-link" href="../acciones/logout.php">Cerrar Sesión</a> 
