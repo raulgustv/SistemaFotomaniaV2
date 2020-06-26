@@ -461,9 +461,6 @@ if(isset($_POST['editarStatus'])){
 =            Ver detalles Pedido            =
 ===========================================*/
 
-if(isset($_POST['obtenerPedido'])){
-	echo 'hola';
-}
 
 /*=====  End of Ver detalles Pedido  ======*/
 
