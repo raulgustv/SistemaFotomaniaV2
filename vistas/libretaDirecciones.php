@@ -49,7 +49,7 @@
 ===============================================-->
 
 
-<div id="accordion">
+<div id="accordion" class="allInactiveDir">
   <div class="card mt-3">
     <div class="card-header bg-warning" id="headingOne">
       <h5 class="mb-0 text-center">Ver direcciones eliminadas
@@ -63,7 +63,7 @@
 
     <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="row mt-2" id="dirInactiva">
-				<div class="col-lg-4 mb-2">
+			<!--	<div class="col-lg-4 mb-2">
 					<div class="card">
 						<div class="card-body">
 							<p>Del parque de sabanilla 250m sur<br>
@@ -79,7 +79,7 @@
 								</div>
 							</div>					
 						</div>
-					</div> 
+					</div> -->
 				</div>
 			</div>
 		</div>

@@ -782,6 +782,8 @@ $(document).on("click", "#borrarDir", function(e){
 						if(data === "true"){
 							message("Dirección borrada", 2000, 'success');
 							cargarLibretaDireccion();
+							$(".allInactiveDir").fadeIn(300);
+							cargarDireccionInactiva();
 						}else{
 							message("No puedes borrar tu dirección principal", 2000, 'error');
 						}
@@ -800,11 +802,54 @@ function cargarDireccionInactiva(){
 		url: "../acciones/main.php",
 		method: "POST",
 		data: {dirInactiva:1},
-		success: function(data){
-			
+		success: function(data){		
+
+			if(data === "false"){
+				$(".allInactiveDir").hide();
+			}else{
+				$("#dirInactiva").html(data);
+			}
+
+
 		}
 	});
 }
+
+
+/*----------  Restaurar Direccion  ----------*/
+
+$(document).on("click", "#idDirRestore", function(e){
+	e.preventDefault();
+	var idRestore = $(this).attr("restore");
+
+	/* Swal.fire({
+		  title: 'Restaurar esta dirección',
+		  text: "La dirección será restaurada con los mismos datos",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Si, bórrala'
+		}).then((result) => {
+			if(result.value){ */
+				$.ajax({
+					url: "../acciones/main.php",
+					method: "POST",
+					data: {
+						restoreDir:1, 
+						idRestore: idRestore
+					},
+					success: function(data){												
+						 message("Dirección reestablecida con éxito", 2000, "success");
+						 cargarLibretaDireccion();
+						 cargarDireccionInactiva();
+					}
+				});
+			//}
+	// 	});
+
+
+}); 
 
 
 

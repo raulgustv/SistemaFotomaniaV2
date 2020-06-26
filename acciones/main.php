@@ -793,6 +793,78 @@
 	}
 	
 	/*=====  End ofBorrar Dirección ======*/
+
+
+	/*=============================================
+	=            Direcciones Inactivas            =
+	=============================================*/
+	
+	if(isset($_POST['dirInactiva'])){
+
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status = 0");
+
+		$q->bind_param("i", $uid);
+		$q->execute();
+		
+
+		$row = $q->get_result();
+
+		if(mysqli_num_rows($row)){
+
+			while($r = mysqli_fetch_array($row)){
+
+				$idDir = $r['idDir'];
+				$dir1 = $r['direccion'];
+				$dir2 = $r['direccion2'];
+				$prov = $r['prov'];
+				$cant = $r['cant'];
+				$dist = $r['distrito'];
+				$zip = $r['zip'];
+				$main = $r['main'];
+
+
+				echo "<div class='col-lg-4 mb-2'>
+					<div class='card'>
+						<div class='card-body'>
+							<p>$dir1 $dir2<br>
+							$cant, $dist<br>
+							$prov, $zip<br>
+							Teléfono: 8811-96-58</p>							
+							<div class='d-flex flex-row-reverse'>								
+									<a href='#' class='btn btn-success' restore = '$idDir' id='idDirRestore' data-toggle='tooltip' data-placement='right' title='Reactiva tu dirección'><i class='far fa-check-square'></i></a> 								
+								</div>
+							</div>					
+						</div>
+					</div>";
+			}
+		}else{
+			echo "false";
+		}
+
+		
+
+	}
+	
+	/*=====  End of Direcciones Inactivas  ======*/
+
+	if(isset($_POST['restoreDir'])){
+
+		$idRestore = $_POST['idRestore'];
+		$uid = $row['id'];
+
+
+		$q = $con->prepare("UPDATE direccion SET status = 1 WHERE idCliente = ? AND idDir = ?");
+		$q->bind_param("ii", $uid, $idRestore);
+		$q->execute();
+		$q->close();
+
+
+
+		
+	}
+	
 	
 
 	
