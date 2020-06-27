@@ -358,7 +358,7 @@
 	==================================*/
 	
 	if(isset($_POST['page'])){
-		$sql=$con->query("SELECT * FROM productos");
+		$sql=$con->query("SELECT * FROM productos WHERE status = 1");
 		$count = mysqli_num_rows($sql);
 		$pageNo = ceil($count/8);
 
@@ -915,11 +915,12 @@
 	if(isset($_POST['cargarPedido'])){
 
 		$pedidoId = $_POST['pedidoId'];
+		$uid = $row['id'];
 
 		$totalFinal = 0;
 
 
-		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$pedidoId'");
+		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$pedidoId' AND  clienteId = '$uid'");
 
 		while($r = mysqli_fetch_array($q2)){ 
 			$nombreProd = $r['nombreProd']; 
@@ -933,7 +934,7 @@
 				<td>$nombreProd</td>
 				<td>$cant</td>
 				<td>$monto</td>
-				<td>$totalFinal</td>
+				<td>$montoFinal</td>
 				</tr>";
 				
 	}

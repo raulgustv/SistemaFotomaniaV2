@@ -10,8 +10,17 @@ checkUser();
 <?php
 	
 $idPedido = $_GET['id'];
+$uid = $row['id'];
 
-$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, comprafinalizada.idDireccion AS idDireccion, estados.nombreEstado as estado, estados.idEstado as idEstado, productos.nombre as nombreProd, cantidad, productos.precio FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado WHERE transaccionId = '$idPedido' ");
+$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, comprafinalizada.idDireccion AS idDireccion, estados.nombreEstado as estado, estados.idEstado as idEstado, productos.nombre as nombreProd, cantidad, productos.precio FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado WHERE transaccionId = '$idPedido' AND  clienteId = '$uid' ");
+
+	$count = mysqli_num_rows($q);
+
+
+
+	if($count == 0){
+		redir("../index.php");
+	}
 
 $r = mysqli_fetch_array($q);
 
@@ -158,7 +167,7 @@ $idDireccion = $r['idDireccion'];
 				<th>Nombre</th>
 				<th>Cantidad</th>
 				<th>Precio Unitario</th>
-				<th>Precio Producto</th>
+				<th>Precio Final</th>
 			</tr>
 
 		</thead>
@@ -175,26 +184,42 @@ $idDireccion = $r['idDireccion'];
 		</tbody>
 	</table>
 
-	<?php 
+	<?php
 
 		$totalFinal = 0;
 
-		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$idPedido'");
+
+		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$idPedido' AND  clienteId = '$uid'");
+
+
+			//$cnt = mysqli_num_rows($q2);
+
+
 
 		while($r = mysqli_fetch_array($q2)){ 
+
+			
+
+			
 
 			$nombreProd = $r['nombreProd']; 
 			$cant = $r['cantidad'];
 			$monto = $r['monto'];
 
 			$montoFinal = $cant * $monto;
-			$totalFinal = $totalFinal + $montoFinal;
+			$totalFinal = $totalFinal + $montoFinal;	
 
 
-
+			
 
 		}
-	?>
+
+
+
+
+
+			?>
+
 
 	<div class="shadow-lg p-3 mb-5 bg-white rounded">
 		<h2 class="text-primary">Total: $<?php echo $totalFinal ?></h2>

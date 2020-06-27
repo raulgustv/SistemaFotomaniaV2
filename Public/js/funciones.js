@@ -863,7 +863,7 @@ var dataOrdersCustomer;
 
 dataOrdersCustomer = $("#dtPedidoCliente").DataTable({
 
-	"order": [[2, "desc"]],
+	"order": [[1, "desc"]],
 	"searching": false,
 	"dom": '<"top"i>rt<"bottom"flp><"clear">',
 	"iDisplayLength": 5,
@@ -898,7 +898,7 @@ $(document).on("click", "#verMiPedido", function(e){
 	fila = $(this).closest("tr");
 	var idPedido = fila.find('td:eq(0)').text();
 
-	window.open("verMiPedido.php?id="+idPedido+"&uid="+userId, "_blank");
+	window.open("verMiPedido.php?id="+idPedido, "_blank");
 
 });
 
@@ -949,7 +949,7 @@ $(document).on("click", "#cancelarCliente", function(e){
 				}
 	});
 			}
-		});
+});
 
 	
 });

@@ -1,11 +1,9 @@
 <?php include '../templates/mainHeader.php';
 include_once '../includes/funciones.php';
 include '../includes/db.php';
-checkUser();
-?>
+checkUser();?>
 
 
-<input type="hidden" name="userId" id="userId" value="<?php echo $row['id']; ?>">
 
 <?php
 
