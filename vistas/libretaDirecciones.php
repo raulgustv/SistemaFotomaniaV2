@@ -7,6 +7,7 @@
 			<h3 class="text-center">Libreta de Direcciones</h3>
 		</div>
 		<div class="card-body">
+			<div id="loader"><img src="../logos/preloader.gif"></div>
 			<div class="row" id="libretaDir">
 			<!--	<div class="col-lg-4 mb-2">
 					<div class="card">

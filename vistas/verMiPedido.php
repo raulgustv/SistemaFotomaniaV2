@@ -24,6 +24,8 @@ $idDireccion = $r['idDireccion'];
 
  ?>
 
+ <input type="hidden" name="idPedidoCliente" id="idPedidoCliente" idPedido="<?php echo $idPedido; ?>">
+
 
 
 
@@ -161,15 +163,26 @@ $idDireccion = $r['idDireccion'];
 
 		</thead>
 
-		<tbody>
-		<?php
+		<tbody id="tablePedidoCliente">	
+	
+			<!-- <tr>
+				<td>Pedrito</td>
+				<td>5</td>
+				<td>500</td>
+				<td>2500</td>
+			</tr> -->
+	
+		</tbody>
+	</table>
+
+	<?php 
 
 		$totalFinal = 0;
-
 
 		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$idPedido'");
 
 		while($r = mysqli_fetch_array($q2)){ 
+
 			$nombreProd = $r['nombreProd']; 
 			$cant = $r['cantidad'];
 			$monto = $r['monto'];
@@ -180,37 +193,30 @@ $idDireccion = $r['idDireccion'];
 
 
 
-
-			?>
-
-
-			<tr>
-				<td> <?php echo $nombreProd; ?></td>
-				<td><?php echo $cant ?></td>
-				<td><?php echo $monto; ?></td>
-				<td><?php echo $montoFinal ?></td>
-			</tr>	
-
-		<?php 	}
-	
-			
-			
-		?> 
-
-		
-		
-					
-		</tbody>
-	</table>
+		}
+	?>
 
 	<div class="shadow-lg p-3 mb-5 bg-white rounded">
 		<h2 class="text-primary">Total: $<?php echo $totalFinal ?></h2>
 	</div>
 
+	<?php
+		if($idEstado == 1 || $idEstado == 2){
+		?>
+
 	<div class="d-flex flex-row-reverse mb-2">
-			<a href="#" class="btn btn-danger">Cancelar Pedido</a>	
+			<a href="#" class="btn btn-danger" id="cancelarCliente" idPedidoCancel="<?php echo $idPedido ?>">Cancelar Pedido</a>	
 	</div>
 
+	<?php }else{ ?>
+		<div class="d-flex flex-row-reverse mb-2">
+			<a href="#" class="btn btn-danger disabled">Cancelar Pedido</a>	<br>			
+		</div>
+		<div class="d-flex flex-row-reverse">
+			<small>No puedes cancelar este pedido porque ya ha sido procesado para más información<a href="#" class="btn btn-link"> contáctanos</a></small>
+		</div>
+	<?php 	} ?>
+ 
 </div>
 	
 

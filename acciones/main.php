@@ -889,6 +889,60 @@
 	}
 	
 	/*=====  End of Pedidos cliente  ======*/
+
+
+	/*==========================================
+	=            Cancelar mi pedido            =
+	==========================================*/
+	
+	if(isset($_POST['cancelaMiPedido'])){
+		$idPedido = $_POST['idPedido'];
+
+		$q = $con->prepare("UPDATE comprafinalizada SET estado = 11 WHERE transaccionId = ?");
+		$q->bind_param("i", $idPedido);
+		$q->execute();
+		$q->close();
+	}
+	
+	
+	/*=====  End of Cancelar mi pedido  ======*/
+
+
+	/*==================================================
+	=            Ver tabla pedidos cliente            =
+	==================================================*/
+	
+	if(isset($_POST['cargarPedido'])){
+
+		$pedidoId = $_POST['pedidoId'];
+
+		$totalFinal = 0;
+
+
+		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$pedidoId'");
+
+		while($r = mysqli_fetch_array($q2)){ 
+			$nombreProd = $r['nombreProd']; 
+			$cant = $r['cantidad'];
+			$monto = $r['monto'];
+
+			$montoFinal = $cant * $monto;
+			$totalFinal = $totalFinal + $montoFinal;
+
+			echo "<tr>
+				<td>$nombreProd</td>
+				<td>$cant</td>
+				<td>$monto</td>
+				<td>$totalFinal</td>
+				</tr>";
+				
+	}
+}
+
+	
+	/*=====  End of Ver tabla pedidos cliente  ======*/
+	
+	
 		
 	
 	

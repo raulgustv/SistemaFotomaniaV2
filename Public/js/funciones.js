@@ -887,6 +887,8 @@ dataOrdersCustomer = $("#dtPedidoCliente").DataTable({
 });
 
 
+
+
 /*----------  Ver Mi Pedido  ----------*/
 
 $(document).on("click", "#verMiPedido", function(e){
@@ -899,6 +901,59 @@ $(document).on("click", "#verMiPedido", function(e){
 	window.open("verMiPedido.php?id="+idPedido+"&uid="+userId, "_blank");
 
 });
+
+
+/*----------  Cargar tabla Pedido Cliente  ----------*/
+
+cargarTablaPedido();
+function cargarTablaPedido(){
+
+	var pedidoId = $("#idPedidoCliente").attr("idPedido");
+
+	$.ajax({
+		url: "../acciones/main.php",
+		method: "POST",
+		data: {cargarPedido:1, pedidoId:pedidoId},
+		success: function(data){
+			$("#tablePedidoCliente").html(data);
+		}
+	})
+
+}
+
+
+/*----------  Cancelar pedido  ----------*/
+
+$(document).on("click", "#cancelarCliente", function(e){
+	e.preventDefault();
+	
+	var idPedido = $(this).attr("idPedidoCancel");
+
+	Swal.fire({
+		  title: 'Estás seguro que quieres cancelar el pedido?',
+		  text: "Deberás crear un nuevo pedido",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Si, quiero cancelar'
+		}).then((result) => {
+			if(result.value){ 
+				$.ajax({
+				url: "../acciones/main.php",
+				method: "POST",
+				data: {cancelaMiPedido:1, idPedido:idPedido},
+				success: function(data){
+					message("Pedido cancelado con éxito", 2000, "success");
+					cargarTablaPedido();
+				}
+	});
+			}
+		});
+
+	
+});
+
 
 
 
