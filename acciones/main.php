@@ -330,7 +330,7 @@
 
 		$producto = $_POST['query'];
 
-		$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$producto%'");
+		$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$producto%' AND status = 1");
 
 		echo "<ul class='list-unstyled ulResult'>";
 
