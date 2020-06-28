@@ -457,12 +457,19 @@ if(isset($_POST['editarStatus'])){
 
 /*=====  End of Editar Status pedido  ======*/
 
-/*===========================================
-=            Ver detalles Pedido            =
-===========================================*/
+/*=================================================
+=            Subir Galería de imagenes            =
+=================================================*/
 
+if(isset($_FILES['imgThumb'])){
 
-/*=====  End of Ver detalles Pedido  ======*/
+	$imgThumb = $_FILES['imgThumb']['name'];
+	$imgMain = $_FILES['imgMain']['name'];
+
+	
+}
+
+/*=====  End of Subir Galería de imagenes  ======*/
 
 
 

@@ -374,7 +374,7 @@ $("#frmProductos").validate({
 $("#frmProductos").on("submit", function(e){
 	e.preventDefault();
 	var formData = new FormData(this);	
-	console.log('hola');
+
 	//var form = $("#frmProductos").serialize()+"&agregarProducto";
 
 	$.ajax({
@@ -387,6 +387,8 @@ $("#frmProductos").on("submit", function(e){
 				}else{
 					message("Producto insertado correctamente", 2000, 'success');	
 					$("#frmProductos").trigger("reset");
+					$("#imgPrev").attr('src', '#');
+
 				}		
 			},
 			contentType: false,
@@ -666,6 +668,86 @@ function llenarDetallePedido(){
 		}
 	})
 }
+
+/*===========================================
+=            Galería de imagenes            =
+===========================================*/
+
+/*----------  Preview Imagenes  ----------*/
+
+	function readURL2(input){
+		var reader = new FileReader();
+
+		var file = input.files[0];
+
+		if(file){
+			reader.onload = function(e){
+			$("#prev2").attr('src', e.target.result);
+		}
+			reader.readAsDataURL(file);
+
+	}
+
+}
+
+	$("#imgThumb").change(function(){
+		readURL2(this);
+	});
+
+
+
+	function readURL3(input){
+		var reader = new FileReader();
+
+		var file = input.files[0];
+
+		if(file){
+			reader.onload = function(e){
+			$("#prev3").attr('src', e.target.result);
+		}
+			reader.readAsDataURL(file);
+
+	}
+
+}
+
+	$("#imgMain").change(function(){
+		readURL3(this);
+	});
+
+
+	/*----------  Subir Imagen  ----------*/
+
+	$("#frmGaleria").on("submit", function(e){
+		e.preventDefault();
+
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'post',
+			data: formData,
+			success: function(data){
+				alert(data);
+			},
+			contentType: false,
+			processData: false,
+			cache: false
+		});
+	});
+
+
+	
+
+
+	
+
+
+	
+
+
+/*=====  End of Galería de imagenes  ======*/
+
 
 
 
