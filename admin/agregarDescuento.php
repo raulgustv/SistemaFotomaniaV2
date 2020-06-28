@@ -85,10 +85,10 @@
 
 
 <script>
-    $(function() {
+    (function() {
   $('#datetimepicker1').datetimepicker();
 });
-$(function() {
+(function() {
   $('#datetimepicker2').datetimepicker();
 });
 </script>

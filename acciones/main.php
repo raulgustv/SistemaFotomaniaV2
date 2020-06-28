@@ -185,8 +185,29 @@
 		 $q2 = $con->query("SELECT * FROM productos WHERE id='$prodId'");
 		 $row = mysqli_fetch_array($q2);
 		 $precio = $row['precio'];
+		 $descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$prodId'");
+				if(mysqli_num_rows($descQuery)){
+					while($rowDesc = mysqli_fetch_array($descQuery)){
+						$porcentDescuento= $rowDesc['totalOferta'];
+						$fechaInicio = $rowDesc['fechaInicio'];
+						$fechaFinal = $rowDesc['fechaFinal'];
+						date_default_timezone_set("America/Costa_Rica");
+						$fechahoy = date("Y-m-d h:i:s");
+						$yacomenzo = ($fechaInicio<$fechahoy);
+						$yatermino = ($fechaFinal>$fechahoy);
+						$totalDescuento= ($porcentDescuento/100)*$precio;
+					}
+				}else{
+					$totalDescuento=0;
+
+				}
+				if($yacomenzo==1 && $yatermino==1){
+				$precioTotal = round($precio - $totalDescuento);
+			}else{
+				$precioTotal =$precio;
+			}
 		 $nombreProd = $row['nombre'];
-		 $total = $cant * $precio;
+		 $total = $cant * $precioTotal;
 
 		 $q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid' and idProducto ='$prodId'");
 		 if(mysqli_num_rows($q) > 0){
@@ -195,7 +216,7 @@
 		 }else{
 
 		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,nombreProducto,cantidad,precio,total) VALUES (?,?,?,?,?,?)");
-		 	 $stmt->bind_param("iisiii", $uid,$prodId,$nombreProd,$cant,$precio,$total);
+		 	 $stmt->bind_param("iisiii", $uid,$prodId,$nombreProd,$cant,$precioTotal,$total);
 
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
@@ -239,14 +260,37 @@
 			$imagen = $row['imagen'];
 			$producto = $row['nombre'];
 
-			$precioFinal = $precio * $cantidad;
+			$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
+			if(mysqli_num_rows($descQuery)){
+				while($rowDesc = mysqli_fetch_array($descQuery)){
+					$porcentDescuento= $rowDesc['totalOferta'];
+					$fechaInicio = $rowDesc['fechaInicio'];
+					$fechaFinal = $rowDesc['fechaFinal'];
+					date_default_timezone_set("America/Costa_Rica");
+					$fechahoy = date("Y-m-d h:i:s");
+					$yacomenzo = ($fechaInicio<$fechahoy);
+					$yatermino = ($fechaFinal>$fechahoy);
+					$totalDescuento= ($porcentDescuento/100)*$precio;
+					
+				}
+			}else{
+				$totalDescuento=0;
+
+			}
+			if($yacomenzo==1 && $yatermino==1){
+			$precioTotal = round($precio - $totalDescuento);
+		}else{
+			$precioTotal =$precio;
+		}
+
+			$precioFinal = $precioTotal;
 
 			echo "<tr class='d-flex'>
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
 				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
-				<td class='col-1'><input type='text' class='form-control' value='$0' disabled></td>
+				<td class='col-1'><input type='text' class='form-control descuento' id='total-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
 				<td class='col-2'>
 					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>
@@ -443,7 +487,7 @@
 
 				$img = $reg['imagen'];
 				$nombre = $reg['nombre'];
-				$precio =  $reg['precio'];
+				$precio =  $r['precio'];
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
                      <div class='col-lg-4'>$nombre</div> 
