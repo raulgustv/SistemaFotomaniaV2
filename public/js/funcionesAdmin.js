@@ -559,9 +559,57 @@ $("#frmEditProductos").on("submit", function(e){
 
 
 
+/*----------  Llenar Lista Producto   ----------*/
+
+llenarProdAddDesc();
+function llenarProdAddDesc(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getProdDesc:1},
+		success: function(data){
+			$("#prodAddDesc").html(data);
+		}
+	});
+}
 
 
+/*----------  Insertar Descuento  ----------*/
 
+$("#frmDescuento").validate({
+
+	rules:{
+		nombreDesc:{
+			required: true,
+			rangelength: [5,50]
+		},
+	},
+	messages:{
+		nombreDesc:{
+			required: "Por favor ingrese el nombre del descuento",
+			rangelength: "El nombre del descuento debe tener entre 5 y 50 caractéres"
+		},
+	},
+	submitHandler: function(form){
+
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: $("#frmDescuento").serialize()+"&agregarDesc",
+			success: function(data){
+				if(data === "false"){
+					message("Ya existe un descuento para el producto seleccionado", 2000, 'error');
+					$("#frmDescuento").trigger("reset");
+				}else{
+					message(data, 200000, 'success');
+					$("#frmDescuento").trigger("reset");
+				}
+			}
+		});
+	}
+
+
+});
 
 
 });

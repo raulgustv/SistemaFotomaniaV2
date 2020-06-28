@@ -385,8 +385,10 @@ if(isset($_POST['agregarDesc'])){
 	$descripcion  = $_POST['descripciondesc'];
 	$descuento = $_POST['porcentDesc'];
 	$idProd = $_POST['prodAddDesc'];
-	$fechaInicio = $_POST['fechaInicio'];
-	$fechaFinalizacion = $_POST['fechaFinal'];
+	$fechaInicio = strtotime($_POST['fechaInicio']);
+	$fechaFinalizacion = strtotime($_POST['fechaInicio']);
+	$fechaIFormat = date("Y-m-Y h:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-Y h:i:s",$fechaFinalizacion);
 
 	$sql = $con->prepare("SELECT * FROM ofertas WHERE idProducto = ?");
 	$sql->bind_param("i", $idProd);
@@ -398,7 +400,9 @@ if(isset($_POST['agregarDesc'])){
 
 	if($r->num_rows > 0){
 		echo "false";
+		/*console.log("No sirvio");*/
 	}else{
+		/*console.log("Si entro");*/
 		$q = $con->prepare("INSERT INTO ofertas (idProducto,titulo,descripcion,totalOferta,fechaInicio,fechaFinal) VALUES (?,?,?,?,?,?)");
 		$q->bind_param("issiii", $idProd,$nombre,$descripcion,$descuento,$fechaInicio,$fechaFinalizacion);
 		$q->execute();
