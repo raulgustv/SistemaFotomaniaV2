@@ -728,7 +728,11 @@ function llenarDetallePedido(){
 			method: 'post',
 			data: formData,
 			success: function(data){
-				alert(data);
+				message("Imagen subida correctamente", 2000, 'success');	
+				$("#frmGaleria").trigger("reset");
+				$("#prev2").attr('src', '#');
+				$("#prev3").attr('src', '#');
+
 			},
 			contentType: false,
 			processData: false,

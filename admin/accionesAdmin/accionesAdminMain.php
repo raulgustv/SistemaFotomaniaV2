@@ -464,7 +464,26 @@ if(isset($_POST['editarStatus'])){
 if(isset($_FILES['imgThumb'])){
 
 	$imgThumb = $_FILES['imgThumb']['name'];
+	$uploadImgThumb = $_FILES['imgThumb']['tmp_name'];
+	$storeThumb = uniqid($imgThumb, true).".png";
+
 	$imgMain = $_FILES['imgMain']['name'];
+	$uploadImgMain = $_FILES['imgMain']['tmp_name'];
+	$storeMain = uniqid($imgMain, true).".png";
+
+	$nombreImg = $_POST['tituloImg'];
+	$camaraNombre = $_POST['nombreCam'];
+
+	if(is_uploaded_file($uploadImgThumb) && is_uploaded_file($uploadImgMain)){
+		move_uploaded_file($uploadImgThumb, '../../vistas/imagenesGaleria/'.$storeThumb);
+		move_uploaded_file($uploadImgMain, '../../vistas/imagenesGaleria/'.$storeMain);
+
+	}
+
+	$q = $con->prepare("INSERT INTO galeria (nombre, cam, imagenThumb, imagen) VALUES (?,?,?,?)");
+	$q->bind_param("ssss", $nombreImg, $camaraNombre, $storeThumb, $storeMain);
+	$q->execute();
+	$q->close();
 
 	
 }
