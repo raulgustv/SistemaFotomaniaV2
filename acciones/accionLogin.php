@@ -137,6 +137,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 
 		
 	
+}else{
+	echo "El correo electronico ingresado no se encuentra registrado en nuestro sistema";	
 }
 
 
@@ -146,7 +148,44 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 /*=====  End of Contraseña Olvidada  ======*/
 	
 	
+/*================================
+=    Restableciemiento de contra       =
+================================*/
 
+if(isset($_POST['action']) && $_POST['action'] == 'restablecer'){
+	$currentpass = checkInput($_POST['currentpass']);
+	$newpass = checkInput($_POST['newpass']);
+	$cnewpass = checkInput($_POST['cnewpass']);
+	$uemail = checkInput($_POST['uemail']);
+	
+	$currentpassHash = sha1($currentpass);
+	$newpassHash = sha1($newpass);
+	$cnewpassHash = sha1($cnewpass);
+	$sql = $con->prepare("SELECT usuario,email,pass FROM clientes WHERE email =?");
+	$sql->bind_param("s", $uemail);
+	$sql->execute();
+	$result = $sql->get_result();
+	$row = $result->fetch_array(MYSQLI_ASSOC);
+	if($passHash!=$cpassHash){
+		echo 'Error!!! Las contraseñas no coinciden';
+		exit();
+	}elseif($row['pass'] =! $currentpassHash){
+		echo 'Error!!! La contraseña actual ingresada no coincide con nuestro sistema';
+		exit();
+	}else{
+			$stmt = $con->prepare("INSERT INTO clientes (nombre,usuario,email,pass,creado) VALUES (?,?,?,?,?) ");
+			$stmt->bind_param("sssss", $name,$uname,$email,$passHash,$created);
+
+			if($stmt->execute()){
+				echo "Restablecimiento de contraseña completado";
+			}else{
+				echo "No se pudo restablecer la contraseña";
+			}
+		
+	}
+}
+
+/*=====  End of Restablecimiento de contra  ======*/
 
 
 
