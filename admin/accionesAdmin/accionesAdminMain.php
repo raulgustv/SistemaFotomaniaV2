@@ -491,6 +491,47 @@ if(isset($_FILES['imgThumb'])){
 
 /*=====  End of Subir Galería de imagenes  ======*/
 
+/*===================================
+=            Ver Galeria            =
+===================================*/
+
+
+if(isset($_POST['getGal'])){
+	$q = $con->prepare("SELECT * FROM galeria");
+	$q->execute();
+	$row = $q->get_result();
+	//$q->close();
+
+	$data = array();
+
+	while ($r = mysqli_fetch_array($row)){
+		$data[] = $r;
+	}
+
+	echo json_encode($data);
+
+
+}
+
+
+/*=====  End of Ver Galeria  ======*/
+
+/*=============================================
+=            Cargar Galeria Editar            =
+=============================================*/
+
+if(isset($_POST['cargarImg'])){
+
+	$idImagen = $_POST['galId'];
+
+	echo $idImagen;
+}
+
+
+/*=====  End of Cargar Galeria Editar  ======*/
+
+
+
 
 
 

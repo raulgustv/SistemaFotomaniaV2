@@ -744,6 +744,56 @@ function llenarDetallePedido(){
 	/*----------  Cargar Imagen Galeria  ----------*/
 	
 	
+	function getImgGal(imagen){
+		return '<img class="rounded dtGal" src="../vistas/imagenesGaleria/' + imagen + '">';
+	}
+
+
+	var dataGal;
+
+	dataGal = $("#dtTablaGal").DataTable({
+		"ajax": {
+			"url":  "accionesAdmin/accionesAdminMain.php",
+			"method": "post",
+			"data": {
+				"getGal":1
+			},
+			"dataSrc": ""
+		},
+
+		"columns": [
+
+			{"data": "idGaleria"},
+			{"data": "nombre"},
+			{"data": "autor"},
+			{"data": "cam"},
+			{"data": "imagenThumb", render: getImgGal},
+			{"data": "imagen", render: getImgGal},
+			{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteGal'><i class='fas fa-trash'></i></a> <a href='#' id='editarGal' data-toggle='modal' data-target='#form_editGal' class='btn btn-primary'><i class='fas fa-edit'></i></a>"}
+
+		]
+	});
+
+
+/*----------  Cargar Imagen editar  ----------*/
+
+$(document).on("click", "#editarGal", function(e){
+	fila = $(this).closest("tr");
+	galId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url:  "accionesAdmin/accionesAdminMain.php",
+		method: "post",
+		data: {
+			cargarImg: 1,
+			galId:galId
+		},
+		success: function(data){
+			$("#frmEditGaleria").html(data);
+		}
+	})
+})
+
 
 	
 

@@ -129,7 +129,7 @@ $role = ($_SESSION['userRole']);
 				<div class="card-body">					
 					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
 					<a href="#" data-toggle="modal" data-target="#form_imagenes" class="btn btn-primary">Agregar Imágenes</a>
-					<a href="#"class="btn btn-success">Ver Imágenes</a>
+					<a href="verGaleria.php"class="btn btn-success">Ver Imágenes</a>
 				</div>
 			</div>
 		</div>
@@ -139,6 +139,7 @@ $role = ($_SESSION['userRole']);
 				
 	</div>
 </div>
+
 
 <?php include_once 'agregarCategoria.php' ?>
 <?php include_once 'agregarProductos.php' ?>
