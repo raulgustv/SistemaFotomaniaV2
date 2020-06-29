@@ -953,16 +953,28 @@ $(document).on("click", "#cancelarCliente", function(e){
 
 	
 });
-
-
-
-
-
-
-
-
-
 /*=====  End of Pedidos cliente  ======*/
+
+
+/*========================================
+=            Galeria Imagenes            =
+========================================*/
+
+cargarImagenGal();
+	function cargarImagenGal(){
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'post',
+			data: {getImgGal:1},
+			success: function(data){
+				$("#galeriaImagenes").html(data);
+			}
+		});
+	}
+
+
+/*=====  End of Galeria Imagenes  ======*/
+
 
 
 

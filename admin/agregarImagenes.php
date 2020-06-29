@@ -15,6 +15,11 @@
             </div>
 
             <div class="form-group">
+                <label>Autor</label>
+                <input type="text" name="nombreAutor" id="nombreAutor" class="form-control" placeholder="Nombre del Autor que tomó la fotografía">
+            </div>
+
+            <div class="form-group">
                 <label>Tomada con</label>
                 <input type="text" name="nombreCam" id="nombreCam" class="form-control" placeholder="Cámara usada para tomar la foto">
             </div>

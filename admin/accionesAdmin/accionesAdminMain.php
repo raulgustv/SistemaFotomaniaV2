@@ -472,6 +472,7 @@ if(isset($_FILES['imgThumb'])){
 	$storeMain = uniqid($imgMain, true).".png";
 
 	$nombreImg = $_POST['tituloImg'];
+	$autor = $_POST['nombreAutor'];
 	$camaraNombre = $_POST['nombreCam'];
 
 	if(is_uploaded_file($uploadImgThumb) && is_uploaded_file($uploadImgMain)){
@@ -480,8 +481,8 @@ if(isset($_FILES['imgThumb'])){
 
 	}
 
-	$q = $con->prepare("INSERT INTO galeria (nombre, cam, imagenThumb, imagen) VALUES (?,?,?,?)");
-	$q->bind_param("ssss", $nombreImg, $camaraNombre, $storeThumb, $storeMain);
+	$q = $con->prepare("INSERT INTO galeria (nombre, autor, cam, imagenThumb, imagen) VALUES (?,?,?,?,?)");
+	$q->bind_param("sssss", $nombreImg, $autor, $camaraNombre, $storeThumb, $storeMain);
 	$q->execute();
 	$q->close();
 

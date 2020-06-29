@@ -159,6 +159,17 @@ div#errorName, #errorPassSize, #errorPassMatch, #errorPass{
   transition: all 0.7s;
 }
 
+img.imgGal{
+	margin-bottom: 50px;
+	
+	
+}
+
+img.emtpyGal{
+	width: 100%;
+	height: 100%;
+}
+
 
 
 

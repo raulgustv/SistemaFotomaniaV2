@@ -14,8 +14,8 @@ require '../acciones/sesion.php';
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Fotomanía Costa Rica</title>
 	<link rel="stylesheet" type="text/css" href="../public/fontawesome/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css"> 
+	<link rel="stylesheet" type="text/css" href="../public/lightbox2-dev/dist/css/lightbox.min.css">
 
  
 </head>
@@ -33,6 +33,9 @@ require '../acciones/sesion.php';
       </li>
       <li class="nav-item">
         <a class="nav-link" href="tienda.php">Tienda</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="galeria.php">Galería de Imágenes</a>
       </li>
        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span id="cartSum" class="badge-dark"></span><i class="fas fa-cart-plus"></i></a>
        <div class="dropdown-menu dropMenuSize">

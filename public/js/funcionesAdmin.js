@@ -741,6 +741,10 @@ function llenarDetallePedido(){
 	});
 
 
+	/*----------  Cargar Imagen Galeria  ----------*/
+	
+	
+
 	
 
 

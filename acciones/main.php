@@ -942,6 +942,52 @@
 
 	
 	/*=====  End of Ver tabla pedidos cliente  ======*/
+
+
+	/*============================================
+	=            Ver Galeria Imagenes            =
+	============================================*/
+	
+	if(isset($_POST['getImgGal'])){
+
+		$q = $con->prepare("SELECT * FROM galeria");
+		$q->execute();
+
+		$row = $q->get_result();
+
+		if(mysqli_num_rows($row) > 0){
+			while ($r = mysqli_fetch_array($row)){
+				$nombre = $r['nombre'];
+				$autor = $r['autor'];
+				$camara = $r['cam'];
+				$imagenThumb = $r['imagenThumb'];
+				$imagen = $r['imagen'];
+
+				echo "<div class='col-lg-3'>
+
+						<a href='../vistas/imagenesGaleria/$imagen' data-lightbox='galeria' data-title='<small><b>$nombre</b> <br> Tomada con: $camara  <br>Por: <i>$autor</i> </small>'>
+							<img class='img-fluid img-thumbnail imgGal' src='../vistas/imagenesGaleria/$imagenThumb'>	
+						</a></div>"
+						;
+
+			}
+		}
+		else{
+			echo "<div class='col-lg-12'>
+					<div class='alert alert-danger' role='alert'>
+					  	<h4 class='text-center'>No hay imagenes disponibles en la galería.... Pronto subiremos nuevas imágenes</h4>			  	
+					</div>
+				</div>
+				<div class='col-lg-12'>
+					<div class='d-flex justify-content-center'>
+						<img src='../logos/emptyGal.jpg' class='emptyGal'>
+					</div>
+				</div>";
+		}
+	}
+	
+	/*=====  End of Ver Galeria Imagenes  ======*/
+	
 	
 	
 		
