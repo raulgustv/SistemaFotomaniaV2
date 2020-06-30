@@ -270,7 +270,7 @@
 					$fechahoy = date("Y-m-d h:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
 					$yatermino = ($fechaFinal>$fechahoy);
-					$totalDescuento= ($porcentDescuento/100)*$precio;
+					$totalDescuento= (($porcentDescuento/100)*$precio);
 					
 				}
 			}else{
@@ -410,8 +410,34 @@
 		$total = $_POST['total'];
 		$uid = $row['id'];
 
+		$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$prodId'");
+			if(mysqli_num_rows($descQuery)){
+				while($rowDesc = mysqli_fetch_array($descQuery)){
+					$porcentDescuento= $rowDesc['totalOferta'];
+					$fechaInicio = $rowDesc['fechaInicio'];
+					$fechaFinal = $rowDesc['fechaFinal'];
+					date_default_timezone_set("America/Costa_Rica");
+					$fechahoy = date("Y-m-d h:i:s");
+					$yacomenzo = ($fechaInicio<$fechahoy);
+					$yatermino = ($fechaFinal>$fechahoy);
+					$totalDescuento= (($porcentDescuento/100)*$precio);
+					
+				}
+			}else{
+				$totalDescuento=0;
+
+			}
+			if($yacomenzo==1 && $yatermino==1){
+			$precioTotal = round($precio - $totalDescuento);
+		}else{
+			$precioTotal =$precio;
+		}
+
+			$precioFinal = $precioTotal;
+			$valortotal = $precioFinal*$cant;
+
 		$sql = $con->prepare("UPDATE carro set cantidad =?, precio =?, total=? WHERE idProducto = '$prodId' AND idCliente='$uid'");
-		$sql->bind_param("iii", $cant,$precio,$total);
+		$sql->bind_param("iii", $cant,$precioFinal,$valortotal);
 		$sql->execute();
 		$sql->close();
 	}

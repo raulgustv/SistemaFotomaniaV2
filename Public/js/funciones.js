@@ -51,6 +51,15 @@ $(document).ready(function(){
 			}
 		}
 	});
+	$("#resetpass-frm").validate();
+	
+	$("#resetpass-frm").validate({
+		rules:{
+			cnewpass:{
+				equalTo: "#newpass"
+			}
+		}
+	});
 
 	$("#forgot-frm").validate();
 
@@ -123,6 +132,26 @@ $(document).ready(function(){
 		}
 		return true;
 	});	
+
+		/*----------  Restablecer contra  ----------*/
+
+		$("#restcon").click(function(e){
+			if(document.getElementById('resetpass-frm').checkValidity()){
+				e.preventDefault();
+				$("#loader").show();
+				$.ajax({
+					url: 'acciones/accionLogin.php',
+					method: 'post',
+					data: $("#resetpass-frm").serialize()+'&action=restablecer',
+					success: function(data){
+						$("#alert").show();
+						$("#result").html(data);
+						$("#loader").hide();
+					}
+				});
+			}
+			return true;
+		});	
 
 	/*----------  Convertir links en activos  ----------*/	
 

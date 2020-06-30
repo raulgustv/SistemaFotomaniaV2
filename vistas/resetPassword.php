@@ -76,7 +76,7 @@ if(!isset($tokenenviado)){
 						<input type="password" name="cnewpass" id="cnewpass" class="form-control" placeholder="Confirmar nueva contraseña" required>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="register" name="register" value="Restablecer" class="btn btn-success btn-block">
+						<input type="submit" id="restcon" name="restcon" value="Restablecer" class="btn btn-success btn-block">
                     </div>
                     <div class="form-group">
 						<input type="hidden" id="uemail" name="uemail" value="<?=$ucorreo?>" class="btn btn-success btn-block">

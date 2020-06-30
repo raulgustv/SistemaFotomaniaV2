@@ -173,14 +173,10 @@ if(isset($_POST['action']) && $_POST['action'] == 'restablecer'){
 		echo 'Error!!! La contraseña actual ingresada no coincide con nuestro sistema';
 		exit();
 	}else{
-			$stmt = $con->prepare("INSERT INTO clientes (nombre,usuario,email,pass,creado) VALUES (?,?,?,?,?) ");
-			$stmt->bind_param("sssss", $name,$uname,$email,$passHash,$created);
+		$con->query("UPDATE clientes SET cantidad = $newpassHash WHERE email = '$uemail'");
+		 	echo "Contraseña restablecida correctamente";
 
-			if($stmt->execute()){
-				echo "Restablecimiento de contraseña completado";
-			}else{
-				echo "No se pudo restablecer la contraseña";
-			}
+			
 		
 	}
 }
