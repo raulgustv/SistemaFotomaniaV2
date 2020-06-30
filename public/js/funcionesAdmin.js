@@ -808,7 +808,7 @@ $("#frmEditGaleria").on("submit", function(e){
 		data: formData,
 		success: function(data){
 			dataGal.ajax.reload();
-			message("Se editó la imagen correctamente");
+			message("Se editó la imagen correctamente", 2000, 'success');
 		},
 		contentType: false,
 		processData: false,

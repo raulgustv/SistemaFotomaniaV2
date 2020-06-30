@@ -541,17 +541,17 @@ if(isset($_POST['cargarImg'])){
 			<input type='hidden' name='idImagen' value='$idImagen'>
 				<div class='form-group'>
                 <label>Título de la imagen</label>
-                <input type='text' name='editTituloImg' id='editTituloImg' class='form-control' placeholder='$nombreImg'>
+                <input type='text' name='editTituloImg' id='editTituloImg' class='form-control' value='$nombreImg'>
             </div>
 
             <div class='form-group'>
                 <label>Autor</label>
-                <input type='text' name='editAutorNombre' id='editAutorNombre' class='form-control' placeholder='$autor'>
+                <input type='text' name='editAutorNombre' id='editAutorNombre' class='form-control' value='$autor'>
             </div>
 
             <div class='form-group'>
                 <label>Tomada con</label>
-                <input type='text' name='editCam' id='editCam' class='form-control' placeholder='$camara'>
+                <input type='text' name='editCam' id='editCam' class='form-control' value='$camara'>
             </div>
 
             <div class='input-group mb-3'>
@@ -613,11 +613,11 @@ if(isset($_FILES['imgThumbEdit'])){
 	if(is_uploaded_file($newThumb) && is_uploaded_file($newMain)){
 		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreThumb);
 		move_uploaded_file($newMain, "../../vistas/imagenesGaleria/".$newStoreMainImg);
-		$qNewT = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
-		$qNewT->bind_param("i", $idGal);
-		$qNewT->execute();
+		$qNewImg = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
+		$qNewImg->bind_param("i", $idGal);
+		$qNewImg->execute();
 
-		$r = $qNewT->get_result();
+		$r = $qNewImg->get_result();
 		$row = mysqli_fetch_array($r);
 		$oldThumb = $row['imagenThumb'];
 		$oldMain = $row['imagen'];
@@ -627,6 +627,46 @@ if(isset($_FILES['imgThumbEdit'])){
 
 		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagenThumb = ?, imagen = ? WHERE idGaleria = ?");
 		$q->bind_param("sssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreThumb, $newStoreMainImg, $idGal);
+		$q->execute();
+		$q->close();
+	} elseif(is_uploaded_file($newThumb)){
+		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreThumb);
+
+		$qNewThumb = $con->prepare("SELECT imagenThumb FROM galeria WHERE  idGaleria = ?");
+		$qNewThumb->bind_param("i", $idGal);
+		$qNewThumb->execute();
+
+		$r = $qNewThumb->get_result();
+		$row = mysqli_fetch_array($r);
+		$oldThumb = $row['imagenThumb'];
+
+		unlink("../../vistas/imagenesGaleria/".$oldThumb);
+
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagenThumb = ? WHERE idGaleria = ?");
+		$q->bind_param("ssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreThumb, $idGal);
+		$q->execute();
+		$q->close();
+
+	}elseif(is_uploaded_file($newMain)){
+		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreMainImg);
+
+		$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
+		$qNewImg->bind_param("i", $idGal);
+		$qNewImg->execute();
+
+		$r = $qNewImg->get_result();
+		$row = mysqli_fetch_array($r);
+		$oldMain = $row['imagen'];
+
+		unlink("../../vistas/imagenesGaleria/".$oldMain);
+
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagen = ? WHERE idGaleria = ?");
+		$q->bind_param("ssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreMainImg, $idGal);
+		$q->execute();
+		$q->close();
+	}else{
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ? WHERE idGaleria = ?");
+		$q->bind_param("sssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $idGal);
 		$q->execute();
 		$q->close();
 	}
