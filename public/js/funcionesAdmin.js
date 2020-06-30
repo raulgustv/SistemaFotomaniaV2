@@ -795,6 +795,29 @@ $(document).on("click", "#editarGal", function(e){
 })
 
 
+/*----------  Editar Galería  ----------*/
+
+$("#frmEditGaleria").on("submit", function(e){
+	e.preventDefault();
+
+	var formData = new FormData(this);
+
+	$.ajax({
+		url:  "accionesAdmin/accionesAdminMain.php",
+		method: "POST",
+		data: formData,
+		success: function(data){
+			dataGal.ajax.reload();
+			message("Se editó la imagen correctamente");
+		},
+		contentType: false,
+		processData: false,
+		cache: false
+	})
+})
+
+
+
 	
 
 

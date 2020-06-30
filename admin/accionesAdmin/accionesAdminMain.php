@@ -524,11 +524,121 @@ if(isset($_POST['cargarImg'])){
 
 	$idImagen = $_POST['galId'];
 
-	echo $idImagen;
+	$q = $con->prepare("SELECT * FROM galeria WHERE idGaleria = ?");
+	$q->bind_param("i", $idImagen);
+	$q->execute();
+
+	$row = $q->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$nombreImg = $r['nombre'];
+	$autor = $r['autor'];
+	$camara = $r['cam'];
+	$imagenThumb = $r['imagenThumb'];
+	$imagen = $r['imagen'];
+
+	echo "<div class='form-group'>
+			<input type='hidden' name='idImagen' value='$idImagen'>
+				<div class='form-group'>
+                <label>Título de la imagen</label>
+                <input type='text' name='editTituloImg' id='editTituloImg' class='form-control' placeholder='$nombreImg'>
+            </div>
+
+            <div class='form-group'>
+                <label>Autor</label>
+                <input type='text' name='editAutorNombre' id='editAutorNombre' class='form-control' placeholder='$autor'>
+            </div>
+
+            <div class='form-group'>
+                <label>Tomada con</label>
+                <input type='text' name='editCam' id='editCam' class='form-control' placeholder='$camara'>
+            </div>
+
+            <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                    <div class='custom-file'>
+                      <input type='file' name='imgThumbEdit' class='custom-file-input' id='imgThumbEdit'>
+                      <label class='custom-file-label' for='imgThumbEdit'>Seleccionar imagen (Thumbnail)</label>
+                     </div>
+                </div>
+            </div>
+
+              <div class='mb-3' id='prevContainer'>
+                <img src='../vistas/imagenesGaleria/$imagenThumb' class='imgPrev' id='prev2'>
+              </div>
+
+             <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                    <div class='custom-file'>
+                      <input type='file' name='imgMainEdit' class='custom-file-input' id='imgMainEdit'>
+                      <label class='custom-file-label' for='imgMainEdit'>Seleccionar imagen Principal</label>
+                     </div>
+                </div>
+            </div>
+
+            <div class='mb-3' id='prevContainer'>
+                <img src='../vistas/imagenesGaleria/$imagen' class='imgPrev' id='prev3'>
+            </div>
+        
+      </div>
+
+      <div class='modal-footer'>
+        <button type='submit' class='btn btn-primary'>Guardar</button>        
+      </div>";
 }
 
 
 /*=====  End of Cargar Galeria Editar  ======*/
+
+/*=====================================
+=            Editar Imagen            =
+=====================================*/
+
+if(isset($_FILES['imgThumbEdit'])){
+
+	$idGal = $_POST['idImagen'];
+
+	$img = $_FILES['imgThumbEdit']['name'];
+	$newStoreThumb = uniqid($img, true).".png";
+	$newThumb = $_FILES['imgThumbEdit']['tmp_name'];
+
+	$imgMain = $_FILES['imgMainEdit']['name'];
+	$newStoreMainImg = uniqid($imgMain, true).".png";
+	$newMain = $_FILES['imgMainEdit']['tmp_name'];
+
+	$nuevoTitulo = $_POST['editTituloImg'];
+	$nuevoAutor = $_POST['editAutorNombre'];
+	$nuevaCam = $_POST['editCam'];
+
+	if(is_uploaded_file($newThumb) && is_uploaded_file($newMain)){
+		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreThumb);
+		move_uploaded_file($newMain, "../../vistas/imagenesGaleria/".$newStoreMainImg);
+		$qNewT = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
+		$qNewT->bind_param("i", $idGal);
+		$qNewT->execute();
+
+		$r = $qNewT->get_result();
+		$row = mysqli_fetch_array($r);
+		$oldThumb = $row['imagenThumb'];
+		$oldMain = $row['imagen'];
+
+		unlink("../../vistas/imagenesGaleria/".$oldThumb);
+		unlink("../../vistas/imagenesGaleria/".$oldMain);
+
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagenThumb = ?, imagen = ? WHERE idGaleria = ?");
+		$q->bind_param("sssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreThumb, $newStoreMainImg, $idGal);
+		$q->execute();
+		$q->close();
+	}
+
+
+
+	
+}
+
+
+/*=====  End of Editar Imagen  ======*/
+
 
 
 
