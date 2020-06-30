@@ -679,6 +679,37 @@ if(isset($_FILES['imgThumbEdit'])){
 
 /*=====  End of Editar Imagen  ======*/
 
+/*=====================================
+=            Borrar Imagen            =
+=====================================*/
+
+if(isset($_POST['borrarGal'])){
+
+	$idGal = $_POST['galId'];
+
+	$qNewImg = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
+	$qNewImg->bind_param("i", $idGal);
+	$qNewImg->execute();
+
+	$r = $qNewImg->get_result();
+	$row = mysqli_fetch_array($r);
+	$oldThumb = $row['imagenThumb'];
+	$oldMain = $row['imagen'];
+
+	unlink("../../vistas/imagenesGaleria/".$oldThumb);
+	unlink("../../vistas/imagenesGaleria/".$oldMain);
+
+	$q = $con->prepare("DELETE FROM galeria WHERE idGaleria = ?");
+	$q->bind_param("i", $idGal);
+	$q->execute();
+	$q->close();
+
+
+}
+
+/*=====  End of Borrar Imagen  ======*/
+
+
 
 
 

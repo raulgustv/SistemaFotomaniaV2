@@ -817,6 +817,43 @@ $("#frmEditGaleria").on("submit", function(e){
 })
 
 
+/*----------  Borrar de galería  ----------*/
+
+$(document).on("click", "#btnDeleteGal", function(e){
+	e.preventDefault();
+
+	fila = $(this).closest("tr");
+	galId = parseInt(fila.find('td:eq(0)').text());
+
+
+	Swal.fire({
+		title: 'Deseas borrar esta imagen?',
+		 text: "Borrarás permanentemente esta imagen de la galería! No podrás deshacer estra acción!!",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+
+		$.ajax({
+			url:  "accionesAdmin/accionesAdminMain.php",
+			method: "POST",
+			data: {
+				borrarGal: 1,
+				galId:galId
+			},
+			success:function(data){
+				dataGal.ajax.reload();
+				message("Se borró la imagen correctamente", 2000, "success");
+			}
+			});
+		}
+	});
+});
+
+
 
 	
 
