@@ -242,7 +242,7 @@ if(isset($_POST['cargarProducto'])){
 
 			<div class='form-group'>
               <label for='editNombre'>Nombre</label>
-              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' value='$nombre'> 
           </div>
 	
 			 <div class='form-group'>
@@ -252,7 +252,7 @@ if(isset($_POST['cargarProducto'])){
 
           <div class='form-group'>
               <label for='editPrecio'>Precio</label>
-              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$precio'> 
+              <input type='text' class='form-control' name='editPrecio' id='editPrecio' value='$precio'> 
           </div> 
 
 
