@@ -24,20 +24,7 @@
                 <input type="text" name="nombreCam" id="nombreCam" class="form-control" placeholder="Cámara usada para tomar la foto">
             </div>
 
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <div class="custom-file">
-                      <input type="file" name="imgThumb" class="custom-file-input" id="imgThumb">
-                      <label class="custom-file-label" for="imgThumb">Seleccionar imagen (Thumbnail)</label>
-                     </div>
-                </div>
-            </div>
-
-              <div class="mb-3" id="prevContainer">
-                <img src="#" class="imgPrev" id="prev2">
-              </div>
-
-             <div class="input-group mb-3">
+               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <div class="custom-file">
                       <input type="file" name="imgMain" class="custom-file-input" id="imgMain">

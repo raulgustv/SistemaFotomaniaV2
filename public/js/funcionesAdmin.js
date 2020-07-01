@@ -675,27 +675,6 @@ function llenarDetallePedido(){
 
 /*----------  Preview Imagenes  ----------*/
 
-	function readURL2(input){
-		var reader = new FileReader();
-
-		var file = input.files[0];
-
-		if(file){
-			reader.onload = function(e){
-			$("#prev2").attr('src', e.target.result);
-		}
-			reader.readAsDataURL(file);
-
-	}
-
-}
-
-	$("#imgThumb").change(function(){
-		readURL2(this);
-	});
-
-
-
 	function readURL3(input){
 		var reader = new FileReader();
 
@@ -730,7 +709,6 @@ function llenarDetallePedido(){
 			success: function(data){
 				message("Imagen subida correctamente", 2000, 'success');	
 				$("#frmGaleria").trigger("reset");
-				$("#prev2").attr('src', '#');
 				$("#prev3").attr('src', '#');
 
 			},
@@ -767,9 +745,8 @@ function llenarDetallePedido(){
 			{"data": "nombre"},
 			{"data": "autor"},
 			{"data": "cam"},
-			{"data": "imagenThumb", render: getImgGal},
 			{"data": "imagen", render: getImgGal},
-			{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteGal'><i class='fas fa-trash'></i></a> <a href='#' id='editarGal' data-toggle='modal' data-target='#form_editGal' class='btn btn-primary'><i class='fas fa-edit'></i></a>"}
+			{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteGal'><i class='fas fa-trash'></i></a> <a href='#' id='editarGal' data-toggle='modal' data-target='#form_editGal' class='btn btn-primary'><i class='fas fa-edit'></i></a>"},
 
 		]
 	});

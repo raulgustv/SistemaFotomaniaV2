@@ -461,11 +461,8 @@ if(isset($_POST['editarStatus'])){
 =            Subir Galería de imagenes            =
 =================================================*/
 
-if(isset($_FILES['imgThumb'])){
+if(isset($_FILES['imgMain'])){
 
-	$imgThumb = $_FILES['imgThumb']['name'];
-	$uploadImgThumb = $_FILES['imgThumb']['tmp_name'];
-	$storeThumb = uniqid($imgThumb, true).".png";
 
 	$imgMain = $_FILES['imgMain']['name'];
 	$uploadImgMain = $_FILES['imgMain']['tmp_name'];
@@ -475,14 +472,13 @@ if(isset($_FILES['imgThumb'])){
 	$autor = $_POST['nombreAutor'];
 	$camaraNombre = $_POST['nombreCam'];
 
-	if(is_uploaded_file($uploadImgThumb) && is_uploaded_file($uploadImgMain)){
-		move_uploaded_file($uploadImgThumb, '../../vistas/imagenesGaleria/'.$storeThumb);
+	if(is_uploaded_file($uploadImgMain)){		
 		move_uploaded_file($uploadImgMain, '../../vistas/imagenesGaleria/'.$storeMain);
 
 	}
 
-	$q = $con->prepare("INSERT INTO galeria (nombre, autor, cam, imagenThumb, imagen) VALUES (?,?,?,?,?)");
-	$q->bind_param("sssss", $nombreImg, $autor, $camaraNombre, $storeThumb, $storeMain);
+	$q = $con->prepare("INSERT INTO galeria (nombre, autor, cam, imagen) VALUES (?,?,?,?)");
+	$q->bind_param("ssss", $nombreImg, $autor, $camaraNombre, $storeMain);
 	$q->execute();
 	$q->close();
 
@@ -507,6 +503,8 @@ if(isset($_POST['getGal'])){
 	while ($r = mysqli_fetch_array($row)){
 		$data[] = $r;
 	}
+
+
 
 	echo json_encode($data);
 
@@ -533,8 +531,7 @@ if(isset($_POST['cargarImg'])){
 
 	$nombreImg = $r['nombre'];
 	$autor = $r['autor'];
-	$camara = $r['cam'];
-	$imagenThumb = $r['imagenThumb'];
+	$camara = $r['cam'];	
 	$imagen = $r['imagen'];
 
 	echo "<div class='form-group'>
@@ -553,19 +550,6 @@ if(isset($_POST['cargarImg'])){
                 <label>Tomada con</label>
                 <input type='text' name='editCam' id='editCam' class='form-control' value='$camara'>
             </div>
-
-            <div class='input-group mb-3'>
-                <div class='input-group-prepend'>
-                    <div class='custom-file'>
-                      <input type='file' name='imgThumbEdit' class='custom-file-input' id='imgThumbEdit'>
-                      <label class='custom-file-label' for='imgThumbEdit'>Seleccionar imagen (Thumbnail)</label>
-                     </div>
-                </div>
-            </div>
-
-              <div class='mb-3' id='prevContainer'>
-                <img src='../vistas/imagenesGaleria/$imagenThumb' class='imgPrev' id='prev2'>
-              </div>
 
              <div class='input-group mb-3'>
                 <div class='input-group-prepend'>
@@ -594,13 +578,9 @@ if(isset($_POST['cargarImg'])){
 =            Editar Imagen            =
 =====================================*/
 
-if(isset($_FILES['imgThumbEdit'])){
+if(isset($_FILES['imgMainEdit'])){
 
-	$idGal = $_POST['idImagen'];
-
-	$img = $_FILES['imgThumbEdit']['name'];
-	$newStoreThumb = uniqid($img, true).".png";
-	$newThumb = $_FILES['imgThumbEdit']['tmp_name'];
+	$idGal = $_POST['idImagen'];	
 
 	$imgMain = $_FILES['imgMainEdit']['name'];
 	$newStoreMainImg = uniqid($imgMain, true).".png";
@@ -610,45 +590,10 @@ if(isset($_FILES['imgThumbEdit'])){
 	$nuevoAutor = $_POST['editAutorNombre'];
 	$nuevaCam = $_POST['editCam'];
 
-	if(is_uploaded_file($newThumb) && is_uploaded_file($newMain)){
-		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreThumb);
+	
+
+	if (is_uploaded_file($newMain)){
 		move_uploaded_file($newMain, "../../vistas/imagenesGaleria/".$newStoreMainImg);
-		$qNewImg = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
-		$qNewImg->bind_param("i", $idGal);
-		$qNewImg->execute();
-
-		$r = $qNewImg->get_result();
-		$row = mysqli_fetch_array($r);
-		$oldThumb = $row['imagenThumb'];
-		$oldMain = $row['imagen'];
-
-		unlink("../../vistas/imagenesGaleria/".$oldThumb);
-		unlink("../../vistas/imagenesGaleria/".$oldMain);
-
-		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagenThumb = ?, imagen = ? WHERE idGaleria = ?");
-		$q->bind_param("sssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreThumb, $newStoreMainImg, $idGal);
-		$q->execute();
-		$q->close();
-	} elseif(is_uploaded_file($newThumb)){
-		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreThumb);
-
-		$qNewThumb = $con->prepare("SELECT imagenThumb FROM galeria WHERE  idGaleria = ?");
-		$qNewThumb->bind_param("i", $idGal);
-		$qNewThumb->execute();
-
-		$r = $qNewThumb->get_result();
-		$row = mysqli_fetch_array($r);
-		$oldThumb = $row['imagenThumb'];
-
-		unlink("../../vistas/imagenesGaleria/".$oldThumb);
-
-		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagenThumb = ? WHERE idGaleria = ?");
-		$q->bind_param("ssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreThumb, $idGal);
-		$q->execute();
-		$q->close();
-
-	}elseif(is_uploaded_file($newMain)){
-		move_uploaded_file($newThumb, "../../vistas/imagenesGaleria/".$newStoreMainImg);
 
 		$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
 		$qNewImg->bind_param("i", $idGal);
@@ -670,11 +615,12 @@ if(isset($_FILES['imgThumbEdit'])){
 		$q->execute();
 		$q->close();
 	}
+}
 
 
 
 	
-}
+
 
 
 /*=====  End of Editar Imagen  ======*/
@@ -687,16 +633,15 @@ if(isset($_POST['borrarGal'])){
 
 	$idGal = $_POST['galId'];
 
-	$qNewImg = $con->prepare("SELECT imagenThumb, imagen FROM galeria WHERE  idGaleria = ?");
+	$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
 	$qNewImg->bind_param("i", $idGal);
 	$qNewImg->execute();
 
 	$r = $qNewImg->get_result();
-	$row = mysqli_fetch_array($r);
-	$oldThumb = $row['imagenThumb'];
+	$row = mysqli_fetch_array($r);	
 	$oldMain = $row['imagen'];
 
-	unlink("../../vistas/imagenesGaleria/".$oldThumb);
+
 	unlink("../../vistas/imagenesGaleria/".$oldMain);
 
 	$q = $con->prepare("DELETE FROM galeria WHERE idGaleria = ?");

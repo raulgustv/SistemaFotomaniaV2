@@ -159,9 +159,13 @@ div#errorName, #errorPassSize, #errorPassMatch, #errorPass{
 
 img.imgGal{
 	margin-bottom: 50px;
+
 	width: 200px;
 	height: 200px;
-		
+
+	height: 200px;
+	width: 200px;	
+
 	
 }
 
