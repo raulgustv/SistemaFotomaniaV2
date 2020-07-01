@@ -16,6 +16,7 @@ require '../acciones/sesion.php';
 	<link rel="stylesheet" type="text/css" href="../public/fontawesome/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/bootstrap/css/bootstrap.min.css"> 
 	<link rel="stylesheet" type="text/css" href="../public/lightbox2-dev/dist/css/lightbox.min.css">
+  <link rel="stylesheet" type="text/css" href="../public/css/main.css">
 
  
 </head>
