@@ -963,10 +963,10 @@
 				$imagenThumb = $r['imagenThumb'];
 				$imagen = $r['imagen'];
 
-				echo "<div class='col-lg-3'>
+				echo "<div class='col-lg-2 col-md-2 col-sm-1'>
 
 						<a href='../vistas/imagenesGaleria/$imagen' data-lightbox='galeria' data-title='<small><b>$nombre</b> <br> Tomada con: $camara  <br>Por: <i>$autor</i> </small>'>
-							<img class='img-fluid img-thumbnail imgGal' src='../vistas/imagenesGaleria/$imagenThumb'>	
+							<img class='img-responsive imgGal' src='../vistas/imagenesGaleria/$imagenThumb'>	
 						</a></div>"
 						;
 
