@@ -16,8 +16,7 @@ checkAdmin();
 				<th>Id Imágen</th>
 				<th>Título Imagen</th>
 				<th>Nombre Autor</th>
-				<th>Tomada con</th>
-				<th>Imagen Thumbnail</th>
+				<th>Tomada con</th>				
 				<th>Imagen Principal</th>
 				<th>Acciones</th>
 				

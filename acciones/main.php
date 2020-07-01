@@ -960,13 +960,13 @@
 				$nombre = $r['nombre'];
 				$autor = $r['autor'];
 				$camara = $r['cam'];
-				$imagenThumb = $r['imagenThumb'];
+			
 				$imagen = $r['imagen'];
 
 				echo "<div class='col-lg-2'>
 
 						<a href='../vistas/imagenesGaleria/$imagen' data-lightbox='galeria' data-title='<small><b>$nombre</b> <br> Tomada con: $camara  <br>Por: <i>$autor</i> </small>'>
-							<img class='img-fluid img-thumbnail imgGal' src='../vistas/imagenesGaleria/$imagenThumb'>	
+							<img class='img-fluid img-thumbnail imgGal' src='../vistas/imagenesGaleria/$imagen'>	
 						</a></div>"
 						;
 
