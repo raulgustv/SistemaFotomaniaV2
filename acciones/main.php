@@ -281,6 +281,7 @@
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
+			$totalDescuento = 0;
 		}
 
 			$precioFinal = $precioTotal;
@@ -290,7 +291,7 @@
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
 				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
-				<td class='col-1'><input type='text' class='form-control descuento' id='total-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
+				<td class='col-1'><input type='text' class='form-control descuento' id='descuento-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
 				<td class='col-2'>
 					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>

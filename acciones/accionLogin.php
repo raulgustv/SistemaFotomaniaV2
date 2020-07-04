@@ -96,7 +96,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 =            Contraseña Olvidada            =
 ===========================================*/
 
-if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
+if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
 	$femail = $_POST['femail'];
 
 

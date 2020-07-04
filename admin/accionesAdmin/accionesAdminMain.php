@@ -416,6 +416,43 @@ if(isset($_POST['agregarDesc'])){
 
 /*=====  End of Agregar Descuento  ======*/
 
+/*========================================
+=            Obtener Descuento            =
+========================================*/
+
+
+if(isset($_POST['getDesc'])){
+	$q = $con->query("SELECT idOferta, productos.nombre AS nombreProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id");
+
+	$data = array();
+
+	while ($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+/*=====  End of Obtener Descuento  ======*/
+
+
+
+/*========================================
+=            Borrar Descuento            =
+========================================*/
+
+if(isset($_POST['borrarDesc'])){
+	$descId = $_POST['descId'];
+
+	$sql = $con->prepare("DELETE FROM ofertas WHERE idOferta = ? ");
+	$sql->bind_param("i", $descId);
+	$sql->execute();
+
+
+}
+
+/*=====  End of Borrar Descuento  ======*/
+
 
 
 ?>
