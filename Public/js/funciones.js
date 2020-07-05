@@ -140,9 +140,9 @@ $(document).ready(function(){
 				e.preventDefault();
 				$("#loader").show();
 				$.ajax({
-					url: 'acciones/accionLogin.php',
+					url: '../acciones/accionLogin.php',
 					method: 'post',
-					data: $("#resetpass-frm").serialize()+'&action=restablecer',
+					data: $("#resetpass-frm").serialize()+'&action=restcon',
 					success: function(data){
 						$("#alert").show();
 						$("#result").html(data);

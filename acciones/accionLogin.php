@@ -96,7 +96,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 =            Contraseña Olvidada            =
 ===========================================*/
 
-if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
+if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 	$femail = $_POST['femail'];
 
 
@@ -152,8 +152,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
 =    Restableciemiento de contra       =
 ================================*/
 
-if(isset($_POST['action']) && $_POST['action'] == 'restablecer'){
-	$currentpass = checkInput($_POST['currentpass']);
+if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
+	$currentpass = checkInput($_POST['currentpassword']);
 	$newpass = checkInput($_POST['newpass']);
 	$cnewpass = checkInput($_POST['cnewpass']);
 	$uemail = checkInput($_POST['uemail']);
@@ -161,21 +161,22 @@ if(isset($_POST['action']) && $_POST['action'] == 'restablecer'){
 	$currentpassHash = sha1($currentpass);
 	$newpassHash = sha1($newpass);
 	$cnewpassHash = sha1($cnewpass);
+	echo $uemail;
 	$sql = $con->prepare("SELECT usuario,email,pass FROM clientes WHERE email =?");
 	$sql->bind_param("s", $uemail);
 	$sql->execute();
 	$result = $sql->get_result();
 	$row = $result->fetch_array(MYSQLI_ASSOC);
-	if($passHash!=$cpassHash){
+	$currentpassDB = $row['pass'];
+	if($newpassHash != $cnewpassHash){
 		echo 'Error!!! Las contraseñas no coinciden';
 		exit();
-	}elseif($row['pass'] =! $currentpassHash){
+	}elseif($currentpassDB != $currentpassHash){
 		echo 'Error!!! La contraseña actual ingresada no coincide con nuestro sistema';
 		exit();
 	}else{
-		$con->query("UPDATE clientes SET cantidad = $newpassHash WHERE email = '$uemail'");
+		$con->query("UPDATE clientes SET pass = '$newpassHash' WHERE email = '$uemail'");
 		 	echo "Contraseña restablecida correctamente";
-
 			
 		
 	}

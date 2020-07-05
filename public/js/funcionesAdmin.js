@@ -642,7 +642,7 @@ dataDesc = $("#dtTablaDesc").DataTable({
 		{"data": "totalOferta"},
 		{"data": "fechaInicio"},
 		{"data": "fechaInicio"},
-		{"defaultContent": "<a href='#' id='btnDeleteDesc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarCat' data-toggle='modal' data-target='#formEditCats' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
+		{"defaultContent": "<a href='#' id='btnDeleteDesc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarDesc' data-toggle='modal' data-target='#formEditDesc' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
 
 	]
 });
@@ -683,6 +683,53 @@ $(document).on("click", "#btnDeleteDesc", function(){
 });
 
 
+
+/*----------  Obtener descuentos Editar  ----------*/
+
+
+$(document).on("click", "#editarDesc", function(){
+
+	fila = $(this).closest("tr");
+	descId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			cargarDescuento:1,
+			descId:descId
+		},
+		success: function(data){
+			$("#frmEditDescuentos").html(data);
+			//alert(data);
+		}
+	})
+
+
+});
+
+/*----------  Editar Descuento  ----------*/
+
+$("#frmEditDescuentos").on("submit", function(e){
+	e.preventDefault();
+
+	var formData = new FormData(this);
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: formData,
+		success: function(data){
+			dataProducts.ajax.reload();
+			message("Descuento editado con éxito", 2000, 'success');			
+			$("#formEditDesc").modal('hide');
+		},
+		contentType: false,
+		processData: false,
+		cache: false
+	})
+
+})
 
 
 });

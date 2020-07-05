@@ -20,7 +20,7 @@ function emailreset($correo,$titulo,$cuerpo,$cuerposimple){
         $mail->Host       = 'smtp.sendgrid.net';                    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
         $mail->Username   = 'apikey';                     // SMTP username
-        $mail->Password   = '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';                               // SMTP password
+        $mail->Password   = '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';                               // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
         $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     

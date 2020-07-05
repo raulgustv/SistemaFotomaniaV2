@@ -205,6 +205,7 @@
 				$precioTotal = round($precio - $totalDescuento);
 			}else{
 				$precioTotal =$precio;
+				$totalDescuento=0;
 			}
 		 $nombreProd = $row['nombre'];
 		 $total = $cant * $precioTotal;
@@ -432,6 +433,7 @@
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
+			$totalDescuento=0;
 		}
 
 			$precioFinal = $precioTotal;
@@ -516,9 +518,33 @@
 				$nombre = $reg['nombre'];
 				$precio =  $r['precio'];
 
+				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProd'");
+			if(mysqli_num_rows($descQuery)){
+				while($rowDesc = mysqli_fetch_array($descQuery)){
+					$porcentDescuento= $rowDesc['totalOferta'];
+					$fechaInicio = $rowDesc['fechaInicio'];
+					$fechaFinal = $rowDesc['fechaFinal'];
+					date_default_timezone_set("America/Costa_Rica");
+					$fechahoy = date("Y-m-d h:i:s");
+					$yacomenzo = ($fechaInicio<$fechahoy);
+					$yatermino = ($fechaFinal>$fechahoy);
+					$totalDescuento= (($porcentDescuento/100)*$precio);
+					
+				}
+			}else{
+				$totalDescuento=0;
+
+			}
+			if($yacomenzo==1 && $yatermino==1){
+			$precioTotal = round($precio - $totalDescuento);
+		}else{
+			$precioTotal =$precio;
+			$totalDescuento=0;
+		}
+
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
                      <div class='col-lg-4'>$nombre</div> 
-                     <div class='col-lg-4'>$precio</div>";
+                     <div class='col-lg-4'>$precioTotal</div>";
 				
 			}
 		}		

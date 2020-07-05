@@ -284,7 +284,11 @@ if(isset($_POST['cargarProducto'])){
 					while($row = mysqli_fetch_array($sql)){
 					$catId = $row['idCategoria'];
 					$catName = $row['nombre'];
-					echo "<option value='$catId'>$catName</option>";
+					echo "<option value='$catId'";
+					if($catName == $cat){
+						echo " selected";
+					}
+					echo ">$catName</option>";
 						
 
 				}                   		
@@ -453,6 +457,150 @@ if(isset($_POST['borrarDesc'])){
 
 /*=====  End of Borrar Descuento  ======*/
 
+
+
+/*===============================================
+=            Obtener descuento Editar            =
+===============================================*/
+
+if(isset($_POST['cargarDescuento'])){
+
+	$descId = $_POST['descId'];
+
+	//echo $descId;
+
+	$q = $con->query("SELECT idOferta, productos.nombre AS nombreProducto, productos.id AS idProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id WHERE idOferta = ?");
+	$q->bind_param("i", $descId);
+	$q->execute();
+
+	$r = $q->get_result();
+
+	$row = mysqli_fetch_array($r);
+
+	
+	$titulo = $row['titulo'];
+	$nombreProducto = $row['nombreProducto'];
+	$idProducto = $row['idProducto'];
+	$descripcion = $row['descripcionDesc'];
+	$totalOferta = $row['totalOferta'];
+	$fechaInicio = $row['fechaInicio'];
+	$fechaFinaliz = $row['fechaFinal'];
+
+	
+	echo "
+			<div class='form-group'>              
+              <input type='hidden' name='prodId' value='$descId'> 
+          	</div>
+
+			<div class='form-group'>
+              <label for='editNombre'>Nombre</label>
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$titulo'> 
+          </div>
+	
+			 <div class='form-group'>
+              <label for='editDesc'>Descripción</label>
+              <textarea  type='text' rows='3' class='form-control' name='editDesc' id='editDesc'>$descripcion</textarea> 
+          </div>
+
+          <div class='form-group'>
+              <label for='editPrecio'>Precio</label>
+              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$totalOferta'> 
+          </div> 
+
+
+		  <div class='form-group'>
+		  <label for='editPrecio'>Precio</label>
+		  <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$fechaInicio'> 
+	  </div> 
+
+	  <div class='form-group'>
+              <label for='editPrecio'>Precio</label>
+              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$fechaFinaliz'> 
+          </div> 
+
+            <div class='input-group mb-3'>
+              <div class='input-group-prepend'>
+                  <label class='input-group-text' for='catProd'>Categoría</label>
+                  <select class='custom-select' name='catAddProd' id='catAddProd'>";
+
+                  $sql = $con->query("SELECT * FROM productos");
+					while($row = mysqli_fetch_array($sql)){
+					$prodId = $row['id'];
+					$prodName = $row['nombre'];
+					echo "<option value='$prodId'";
+					if($prodId == $idProducto){
+						echo " selected";
+					}
+					echo ">$prodName</option>";
+						
+
+				}                   		
+                  "</select> 
+              </div>
+          </div>
+
+          ";
+
+          echo "<div class='form-control mt-5'>
+              <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
+            </div>";
+
+
+}
+
+/*=====  End of Obtener descuento Editar  ======*/
+
+/*=======================================
+=            Editar Descuento            =
+=======================================*/
+
+if(isset($_FILES['agregarDesc'])){
+	$img = $_FILES['editImgProd']['name'];
+	$newStoreImg = uniqid($img, true).".png";
+	$nuevaImg = $_FILES['editImgProd']['tmp_name'];
+
+	$id = $_POST['prodId'];
+	$nombre = $_POST['editNombre'];
+	$descripcion = $_POST['editDesc'];	
+	$precio = $_POST['editPrecio'];
+	$categoria = $_POST['catAddProd'];
+
+	
+	
+
+	if(is_uploaded_file($nuevaImg)){
+		move_uploaded_file($nuevaImg, "../../vistas/imagenes/".$newStoreImg);
+
+		$qImg = $con->prepare("SELECT * FROM productos WHERE id = ?");
+		$qImg->bind_param("i", $id);
+		$qImg->execute();
+		//$qImg->close();
+
+		$r = $qImg->get_result(); 
+		$row = mysqli_fetch_array($r);
+		$oldImg = $row['imagen'];
+		unlink('../../vistas/imagenes/'.$oldImg);
+
+		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ?, imagen = ? WHERE id = ? ");
+		$q->bind_param("siissi", $nombre, $categoria, $precio, $descripcion, $newStoreImg, $id);
+		$q->execute();
+		$q->close();
+	}else{
+		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ? WHERE id = ? ");
+		$q->bind_param("siisi", $nombre, $categoria, $precio, $descripcion, $id);
+		$q->execute();
+		$q->close();
+	}
+
+	
+
+	
+	
+
+
+}
+
+/*=====  End of Editar Descuento  ======*/
 
 
 ?>

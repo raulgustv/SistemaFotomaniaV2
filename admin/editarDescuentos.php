@@ -9,18 +9,18 @@ include_once '../includes/funciones.php';
 
 
 
-<div class="modal fade" id="formEditProd" tabindex="-1" role="dialog">
+<div class="modal fade" id="formEditDesc" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Editar producto</h5>
+        <h5 class="modal-title">Editar descuento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="editProds">
+      <div class="modal-body" id="editDesc">
 
-       <form method='post' id='frmEditProductos' enctype='multipart/form-data'>
+       <form method='post' id='frmEditDescuentos' enctype='multipart/form-data'>
           
        
          
