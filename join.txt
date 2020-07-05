@@ -1,5 +1,0 @@
-SELECT comprafinalizada.compraId, clientes.nombre, productos.nombre, comprafinalizada.monto, comprafinalizada.transaccionId, comprafinalizada.FechaCompra
-FROM productos
-JOIN comprafinalizada ON productos.id = comprafinalizada.productoId
-JOIN clientes ON clientes.id = comprafinalizada.clienteId
-GROUP BY comprafinalizada.transaccionId

@@ -374,7 +374,7 @@ $("#frmProductos").validate({
 $("#frmProductos").on("submit", function(e){
 	e.preventDefault();
 	var formData = new FormData(this);	
-	console.log('hola');
+
 	//var form = $("#frmProductos").serialize()+"&agregarProducto";
 
 	$.ajax({
@@ -387,6 +387,8 @@ $("#frmProductos").on("submit", function(e){
 				}else{
 					message("Producto insertado correctamente", 2000, 'success');	
 					$("#frmProductos").trigger("reset");
+					$("#imgPrev").attr('src', '#');
+
 				}		
 			},
 			contentType: false,
@@ -554,10 +556,292 @@ $("#frmEditProductos").on("submit", function(e){
 		cache: false
 	})
 
+});
+
+/*----------  Listar últimos pedidos  ----------*/
+
+lastOrders();
+function lastOrders(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getLastOrders:1},
+		success: function(data){
+			$("#lastOrders").html(data);
+
+		}
+	});
+}
+
+
+/*----------  Listado todos los pedidos  ----------*/
+
+var dataOrders;
+
+dataOrders = $("#dtTablaPedidos").DataTable({
+
+	"order": [[2, "desc"]],
+	
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {"getOrders":1},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data" : "trans"},
+		{"data" : "nombre"},
+		{"data" : "FechaCompra"},
+		{"data" : "nombreEstado"},
+		{"data" : "monto"},
+		{"defaultContent" : "<a href='#' class='btn btn-primary' id='editProdStatus' data-toggle='modal' data-target='#formEditPedidoStatus'><i class='fas fa-edit'></i></a> <a href='#' class='btn btn-success' id='verPedidoCliente'><i class='fas fa-eye'></i></a> "},	
+
+	]
+
+});
+
+
+
+
+/*----------  Obtener Estados de pedido  ----------*/
+
+$(document).on("click", "#editProdStatus", function(){
+	
+	fila = $(this).closest("tr");
+	var pedido = fila.find('td:eq(0)').text();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: {llenarEstado:1, idPedido:pedido},
+		success: function(data){
+			$("#frmEditPedidoStatus").html(data);
+		}
+	}) 
+	
+	
+});
+
+/*----------  Editar Estado pedido  ----------*/
+
+
+$("#frmEditPedidoStatus").on("submit", function(e){
+	e.preventDefault();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: $("#frmEditPedidoStatus").serialize()+'&editarStatus',
+		success: function(data){
+			dataOrders.ajax.reload();
+			message("Estado acutalizado correctamente", 2000, 'success')			
+			$("#formEditPedidoStatus").modal('hide');
+		}
+	});
+
+
+
+	
+});
+
+/*----------  Ver pedido  ----------*/
+
+
+$(document).on("click", "#verPedidoCliente", function(){
+	fila = $(this).closest("tr");
+	var idPedido = fila.find('td:eq(0)').text();
+
+	window.open("verPedidoCliente.php?id="+idPedido, "_blank");
+
+});
+
+
+llenarDetallePedido()
+function llenarDetallePedido(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'post',
+		data: {obtenerPedido: 1},
+		success: function(data){
+			
+		}
+	})
+}
+
+/*===========================================
+=            Galería de imagenes            =
+===========================================*/
+
+/*----------  Preview Imagenes  ----------*/
+
+	function readURL3(input){
+		var reader = new FileReader();
+
+		var file = input.files[0];
+
+		if(file){
+			reader.onload = function(e){
+			$("#prev3").attr('src', e.target.result);
+		}
+			reader.readAsDataURL(file);
+
+	}
+
+}
+
+	$("#imgMain").change(function(){
+		readURL3(this);
+	});
+
+
+	/*----------  Subir Imagen  ----------*/
+
+	$("#frmGaleria").on("submit", function(e){
+		e.preventDefault();
+
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'post',
+			data: formData,
+			success: function(data){
+				message("Imagen subida correctamente", 2000, 'success');	
+				$("#frmGaleria").trigger("reset");
+				$("#prev3").attr('src', '#');
+
+			},
+			contentType: false,
+			processData: false,
+			cache: false
+		});
+	});
+
+
+	/*----------  Cargar Imagen Galeria  ----------*/
+	
+	
+	function getImgGal(imagen){
+		return '<img class="rounded dtGal" src="../vistas/imagenesGaleria/' + imagen + '">';
+	}
+
+
+	var dataGal;
+
+	dataGal = $("#dtTablaGal").DataTable({
+		"ajax": {
+			"url":  "accionesAdmin/accionesAdminMain.php",
+			"method": "post",
+			"data": {
+				"getGal":1
+			},
+			"dataSrc": ""
+		},
+
+		"columns": [
+
+			{"data": "idGaleria"},
+			{"data": "nombre"},
+			{"data": "autor"},
+			{"data": "cam"},
+			{"data": "imagen", render: getImgGal},
+			{"defaultContent": "<a href='#' class='btn btn-danger' id='btnDeleteGal'><i class='fas fa-trash'></i></a> <a href='#' id='editarGal' data-toggle='modal' data-target='#form_editGal' class='btn btn-primary'><i class='fas fa-edit'></i></a>"},
+
+		]
+	});
+
+
+/*----------  Cargar Imagen editar  ----------*/
+
+$(document).on("click", "#editarGal", function(e){
+	fila = $(this).closest("tr");
+	galId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url:  "accionesAdmin/accionesAdminMain.php",
+		method: "post",
+		data: {
+			cargarImg: 1,
+			galId:galId
+		},
+		success: function(data){
+			$("#frmEditGaleria").html(data);
+		}
+	})
 })
 
 
+/*----------  Editar Galería  ----------*/
 
+$("#frmEditGaleria").on("submit", function(e){
+	e.preventDefault();
+
+	var formData = new FormData(this);
+
+	$.ajax({
+		url:  "accionesAdmin/accionesAdminMain.php",
+		method: "POST",
+		data: formData,
+		success: function(data){
+			dataGal.ajax.reload();
+			message("Se editó la imagen correctamente", 2000, 'success');
+		},
+		contentType: false,
+		processData: false,
+		cache: false
+	})
+})
+
+
+/*----------  Borrar de galería  ----------*/
+
+$(document).on("click", "#btnDeleteGal", function(e){
+	e.preventDefault();
+
+	fila = $(this).closest("tr");
+	galId = parseInt(fila.find('td:eq(0)').text());
+
+
+	Swal.fire({
+		title: 'Deseas borrar esta imagen?',
+		 text: "Borrarás permanentemente esta imagen de la galería! No podrás deshacer estra acción!!",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+
+		$.ajax({
+			url:  "accionesAdmin/accionesAdminMain.php",
+			method: "POST",
+			data: {
+				borrarGal: 1,
+				galId:galId
+			},
+			success:function(data){
+				dataGal.ajax.reload();
+				message("Se borró la imagen correctamente", 2000, "success");
+			}
+			});
+		}
+	});
+});
+
+
+
+	
+
+
+	
+
+
+	
+
+
+/*=====  End of Galería de imagenes  ======*/
 
 /*----------  Llenar Lista Producto   ----------*/
 

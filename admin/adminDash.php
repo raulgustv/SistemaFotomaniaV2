@@ -43,19 +43,51 @@ $role = ($_SESSION['userRole']);
 					  <div class="card-body">
 					    <h5 class="card-title">Pedidos</h5>
 					    <p class="card-text">Revisar Pedidos</p>
-					    <a href="#" class="btn btn-primary">Ir a Pedidos</a>
+					    <a href="verPedidos.php" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
+					</div>				
+				</div>
+				</div>
+				<h6>Pedidos recientes</h6>
+				<div class="row mt-2">
+					<div class="col-lg-12">
+						<table class="table table-bordered">
+							<thead class="table-info">
+								<th>Número de transación</th>							
+								<th>Cliente</th>
+								<th>Fecha</th>
+							</thead>
+							<tbody class="table-success" id="lastOrders">
+								<!-- <tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr>
+								<tr>
+									<td>123</td>
+									<td>Cámara</td>
+									<td>Antonio</td>
+									<td>hoy</td>
+								</tr> -->
+							</tbody>
+						</table>
 					</div>
 				</div>
-				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
 </div>
 
 <div class="container mt-2">
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-lg-4 mb-2">
 			<div class="card">	
 				<div class="card-header text-center">Administrar Productos</div>
 				<img class="card-img-top mx-auto imgPanel" src="../logos/cameraLens.svg" alt="Card image cap">				  
@@ -66,7 +98,7 @@ $role = ($_SESSION['userRole']);
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-4 mb-2">
 			<div class="card">	
 				<div class="card-header text-center">Administrar Categorías</div>
 				<img class="card-img-top mx-auto imgPanel" src="../logos/categorías.svg" alt="Card image cap">					  
@@ -77,18 +109,8 @@ $role = ($_SESSION['userRole']);
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4">
-			<div class="card">	
-				<div class="card-header text-center">Administrar Galería</div>	
-				<img class="card-img-top mx-auto imgPanel" src="../logos/galeria.svg" alt="Card image cap">				  
-				<div class="card-body">					
-					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
-					<a href="#" data-toggle="modal" data-target="#form_editCats" class="btn btn-primary">Agregar Imágenes</a>
-					<a href="#"class="btn btn-success">Ver Imágenes</a>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-4">
+	
+		<div class="col-lg-4 mb-2">
 			<div class="card">	
 				<div class="card-header text-center">Administrar Descuentos</div>	
 				<img class="card-img-top mx-auto imgPanel" src="../logos/descuento.svg" alt="Card image cap">				  
@@ -99,10 +121,25 @@ $role = ($_SESSION['userRole']);
 				</div>
 			</div>
 		</div>
+
+		<div class="col-lg-4 mb-2">
+			<div class="card">	
+				<div class="card-header text-center">Administrar Galería</div>	
+				<img class="card-img-top mx-auto imgPanel" src="../logos/galeria.svg" alt="Card image cap">				  
+				<div class="card-body">					
+					<p class="card-text">Administra las imágenes que se muestran en la tienda</p>
+					<a href="#" data-toggle="modal" data-target="#form_imagenes" class="btn btn-primary">Agregar Imágenes</a>
+					<a href="verGaleria.php"class="btn btn-success">Ver Imágenes</a>
+				</div>
+			</div>
+		</div>
+
+
 		
 				
 	</div>
 </div>
+
 
 <?php include_once 'agregarCategoria.php' ?>
 <?php include_once 'agregarProductos.php' ?>

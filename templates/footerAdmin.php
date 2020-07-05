@@ -15,8 +15,12 @@
 	<script type="text/javascript" src="../public/DataTables/Buttons-1.6.1/js/buttons.bootstrap4.min.js"></script>
 	<script type="text/javascript" src="../public/DataTables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
 	<script type="text/javascript" src="../public/DataTables/Buttons-1.6.1/js/buttons.print.min.js"></script>
+
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 	<script type="text/javascript" src="../public/js/funcionesAdmin.js"></script>
 	
 </footer>	

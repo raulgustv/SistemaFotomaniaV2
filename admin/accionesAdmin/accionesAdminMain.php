@@ -144,6 +144,8 @@ if(isset($_FILES['imgProd'])){
 	$precio = $_POST['precioProd'];
 	$catProd = $_POST['catAddProd'];
 
+	/*
+
 	$q = $con->prepare("SELECT nombre FROM productos WHERE nombre = ?" );
 	$q->bind_param("s", $nombre);
 	$q->execute();
@@ -152,7 +154,7 @@ if(isset($_FILES['imgProd'])){
 
 	if($row->num_rows > 0){
 		echo "false";
-	}else{
+	}else{ */
 
 		if(is_uploaded_file($_FILES['imgProd']['tmp_name'])){
 		move_uploaded_file($_FILES['imgProd']['tmp_name'], "../../vistas/imagenes/".$storeImg);
@@ -162,7 +164,7 @@ if(isset($_FILES['imgProd'])){
 		$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
 		$sql->bind_param("sssss", $nombre, $catProd, $precio, $descripcion, $storeImg);
 		$sql->execute();
-	}
+	//}
 	
 	
 }
@@ -176,7 +178,7 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria");
+	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
 
 	$data = array();
 
@@ -197,7 +199,7 @@ if(isset($_POST['borrarProd'])){
 
 	$prodId = $_POST['prodId'];
 
-	$q = $con->prepare("DELETE FROM productos WHERE id = ?");
+	$q = $con->prepare("UPDATE productos SET status = 0 WHERE id = ?");
 	$q->bind_param("i", $prodId);
 	$q->execute();
 	$q->close();
@@ -213,11 +215,12 @@ if(isset($_POST['borrarProd'])){
 if(isset($_POST['cargarProducto'])){
 
 	$prodId = $_POST['prodId'];
+	$stat = 1;
 
 	//echo $prodId;
 
-	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ?");
-	$q->bind_param("i", $prodId);
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
+	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();
 
 	$r = $q->get_result();
@@ -239,7 +242,7 @@ if(isset($_POST['cargarProducto'])){
 
 			<div class='form-group'>
               <label for='editNombre'>Nombre</label>
-              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' value='$nombre'> 
           </div>
 	
 			 <div class='form-group'>
@@ -249,7 +252,7 @@ if(isset($_POST['cargarProducto'])){
 
           <div class='form-group'>
               <label for='editPrecio'>Precio</label>
-              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$precio'> 
+              <input type='text' class='form-control' name='editPrecio' id='editPrecio' value='$precio'> 
           </div> 
 
 
@@ -349,15 +352,320 @@ if(isset($_FILES['editImgProd'])){
 		$q->close();
 	}
 
-	
+}
+
+/*=====  End of Editar Producto  ======*/
+
+
+/*=========================================
+=            Pedidos recientes            =
+=========================================*/
+
+if(isset($_POST['getLastOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId GROUP BY transaccionId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+
+	if(mysqli_num_rows($q) > 0){
+		while($r = mysqli_fetch_array($q)){
+			$idTrans = $r['trans'];			
+			$cliente = $r['clienteNombre'];
+			$fecha = $r['fechaCompra'];
+
+			echo "<tr>
+					<td>$idTrans</td>				
+					<td>$cliente</td>
+					<td>$fecha</td>
+				  </tr>";
+
+
+		}
+	}
+
+}
+
+/*=====  End of Pedidos recientes  ======*/
+
+
+/*=============================================
+=            Ver todos los pedidos            =
+=============================================*/
+
+if(isset($_POST['getOrders'])){
+	$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado GROUP BY transaccionId ORDER BY FechaCompra DESC");
+
+	$data = array();
+
+	while($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+
+/*=====  End of Ver todos los pedidos  ======*/
+
+
+/*============================================
+=            LLenar Status Pedido            =
+============================================*/
+
+if(isset($_POST['llenarEstado'])){
+	$idPedido = $_POST['idPedido'];	
 
 	
+
+	echo "<input type='hidden' name='idPedido' value='$idPedido'>
+        	<label for='statusPedido' class='input-group-text'>Cambiar Estado Pedido</label>
+		 <select class='custom-select' name='statusPedido' id='statusPedido'>";
+
+		 	$q = $con->prepare("SELECT * FROM estados");
+			$q->execute();
+			$r = $q->get_result();
+
+
+
+		while($row = mysqli_fetch_array($r)){
+		$statusId = $row['idEstado'];
+		$estado = $row['nombreEstado'];
+
+		echo "<option value='$statusId'>$estado</option>";
+	}
+	"<select>";
+
+	echo "<div class='modal-footer'>
+	        	 <input type='submit' name='editStatus' id='editStatus' class='btn btn-primary' value='Guardar'>   	
+	       </div> ";
+}
+
+
+/*=====  End of LLenar Status Pedido  ======*/
+
+
+/*============================================
+=            Editar Status pedido            =
+============================================*/
+
+if(isset($_POST['editarStatus'])){
+
+	$idPedido = $_POST['idPedido'];
+	$status = $_POST['statusPedido'];
+
+	$q = $con->prepare("UPDATE comprafinalizada SET estado = ? WHERE transaccionId = ?");
+	$q->bind_param("ss", $status, $idPedido);
+	$q->execute();
+	$q->close();
+
 	
+
+}
+
+/*=====  End of Editar Status pedido  ======*/
+
+/*=================================================
+=            Subir Galería de imagenes            =
+=================================================*/
+
+if(isset($_FILES['imgMain'])){
+
+
+	$imgMain = $_FILES['imgMain']['name'];
+	$uploadImgMain = $_FILES['imgMain']['tmp_name'];
+	$storeMain = uniqid($imgMain, true).".png";
+
+	$nombreImg = $_POST['tituloImg'];
+	$autor = $_POST['nombreAutor'];
+	$camaraNombre = $_POST['nombreCam'];
+
+	if(is_uploaded_file($uploadImgMain)){		
+		move_uploaded_file($uploadImgMain, '../../vistas/imagenesGaleria/'.$storeMain);
+
+	}
+
+	$q = $con->prepare("INSERT INTO galeria (nombre, autor, cam, imagen) VALUES (?,?,?,?)");
+	$q->bind_param("ssss", $nombreImg, $autor, $camaraNombre, $storeMain);
+	$q->execute();
+	$q->close();
+
+	
+}
+
+/*=====  End of Subir Galería de imagenes  ======*/
+
+/*===================================
+=            Ver Galeria            =
+===================================*/
+
+
+if(isset($_POST['getGal'])){
+	$q = $con->prepare("SELECT * FROM galeria");
+	$q->execute();
+	$row = $q->get_result();
+	//$q->close();
+
+	$data = array();
+
+	while ($r = mysqli_fetch_array($row)){
+		$data[] = $r;
+	}
+
+
+
+	echo json_encode($data);
 
 
 }
 
-/*=====  End of Editar Producto  ======*/
+
+/*=====  End of Ver Galeria  ======*/
+
+/*=============================================
+=            Cargar Galeria Editar            =
+=============================================*/
+
+if(isset($_POST['cargarImg'])){
+
+	$idImagen = $_POST['galId'];
+
+	$q = $con->prepare("SELECT * FROM galeria WHERE idGaleria = ?");
+	$q->bind_param("i", $idImagen);
+	$q->execute();
+
+	$row = $q->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$nombreImg = $r['nombre'];
+	$autor = $r['autor'];
+	$camara = $r['cam'];	
+	$imagen = $r['imagen'];
+
+	echo "<div class='form-group'>
+			<input type='hidden' name='idImagen' value='$idImagen'>
+				<div class='form-group'>
+                <label>Título de la imagen</label>
+                <input type='text' name='editTituloImg' id='editTituloImg' class='form-control' value='$nombreImg'>
+            </div>
+
+            <div class='form-group'>
+                <label>Autor</label>
+                <input type='text' name='editAutorNombre' id='editAutorNombre' class='form-control' value='$autor'>
+            </div>
+
+            <div class='form-group'>
+                <label>Tomada con</label>
+                <input type='text' name='editCam' id='editCam' class='form-control' value='$camara'>
+            </div>
+
+             <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                    <div class='custom-file'>
+                      <input type='file' name='imgMainEdit' class='custom-file-input' id='imgMainEdit'>
+                      <label class='custom-file-label' for='imgMainEdit'>Seleccionar imagen Principal</label>
+                     </div>
+                </div>
+            </div>
+
+            <div class='mb-3' id='prevContainer'>
+                <img src='../vistas/imagenesGaleria/$imagen' class='imgPrev' id='prev3'>
+            </div>
+        
+      </div>
+
+      <div class='modal-footer'>
+        <button type='submit' class='btn btn-primary'>Guardar</button>        
+      </div>";
+}
+
+
+/*=====  End of Cargar Galeria Editar  ======*/
+
+/*=====================================
+=            Editar Imagen            =
+=====================================*/
+
+if(isset($_FILES['imgMainEdit'])){
+
+	$idGal = $_POST['idImagen'];	
+
+	$imgMain = $_FILES['imgMainEdit']['name'];
+	$newStoreMainImg = uniqid($imgMain, true).".png";
+	$newMain = $_FILES['imgMainEdit']['tmp_name'];
+
+	$nuevoTitulo = $_POST['editTituloImg'];
+	$nuevoAutor = $_POST['editAutorNombre'];
+	$nuevaCam = $_POST['editCam'];
+
+	
+
+	if (is_uploaded_file($newMain)){
+		move_uploaded_file($newMain, "../../vistas/imagenesGaleria/".$newStoreMainImg);
+
+		$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
+		$qNewImg->bind_param("i", $idGal);
+		$qNewImg->execute();
+
+		$r = $qNewImg->get_result();
+		$row = mysqli_fetch_array($r);
+		$oldMain = $row['imagen'];
+
+		unlink("../../vistas/imagenesGaleria/".$oldMain);
+
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ?, imagen = ? WHERE idGaleria = ?");
+		$q->bind_param("ssssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $newStoreMainImg, $idGal);
+		$q->execute();
+		$q->close();
+	}else{
+		$q = $con->prepare("UPDATE galeria SET nombre = ?, autor = ?, cam = ? WHERE idGaleria = ?");
+		$q->bind_param("sssi", $nuevoTitulo, $nuevoAutor, $nuevaCam, $idGal);
+		$q->execute();
+		$q->close();
+	}
+}
+
+
+
+	
+
+
+
+/*=====  End of Editar Imagen  ======*/
+
+/*=====================================
+=            Borrar Imagen            =
+=====================================*/
+
+if(isset($_POST['borrarGal'])){
+
+	$idGal = $_POST['galId'];
+
+	$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
+	$qNewImg->bind_param("i", $idGal);
+	$qNewImg->execute();
+
+	$r = $qNewImg->get_result();
+	$row = mysqli_fetch_array($r);	
+	$oldMain = $row['imagen'];
+
+
+	unlink("../../vistas/imagenesGaleria/".$oldMain);
+
+	$q = $con->prepare("DELETE FROM galeria WHERE idGaleria = ?");
+	$q->bind_param("i", $idGal);
+	$q->execute();
+	$q->close();
+
+
+}
+
+/*=====  End of Borrar Imagen  ======*/
+
+
+
+
+
+
+
+
+
 
 
 
