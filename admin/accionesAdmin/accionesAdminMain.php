@@ -406,7 +406,7 @@ if(isset($_POST['agregarDesc'])){
 		echo "false";
 		
 	}else{
-		echo $fechaIFormat;
+		//echo $fechaIFormat;
 		$q = $con->prepare("INSERT INTO ofertas (idProducto,titulo,descripcion,totalOferta,fechaInicio,fechaFinal) VALUES (?,?,?,?,?,?)");
 		$q->bind_param("ississ", $idProd,$nombre,$descripcion,$descuento,$fechaIFormat,$fechaFFormat);
 		$q->execute();
@@ -497,8 +497,8 @@ if(isset($_POST['cargarDescuento'])){
           </div>
 	
 			 <div class='form-group'>
-              <label for='editDesc'>Descripción</label>
-              <textarea  type='text' rows='3' class='form-control' name='editDesc' id='editDesc'>$descripcion</textarea> 
+              <label for='descripcion'>Descripción</label>
+              <textarea  type='text' rows='3' class='form-control' name='descripcion' id='descripcion'>$descripcion</textarea> 
           </div>
 		  
 		  <div class='input-group mb-3'>
@@ -558,15 +558,13 @@ if(isset($_POST['cargarDescuento'])){
 						
 
 				}                   		
-                  "</select> 
+               echo "</select> 
               </div>
           </div>
 
           ";
 
-          echo "<div class='form-control mt-5'>
-              <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
-            </div>";
+          //echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
 
 
 }
@@ -577,52 +575,108 @@ if(isset($_POST['cargarDescuento'])){
 =            Editar Descuento            =
 =======================================*/
 
-if(isset($_POST['editNewDesc'])){
-
-	$id = $_POST['descId'];
-	$idProd = $_POST['prodAddDesc'];
-	$titulo = $_POST['editNombre'];
-	$descripcion = $_POST['editDesc'];	
-	$porcentOferta = $_POST['totalDescu'];
-	$fechaInicio = $_POST['fechaInicio'];
-	$fechaFinal = $_POST['fechaFinal'];
+if(isset($_POST['editarDesc'])){
+	$id = $_POST['idDesc'];
+	$idProd = $_POST['idProd'];
+	$titulo = $_POST['titulo'];
+	$descripcion = $_POST['descripcion'];	
+	$porcentOferta = $_POST['totalOferta'];
+	$fechaInicio = strtotime($_POST['fechaInicio']);
+	$fechaFinal = strtotime($_POST['fechaFinal']);
+	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinal);
 
 	
-	
-
-	if(is_uploaded_file($nuevaImg)){
-		move_uploaded_file($nuevaImg, "../../vistas/imagenes/".$newStoreImg);
-
-		$qImg = $con->prepare("SELECT * FROM productos WHERE id = ?");
-		$qImg->bind_param("i", $id);
-		$qImg->execute();
-		//$qImg->close();
-
-		$r = $qImg->get_result(); 
-		$row = mysqli_fetch_array($r);
-		$oldImg = $row['imagen'];
-		unlink('../../vistas/imagenes/'.$oldImg);
-
-		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ?, imagen = ? WHERE id = ? ");
-		$q->bind_param("siissi", $nombre, $categoria, $precio, $descripcion, $newStoreImg, $id);
-		$q->execute();
-		$q->close();
+	$sql = $con->query("SELECT * FROM ofertas WHERE idProducto = $idProd ");
+	if(mysqli_num_rows($sql) > 1){
+		echo "false";
 	}else{
-		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ? WHERE id = ? ");
-		$q->bind_param("siisi", $nombre, $categoria, $precio, $descripcion, $id);
-		$q->execute();
-		$q->close();
+		
+		$q = $con->query("UPDATE ofertas SET idProducto = $idProd, titulo = '$titulo', descripcion = '$descripcion', totalOferta = $porcentOferta, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idOferta = '$id' ");
+		echo "true";
 	}
-
-	
-
-	
-	
 
 
 }
 
 /*=====  End of Editar Descuento  ======*/
+
+
+/*========================================
+=            Obtener Concurso            =
+========================================*/
+
+
+if(isset($_POST['getConc'])){
+	$q = $con->query("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
+
+	$data = array();
+
+	
+
+	while ($row = mysqli_fetch_array($q)){
+		$data[] = $row;
+	}
+
+	echo json_encode($data);
+}
+
+
+/*=============================================
+=            Section obtener producto rifa          =
+=============================================*/
+
+if(isset($_POST['getProdConc'])){
+
+	$q = $con->query("SELECT * FROM productos");
+
+	while($row = mysqli_fetch_array($q)){
+		$prodId = $row['id'];
+		$prodName = $row['nombre'];
+		echo "<option value='$prodId'>$prodName</option>";
+	}
+
+}
+
+/*=========================================
+=            Agregar Concurso            =
+=========================================*/
+
+if(isset($_POST['agregarConc'])){
+	$nombre = $_POST['nombreConc'];
+	$descripcion  = $_POST['descripcionConc'];
+	$cantidadmax = $_POST['cantidadMax'];
+	$idPrem = $_POST['prodAddConc'];
+	$fechaInicio = strtotime($_POST['fechaInicio']);
+	$fechaFinalizacion = strtotime($_POST['fechaFinal']);
+	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinalizacion);
+
+	$sql = $con->prepare("SELECT * FROM concurso WHERE idPremio = ?");
+	$sql->bind_param("i", $idPrem);
+	$sql->execute();
+
+	$r = $sql->get_result();
+
+	//print_r($r);
+
+	if($r->num_rows > 0){
+		echo "false";
+		
+	}else{
+		//echo $fechaIFormat;
+		$q = $con->prepare("INSERT INTO concurso (idPremio,nombre,descripcion,cantidadMaxima,fechaInicio,fechaFinal) VALUES (?,?,?,?,?,?)");
+		$q->bind_param("ississ", $idPrem,$nombre,$descripcion,$cantidadmax,$fechaIFormat,$fechaFFormat);
+		$q->execute();
+		$q->close();
+	}
+
+
+
+	
+}
+
+/*=====  End of Agregar Concurso  ======*/
 
 
 ?>

@@ -559,7 +559,7 @@ $("#frmEditProductos").on("submit", function(e){
 
 
 
-/*----------  Llenar Lista Producto   ----------*/
+/*----------  Llenar Lista Producto Descuento  ----------*/
 
 llenarProdAddDesc();
 function llenarProdAddDesc(){
@@ -572,6 +572,8 @@ function llenarProdAddDesc(){
 		}
 	});
 }
+
+
 
 
 /*----------  Insertar Descuento  ----------*/
@@ -601,7 +603,7 @@ $("#frmDescuento").validate({
 					message("Ya existe un descuento para el producto seleccionado", 2000, 'error');
 					$("#frmDescuento").trigger("reset");
 				}else{
-					message(data, 200000, 'success');
+					message("Descuento ingresado con exito", 200000, 'success');
 					$("#frmDescuento").trigger("reset");
 				}
 			}
@@ -710,7 +712,7 @@ $(document).on("click", "#editarDesc", function(){
 
 /*----------  Editar Descuento  ----------*/
 
-$("#frmEditDescuentos").on("submit", function(e){
+/*$("#frmEditDescuentos").on("submit", function(e){
 	e.preventDefault();
 
 	var formData = new FormData(this);
@@ -722,17 +724,147 @@ $("#frmEditDescuentos").on("submit", function(e){
 		success: function(data){
 			dataDesc.ajax.reload();
 			message("Descuento editado con éxito", 2000, 'success');			
-			$("#frmEditDescuentos").modal('hide');
+			$("#formEditDesc").modal('hide');
 		},
 		contentType: false,
 		processData: false,
 		cache: false
 	})
 
+});*/
+
+
+/*----------  Editar Categoria  ----------*/
+
+
+$(document).on("click", "#editNewDesc", function(){
+	var idDesc = $("#descId").val();
+	var idProd = $("#prodAddDesc").val();
+	var titulo = $("#editNombre").val();
+	var descripcion = $("#descripcion").val();
+	var totalOferta = $("#totalDescu").val();
+	var fechaInicio = $("#fechaInicio").val();
+	var fechaFinal = $("#fechaFinal").val();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data:{
+			editarDesc:1,
+			idDesc: idDesc,
+			idProd: idProd,
+			titulo: titulo,
+			descripcion: descripcion,
+			totalOferta: totalOferta,
+			fechaInicio: fechaInicio,
+			fechaFinal: fechaFinal
+		},
+		success: function(data){
+
+			if(data === "false"){
+				message("Este descuento ya existe", 2000, 'error');
+			}else{
+
+			dataDesc.ajax.reload();			
+			message("El descuento se editó correctamente", 2000, 'success');		
+			$("#formEditDesc").modal('hide');
+
+		}
+
+			
+
+		}
+	});
 });
 
 
+/*----------  Ver Concursos  ----------*/
 
+var dataConc;
+
+
+
+dataConc = $("#dtTablaConc").DataTable({
+	"dom": "Bfrtip",
+	"buttons": "['copy', 'excel', 'pdf']",
+	"processing": true,	
+	"paging": false,
+	"responsive": true,
+	"destroy": true,	
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getConc":1
+		},
+		"dataSrc": ""
+	},
+	"columns": [
+
+		{"data": "idConcurso"},
+		{"data": "nombreConcurso"},
+		{"data": "descripcionConc"},
+		{"data": "nombrePremio"},
+		{"data": "fechaInicio"},
+		{"data": "fechaFinal"},
+		{"data": "cantidadMaxima"},
+		{"data": "ganador"},
+		{"defaultContent": "<a href='#' id='btnDeleteConc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarConc' data-toggle='modal' data-target='#formEditConc' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
+
+	]
+});
+
+/*----------  Llenar Lista Producto Rifa  ----------*/
+
+llenarProdAddConc();
+function llenarProdAddConc(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getProdConc:1},
+		success: function(data){
+			$("#prodAddConc").html(data);
+		}
+	});
+}
+
+
+/*----------  Insertar Concurso  ----------*/
+
+$("#frmConcurso").validate({
+
+	rules:{
+		nombreConc:{
+			required: true,
+			rangelength: [5,50]
+		},
+	},
+	messages:{
+		nombreConc:{
+			required: "Por favor ingrese un nombre para la rifa",
+			rangelength: "El nombre de la rifa debe tener entre 5 y 50 caractéres"
+		},
+	},
+	submitHandler: function(form){
+
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: $("#frmConcurso").serialize()+"&agregarConc",
+			success: function(data){
+				if(data === "false"){
+					message("Ya existe un concurso bajo el mismo nombre", 2000, 'error');
+					$("#frmConcurso").trigger("reset");
+				}else{
+					message("Concurso ingresado con exito", 20000, 'success');
+					$("#frmConcurso").trigger("reset");
+				}
+			}
+		});
+	}
+
+
+});
 
 
 });
