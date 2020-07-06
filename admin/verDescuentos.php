@@ -48,6 +48,6 @@ checkAdmin();
 <?php
 
 include_once '../templates/footerAdmin.php';
-//include_once 'editarDescuentos.php';
+include_once 'editarDescuentos.php';
 
  ?>

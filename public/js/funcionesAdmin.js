@@ -720,16 +720,19 @@ $("#frmEditDescuentos").on("submit", function(e){
 		method: 'POST',
 		data: formData,
 		success: function(data){
-			dataProducts.ajax.reload();
+			dataDesc.ajax.reload();
 			message("Descuento editado con éxito", 2000, 'success');			
-			$("#formEditDesc").modal('hide');
+			$("#frmEditDescuentos").modal('hide');
 		},
 		contentType: false,
 		processData: false,
 		cache: false
 	})
 
-})
+});
+
+
+
 
 
 });
