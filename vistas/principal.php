@@ -40,7 +40,7 @@ include '../includes/db.php'
 			<div class="col-lg-4">
 				<div class="card text-center border-primary">
 					<div class="card-body cardPrincipal">
-						<h3>FOTO BOUTIQUE</h3>
+						<h3>Foto Boutique</h3>
 						<p>Cámaras, Lentes y accesorios con el toque de exclusividad para que el nuevo fotografo aficionado o el profesional cumplan sus retos.</p>
 						<p>Atención personalizada y exclusiva, sin mostradores, sin posturas, puro amor a la foto y nuestros clientes.</p>
 					</div>
@@ -174,7 +174,7 @@ include '../includes/db.php'
 						<div class="input-group-prepend">
 						    <i class="fas fa-envelope input-group-text"></i>
 						</div>
-					<textarea name="messageForm" cols="30" rows="7" class="form-control" aria-label="hola"></textarea>
+					<textarea name="messageForm" cols="30" rows="7" class="form-control" aria-label="hola" placeholder="Indícanos todos los detalles relacionados a tu consulta, asegurate de incluir tu número de pedido si preguntas por un pedido específico"></textarea>
 					</div>
 				</form>
 				<button class="btn btn-primary btn-lg btn-block">Envía tu mensaje</button>
