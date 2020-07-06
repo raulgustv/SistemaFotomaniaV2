@@ -675,7 +675,7 @@ if(isset($_POST['borrarGal'])){
 
 if(isset($_POST['getProdDesc'])){
 
-	$q = $con->query("SELECT * FROM productos");
+	$q = $con->query("SELECT * FROM productos WHERE status = 1");
 
 	while($row = mysqli_fetch_array($q)){
 		$prodId = $row['id'];

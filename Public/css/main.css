@@ -16,9 +16,7 @@
 	display: none;
 }
 
-nav.navegacionPrincipal{
-	background-color: var(--naranja);
-}
+
 
 img.loaderGif{
 	width: 90px;
@@ -26,6 +24,11 @@ img.loaderGif{
 }
 
 /*Principal*/
+
+.headMain{
+	background: url(../../logos/fondo.jpg);
+	background-repeat: none;
+}
 
 div.cartCard{
 	width: 350px;
@@ -55,6 +58,21 @@ img.cartDisplay{
 nav.paginate{
 	margin-top: 10px;
 }
+
+
+
+/*
+.navbar .nav-item .nav-link{
+	color: #000;
+}
+
+.shadowNav{
+	box-shadow: 2px 2px 5px #000;
+	opacity: .9;
+}
+*/
+
+
 
 /*Ajax Search Auto*/
 
@@ -185,6 +203,8 @@ img.carImg{
 	width: 550px;
 	background-color: gray;
 }
+
+/*Página principal*/
 
 
 
