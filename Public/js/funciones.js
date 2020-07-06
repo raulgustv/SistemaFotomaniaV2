@@ -1009,22 +1009,17 @@ cargarImagenGal();
 =            Página principal            =
 ========================================*/
 
-/*----------  Productos destacados  ----------
+/*---------- Mapa ----------
 
-cargarDestacados()
-function cargarDestacados(){
-	$.ajax({
-		url: '../acciones/main.php',
-		method: 'POST',
-		data: {
-			getDestacados:1
-		},
-		success: function(data){
-			$("#picCarousel").html(data);
-		}
-	});
-} */
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8
+  });
+}
 
+*/
 
 
 /*=====  End of Página principal  ======*/

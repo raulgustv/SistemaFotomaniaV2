@@ -23,7 +23,7 @@ require '../acciones/sesion.php';
  
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-warning shadowNav">
+<nav class="navbar navbar-expand-lg navbar-light bg-warning shadow-lg p-3 mb-4 rounded">
   <a class="navbar-brand" href="../vistas/principal.php">
     <img src="../logos/logoFotomania.PNG" alt="Logo Fotomanía" style="width: 40%">
   </a>
