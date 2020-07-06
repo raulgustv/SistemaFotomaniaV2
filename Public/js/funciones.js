@@ -1005,6 +1005,32 @@ cargarImagenGal();
 /*=====  End of Galeria Imagenes  ======*/
 
 
+/*========================================
+=            Página principal            =
+========================================*/
+
+/*----------  Productos destacados  ----------
+
+cargarDestacados()
+function cargarDestacados(){
+	$.ajax({
+		url: '../acciones/main.php',
+		method: 'POST',
+		data: {
+			getDestacados:1
+		},
+		success: function(data){
+			$("#picCarousel").html(data);
+		}
+	});
+} */
+
+
+
+/*=====  End of Página principal  ======*/
+
+
+
 
 
 

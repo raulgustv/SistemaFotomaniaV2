@@ -1138,29 +1138,31 @@
 	}
 	
 	/*=====  End of Ver Galeria Imagenes  ======*/
-	
-	
-	
-		
-	
-	
-
-	
-	
-	
-	
-	
-	
 
 
+	/*====================================================
+	=            Obtener productos destacados            =
+	====================================================
 	
-	
-	
+	if(isset($_POST['getDestacados'])){
 
-	
+		$q= $con->prepare("SELECT COUNT(productoId) AS prodCount, productos.nombre AS nombre, productos.imagen AS imagen FROM comprafinalizada INNER JOIN productos on comprafinalizada.productoId = productos.id GROUP BY productos.nombre LIMIT 3");
+		$q->execute();
 
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$imagen = $r['imagen'];
+
+			echo "<div class='carousel-item'>
+				      <img class='d-block text-center carImg' src='imagenes/$imagen'>
+				    </div>";
+		}
+	
+	} */
 	
 	
+	/*=====  End of Obtener productos destacados  ======*/
 	
 	
 
