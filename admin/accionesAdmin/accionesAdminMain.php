@@ -611,7 +611,7 @@ if(isset($_POST['getConc'])){
 	$q = $con->query("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
 
 	$data = array();
-
+  
 	
 
 	while ($row = mysqli_fetch_array($q)){
@@ -677,6 +677,236 @@ if(isset($_POST['agregarConc'])){
 }
 
 /*=====  End of Agregar Concurso  ======*/
+
+
+/*========================================
+=            Borrar concurso            =
+========================================*/
+
+if(isset($_POST['borrarConc'])){
+	$concId = $_POST['concId'];
+
+	$sql = $con->prepare("DELETE FROM concurso WHERE idConcurso = ? ");
+	$sql->bind_param("i", $concId);
+	$sql->execute();
+
+
+}
+
+/*=====  End of Borrar Descuento  ======*/
+
+
+/*===============================================
+=            Obtener concurso Editar            =
+===============================================*/
+
+if(isset($_POST['cargarConcurso'])){
+
+	$concId = $_POST['concId'];
+
+	//echo $descId;
+
+	$qed = $con->prepare("SELECT productos.nombre AS nombreProducto, productos.id AS idProducto, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc, cantidadMaxima, fechaInicio, fechaFinal FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id WHERE idConcurso = ? ");
+	$qed->bind_param("i", $concId);
+	$qed->execute();
+	$red = $qed->get_result();
+
+	$rowed = mysqli_fetch_array($red);
+
+	
+	$nombre = $rowed['nombreConcurso'];
+	$nombreProducto = $rowed['nombreProducto'];
+	$idProducto = $rowed['idProducto'];
+	$descripcion = $rowed['descripcionConc'];
+	$cantidadMaxima = $rowed['cantidadMaxima'];
+	$fechaInicio = $rowed['fechaInicio'];
+	$fechaFinaliz = $rowed['fechaFinal'];
+
+
+	
+	echo "
+			<div class='form-group'>              
+              <input type='hidden' name='concId' id='concId' value='$concId'> 
+          	</div>
+
+			<div class='form-group'>
+              <label for='editNombre'>Nombre</label>
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$nombre'> 
+          </div>
+	
+			 <div class='form-group'>
+              <label for='descripcion'>Descripción</label>
+              <textarea  type='text' rows='3' class='form-control' name='descripcion' id='descripcion'>$descripcion</textarea> 
+          </div>
+		  
+		  <div class='input-group mb-3'>
+		  <div class='input-group-prepend'>
+			  <label class='input-group-text' for='cantMaxi'>Cantidad Maxima</label>
+			  <select class='custom-select' name='cantMaxi' id='cantMaxi'>";
+			  $comienza = 5;
+				while($comienza<=200){
+				echo "<option value='$comienza'";
+				if($comienza == $cantidadMaxima){
+					echo " selected";
+				}
+				echo ">$comienza participantes</option>";
+				$comienza = $comienza+5;	
+
+			}                   		
+			echo "</select> 
+		  </div>
+	  </div>
+	  ";
+
+
+		echo "<div class='form-group'>
+		<label for='fechaInicio'>Fecha de Inicio</label>
+	<div class='input-group date' id='datetimepicker1' data-target-input='nearest'>
+	  <input type='text' id='fechaInicio' name='fechaInicio' class='form-control datetimepicker-input' value='$fechaInicio' data-target='#datetimepicker1' />
+	  <div class='input-group-append' data-target='#datetimepicker1' data-toggle='datetimepicker'>
+		<div class='input-group-text'><i class='fa fa-calendar'></i></div>
+	  </div>
+	</div>
+  </div> ";
+
+	  echo"  <div class='form-group'>
+	  <label for='fechaFinal'>Fecha de Finalizacion</label>
+  <div class='input-group date' id='datetimepicker2' data-target-input='nearest'>
+	<input type='text' id='fechaFinal' name='fechaFinal' class='form-control datetimepicker-input' value='$fechaFinaliz' data-target='#datetimepicker2' />
+	<div class='input-group-append' data-target='#datetimepicker2' data-toggle='datetimepicker'>
+	  <div class='input-group-text'><i class='fa fa-calendar'></i></div>
+	</div>
+  </div>
+</div>
+
+            <div class='input-group mb-3'>
+              <div class='input-group-prepend'>
+                  <label class='input-group-text' for='prodConc'>Producto</label>
+                  <select class='custom-select' name='prodAddConc' id='prodAddConc'>";
+
+                  $sql = $con->query("SELECT * FROM productos");
+					while($row = mysqli_fetch_array($sql)){
+					$prodId = $row['id'];
+					$prodName = $row['nombre'];
+					echo "<option value='$prodId'";
+					if($prodId == $idProducto){
+						echo " selected";
+					}
+					echo ">$prodName</option>";
+						
+
+				}                   		
+               echo "</select> 
+              </div>
+          </div>
+
+          ";
+
+          //echo "<input type='submit' name='editNewConc' id='editNewConc' class='btn btn-primary' value='Guardar'>";
+
+
+}
+
+/*=====  End of Obtener descuento Editar  ======*/
+
+
+/*=======================================
+=            Editar Concurso            =
+=======================================*/
+
+if(isset($_POST['editarConc'])){
+	$id = $_POST['idConc'];
+	$idProd = $_POST['idProd'];
+	$nombre = $_POST['nombre'];
+	$descripcion = $_POST['descripcion'];	
+	$cantidadMax = $_POST['cantMaxima'];
+	$fechaInicio = strtotime($_POST['fechaInicio']);
+	$fechaFinal = strtotime($_POST['fechaFinal']);
+	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinal);
+
+	
+	$sql = $con->query("SELECT * FROM concurso WHERE idPremio = $idProd ");
+	if(mysqli_num_rows($sql) > 1){
+		echo "false";
+	}else{
+		$q = $con->query("UPDATE concurso SET idPremio = $idProd, nombre = '$nombre', descripcion = '$descripcion', cantidadMaxima = $cantidadMax, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idConcurso = '$id' ");
+		echo $id;
+		echo "true";
+	}
+
+
+}
+
+/*=====  End of Editar Concurso  ======*/
+
+
+/*===============================================
+=            Obtener descuento Editar            =
+===============================================*/
+
+if(isset($_POST['PartConcurso'])){
+
+	$concId = $_POST['concId'];
+
+	//echo $concId;
+
+	$qed = $con->prepare("SELECT idCliente, clientesxconcurso.idConcurso AS idConcursoP, concurso.nombre AS nombreConcurso, concurso.cantidadMaxima as cantMaxima, clientes.nombre AS nombreCliente FROM clientesxconcurso INNER JOIN concurso ON clientesxconcurso.idConcurso = concurso.idConcurso INNER JOIN clientes ON clientesxconcurso.idCliente = clientes.id WHERE clientesxconcurso.idConcurso = ? ");
+	$qed->bind_param("i", $concId);
+	$qed->execute();
+	$red = $qed->get_result();
+
+	$cantidadParticipantes = mysqli_num_rows($red);
+
+
+	
+
+    $numParticipante = 1;
+	while($rowed = mysqli_fetch_array($red)){
+		$idCliente = $rowed['idCliente'];
+		$idConcurso = $rowed['idConcursoP'];
+		$nombreConcurso = $rowed['nombreConcurso'];
+		$nombreCliente = $rowed['nombreCliente'];
+		$cantMax = $rowed['cantMaxima'];
+	echo "<tr><td>$nombreConcurso</td>
+	<td>$idCliente</td>
+	<td>$nombreCliente</td>
+	<td>";
+		echo $numParticipante."/".$cantMax;
+	echo "</td></tr>
+	 ";
+	 $numParticipante++;
+	}
+          //echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
+
+
+}
+
+
+/*========================================
+=            Seleccionar Ganador            =
+========================================*/
+
+if(isset($_POST['ganadorConc'])){
+	$contarray = 0;
+	$arrayclientes = array();
+	$concId = $_POST['concId'];
+	$qcc = $con->prepare("SELECT idCliente FROM clientesxconcurso WHERE idConcurso = ?");
+	$qcc->bind_param("i", $concId);
+	$qcc->execute();
+	$rcc = $qcc->get_result();
+
+	while($rowcc = mysqli_fetch_array($rcc)){
+		
+		array_push($arrayclientes,$rowcc['idCliente']);
+	}
+	$arrayganador = array_rand($arrayclientes, 1);
+	$ganadorConc = $arrayclientes[$arrayganador];
+	//echo $ganadorConc;
+	$q = $con->query("UPDATE concurso SET ganador = $ganadorConc WHERE idConcurso = $concId ");
+
+
+}
 
 
 ?>

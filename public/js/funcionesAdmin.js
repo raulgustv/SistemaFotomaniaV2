@@ -734,7 +734,7 @@ $(document).on("click", "#editarDesc", function(){
 });*/
 
 
-/*----------  Editar Categoria  ----------*/
+/*----------  Editar Descuento  ----------*/
 
 
 $(document).on("click", "#editNewDesc", function(){
@@ -809,7 +809,7 @@ dataConc = $("#dtTablaConc").DataTable({
 		{"data": "fechaFinal"},
 		{"data": "cantidadMaxima"},
 		{"data": "ganador"},
-		{"defaultContent": "<a href='#' id='btnDeleteConc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarConc' data-toggle='modal' data-target='#formEditConc' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"}
+		{"defaultContent": "<a href='#' id='btnDeleteConc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarConc' data-toggle='modal' data-target='#formEditConc' class='btn btn-primary' ><i class='fas fa-edit'></i></a> <a href='#' id='PartConc' data-toggle='modal' data-target='#formPartConc' class='btn btn-primary' ><i class='fa fa-users'></i></a> <a href='#' id='btnSelectGanador' class='btn btn-danger'><i class='fa fa-trophy'></i></a>"}
 
 	]
 });
@@ -864,6 +864,169 @@ $("#frmConcurso").validate({
 	}
 
 
+});
+
+/*----------  Borrar Concurso  ----------*/
+
+$(document).on("click", "#btnDeleteConc", function(){
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		title: 'Deseas borrar este concurso?',
+		 text: "Borrar este concurso eliminara los datos sobre el mismo y no sera posible completarlo, ademas desaparecera para el usuario. Esta seguro que desea realizar esto?! No podrás deshacer estra acción!!",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				borrarConc:1, concId:concId
+			},
+			success: function(data){
+				dataConc.ajax.reload();
+				}
+			});
+
+		}
+	})
+
+
+	
+});
+
+/*----------  Obtener concursos Editar  ----------*/
+
+
+$(document).on("click", "#editarConc", function(){
+
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			cargarConcurso:1,
+			concId:concId
+		},
+		success: function(data){
+			$("#frmEditConcursos").html(data);
+			//alert(data);
+		}
+	})
+
+
+});
+
+
+/*----------  Editar Concurso  ----------*/
+
+
+$(document).on("click", "#editNewConc", function(){
+	var idConc = $("#concId").val();
+	var idProd = $("#prodAddConc").val();
+	var nombre = $("#editNombre").val();
+	var descripcion = $("#descripcion").val();
+	var cantMaxima = $("#cantMaxi").val();
+	var fechaInicio = $("#fechaInicio").val();
+	var fechaFinal = $("#fechaFinal").val();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data:{
+			editarConc:1,
+			idConc: idConc,
+			idProd: idProd,
+			nombre: nombre,
+			descripcion: descripcion,
+			cantMaxima: cantMaxima,
+			fechaInicio: fechaInicio,
+			fechaFinal: fechaFinal
+		},
+		success: function(data){
+
+			if(data === "false"){
+				message("Este concurso ya existe", 2000, 'error');
+			}else{
+
+			dataConc.ajax.reload();			
+			message("El concurso se editó correctamente", 2000, 'success');		
+			$("#formEditConc").modal('hide');
+
+		}
+
+			
+
+		}
+	});
+});
+
+/*----------  Obtener Participantes Concurso  ----------*/
+
+
+$(document).on("click", "#PartConc", function(){
+
+	//$('#formPartConc').modal('show');
+
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			PartConcurso:1,
+			concId:concId
+		},
+		success: function(data){
+			$("#tblBPartConc").html(data);
+			//alert(data);
+		}
+	})
+
+
+});
+
+
+/*----------  Seleccionar Ganador  ----------*/
+
+$(document).on("click", "#btnSelectGanador", function(){
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		title: 'Deseas seleccionar un ganador para este concurso?',
+		 text: "Se seleccionara un cliente al azar para ganar esta rifa, si ya existe un ganador este sera reemplazado. Esta seguro que desea continuar?",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, continuar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				ganadorConc:1, concId:concId
+			},
+			success: function(data){
+				dataConc.ajax.reload();
+				}
+			});
+
+		}
+	})
+
+
+	
 });
 
 
