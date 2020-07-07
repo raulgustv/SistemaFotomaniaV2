@@ -36,9 +36,6 @@
 	} 
 
 
-
-
-
 	function redir($var){
 		header("Location: ".$var."");
 

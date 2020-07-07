@@ -1,4 +1,10 @@
-<?php include_once '../templates/headerAdmin.php'; ?> 
+<?php include_once '../templates/headerAdmin.php'; 
+
+session_start();
+
+checkAdmin();
+
+?> 
 
 <div class="container mt-3">
 	<div class="card mx-auto">
@@ -32,7 +38,7 @@
 			</form>
 		</div>
 		<div class="card-footer text-muted">
-			<a href="loginAdmin.php">Ir a Login</a>
+			<a href="adminDash.php">Ir a Inicio</a>
 		</div>
 	</div>
 </div>

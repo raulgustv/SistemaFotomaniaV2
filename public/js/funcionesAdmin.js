@@ -1013,7 +1013,42 @@ $("#frmEditDescuentos").on("submit", function(e){
 		cache: false
 	})
 
+});
+
+/*----------  Revision de Roll  ----------*/
+
+
+checkRoll();
+function checkRoll(){
+	var role = $("#role").val();
+	
+	if(role !== "Admin"){
+		$("#agregarDesc").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
+		$("#verDesc").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+		$("#registrarAdmin").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+
+		
+
+		
+	}
+
+
+}
+
+$(document).on("click", "#editUser", function(e){
+	e.preventDefault();
+
+	$.ajax({
+		url: 'accionesAdmin/registrarAdmin.php',
+		method: 'POST',
+		data: {getUserInfo:1},
+		success: function(data){
+			$("#frmEditUser").html(data);
+		}
+	})
 })
+
+
 
 
 });

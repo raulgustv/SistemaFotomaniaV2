@@ -5,7 +5,10 @@ include_once '../includes/funciones.php';
 include '../includes/db.php';
 session_start();
 checkAdmin();
+
 ?>
+
+
 
 
 

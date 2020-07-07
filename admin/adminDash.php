@@ -4,7 +4,9 @@ include_once '../templates/headerAdmin.php';
 include_once '../includes/funciones.php';
 
 session_start();
+
 checkAdmin();
+
 
 $userId =($_SESSION['userId']);
 $userName = ($_SESSION['user']);
@@ -12,8 +14,13 @@ $ultimoLogin = ($_SESSION['ultimoLogin']);
 $role = ($_SESSION['userRole']);
 
 
+
+
+
 	
  ?> 
+
+ <input type="hidden" name="role" id="role" value="<?php echo $role ?>">
 
 <div class="container mt-2">
 	<div class="row">
@@ -25,7 +32,10 @@ $role = ($_SESSION['userRole']);
 			    <p class="card-text"><i class="fas fa-user-circle">&nbsp</i><?php echo $userName; ?></p>
 			    <p class="card-text"><i class="far fa-id-card">&nbsp</i><?php echo $role ?></p>
 			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: <?php echo $ultimoLogin; ?></p>
-			    <a href="#" class="btn btn-primary"><i class="fas fa-user-edit">&nbsp</i>Editar Perfil</a>
+			    <a href="#" class="btn btn-primary" data-toggle="modal" id="editUser" data-target="#form_editAdmin"><i class="fas fa-user-edit">&nbsp</i>Editar Perfil</a>
+			    <a href="registroAdmin.php" id="registrarAdmin" class="btn btn-success">Registrar Usuario</a>
+
+			
 			    
 			  </div>
 			</div>
@@ -43,7 +53,7 @@ $role = ($_SESSION['userRole']);
 					  <div class="card-body">
 					    <h5 class="card-title">Pedidos</h5>
 					    <p class="card-text">Revisar Pedidos</p>
-					    <a href="verPedidos.php" class="btn btn-primary">Ir a Pedidos</a>
+					    <a href="verPedidos.php" id="verPedidos" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
 					</div>				
 				</div>
@@ -116,8 +126,8 @@ $role = ($_SESSION['userRole']);
 				<img class="card-img-top mx-auto imgPanel" src="../logos/descuento.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra los descuentos disponibles a los productos de la tienda</p>
-					<a href="#" data-toggle="modal" data-target="#form_descuentos" class="btn btn-primary">Agregar Descuento</a>
-					<a href="verDescuentos.php"class="btn btn-success">Ver Descuentos</a>
+					<a href="#" data-toggle="modal" data-target="#form_descuentos" id="agregarDesc" class="btn btn-primary">Agregar Descuento</a>
+					<a href="verDescuentos.php"class="btn btn-success" id="verDesc">Ver Descuentos</a>
 				</div>
 			</div>
 		</div>
@@ -145,6 +155,7 @@ $role = ($_SESSION['userRole']);
 <?php include_once 'agregarProductos.php' ?>
 <?php include_once 'agregarImagenes.php' ?>
 <?php include_once 'agregarDescuento.php' ?>
+<?php include_once 'editarAdmin.php' ?>
 
 
 <?php include_once '../templates/footerAdmin.php'; ?> 

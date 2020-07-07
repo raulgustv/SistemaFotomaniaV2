@@ -13,10 +13,7 @@
 		    <label for="adminPass">Contraseña</label>
 		    <input type="password" class="form-control" name="adminPass" id="adminPass" placeholder="Tu contraseña">
 		  </div> 
-		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>
-		  <span>
-		  	<a href="registroAdmin.php">Registrar</a>
-		  </span>
+		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>		 
 		</form>
 	  </div>
 	  <div class="card-footer">

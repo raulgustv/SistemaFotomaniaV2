@@ -84,10 +84,10 @@
 											<div class='card-text'>";
 											if($precioProducto != $precioTotal){
 												echo "<strike style='color:black'>
-												<span style='color:red'>$$precioProducto<span>
+												<span style='color:red'>$$precioProducto.00<span>
 											  </strike>";
 											}
-											echo "$$precioTotal<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
+											echo "$$precioTotal.00<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
@@ -291,9 +291,9 @@
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
-				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
+				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio.00' disabled></td>
 				<td class='col-1'><input type='text' class='form-control descuento' id='descuento-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
-				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
+				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal.00' disabled></td>
 				<td class='col-2'>
 					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>
 					<a class='btn btn-success' id='updateProduct' updateId='$idProducto' href='#'><i class='fas fa-check-circle'></i></a>
@@ -337,7 +337,7 @@
 
 		
 
-		echo "<div class='col-lg-12' id='montoPagar'><b>Total: $$montoTotal</b></div>";
+		echo "<div class='col-lg-12' id='montoPagar'><b>Total: $$montoTotal.00</b></div>";
 
 
 
@@ -545,7 +545,7 @@
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
                      <div class='col-lg-4'>$nombre</div> 
-                     <div class='col-lg-4'>$precioTotal</div>";
+                     <div class='col-lg-4'>$$precioTotal.00</div>";
 				
 			}
 		}		
