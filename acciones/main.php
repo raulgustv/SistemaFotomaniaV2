@@ -285,7 +285,7 @@
 			$totalDescuento = 0;
 		}
 
-			$precioFinal = $precioTotal;
+			$precioFinal = $precioTotal*$cantidad;
 
 			echo "<tr class='d-flex'>
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
@@ -563,12 +563,108 @@
 
 
 	
-	
+	/*========== Llenar concurso =======*/
+
+	if(isset($_POST['getConcursos'])){
+      $srl = '..\vistas\imagenes\ ';
+	  $srclink = str_replace(' ', '', $srl);
+	  $cont = 1;
+		$concQuery = $con->query("SELECT * FROM concurso");
+
+		if(mysqli_num_rows($concQuery)){
+			while($row = mysqli_fetch_array($concQuery)){
+                $idConc = $row['idConcurso'];
+				$nombre = $row['nombre'];
+	            $descripcion  = $row['descripcion'];
+	            $cantidadmax = $row['cantidadMaxima'];
+	            $idPrem = $row['idPremio'];
+	            $fechaInicio = $row['fechaInicio'];
+				$fechaFinalizacion = $row['fechaFinal'];
+				date_default_timezone_set("America/Costa_Rica");
+				$fechahoy = date("Y-m-d h:i:s");
+				$yacomenzo = ($fechaInicio<$fechahoy);
+				$yatermino = ($fechaFinalizacion>$fechahoy);
+	           // $fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
+			   // $fechaFFormat = date("Y-m-d h:i:s",$fechaFinalizacion);
+			   if($yacomenzo==1 && $yatermino==1){
+				$prodQuery = $con->query("SELECT * FROM productos WHERE id= '$idPrem'");
+				$cxcQuery = $con->query("SELECT * FROM clientesxconcurso WHERE idConcurso= '$idConc'");
+				$cParticipantes = mysqli_num_rows($cxcQuery);
+				if(mysqli_num_rows($prodQuery)){
+					while($rowProd = mysqli_fetch_array($prodQuery)){
+						$idProducto = $rowProd['id'];
+				        $nombreProducto = $rowProd['nombre'];
+				        $precioProducto = $rowProd['precio'];
+				        $imagenProducto = $rowProd['imagen'];
+
+						echo '<div class="w3-card-4 w3-grey w3-center" style="width:100%">
+
+						<div class="w3-container w3-center">
+						  <h3>Concurso '; echo $cont; echo '</h3>
+						  <img src="'; echo $srclink; echo $imagenProducto; echo '"alt="Producto" style="width:20%">
+						  <h5>'; echo $nombre; echo '</h5>
+						  <h3>'; echo $cParticipantes; echo '/'; echo $cantidadmax; echo '</h3>
+					
+						  <div class="w3-section">
+							<button cid="'; echo $idConc; echo '" id="ingConcurso" class="btn btn-success">Ingresar</button>
+							<button cid="'; echo $idConc; echo '" id="delConcurso" class="btn btn-danger">Salir</button>
+						  </div>
+						</div>
+					
+					  </div>';
+                $cont++;
+			}
+
+			}
+		}
+	}
+
+}
+
+	}
 	
 
 	
 
 	
+	/*==================================
+	=            Ingresar al concurso            =
+	==================================*/
+	
+	if(isset($_POST['ingConcurso'])){
+		$idConcurso = $_POST['concId'];
+		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $userId AND idConcurso = $idConcurso");
+		if(mysqli_num_rows($sqlccq)>0){
+			echo "false";
+
+		}else{
+		$sqlcc=$con->query("INSERT INTO clientesxconcurso VALUES ($userId,$idConcurso)");
+	    }
+	}
+
+
+	
+	/*=====  Salir del concurso  ======*/
+
+
+	/*==================================
+	=            Salir del concurso            =
+	==================================*/
+	
+	if(isset($_POST['salConcurso'])){
+		$idConcurso = $_POST['concId'];
+		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $userId AND idConcurso = $idConcurso");
+		if(mysqli_num_rows($sqlccq)<1){
+			echo "false";
+
+		}else{
+		$sqlcc=$con->query("DELETE FROM clientesxconcurso WHERE idCliente = $userId AND idConcurso = $idConcurso");
+	    }
+	}
+
+
+	
+	/*=====  Salir del concurso  ======*/
 	
 	
 	

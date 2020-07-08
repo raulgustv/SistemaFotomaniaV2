@@ -164,6 +164,7 @@ $(document).ready(function(){
 	/*----------  Mostrar categorías  ----------*/
 	mostrarCat();
 	mostrarProductos();
+	mostrarConcursos();
 	function mostrarCat(){
 		$.ajax({
 			url: '../acciones/main.php',
@@ -295,9 +296,11 @@ $(document).ready(function(){
 		var pid= $(this).attr('pid');
 		var qty= $("#qty-"+pid).val();
 		var precio = $("#precio-"+pid).val();
-		var total = qty * precio;
+		var descuento = $("#descuento-"+pid).val();
+		var total = qty * precio - (descuento*qty);
+		var totalR = Math.round(total);
 
-		$("#total-"+pid).val(total);
+		$("#total-"+pid).val(totalR);
 
 		$(".botonPay").attr('disabled', true);
 
@@ -467,6 +470,106 @@ $(document).ready(function(){
 	}
 
 
+
+/*----------  Mostrar Concursos  ----------*/
+function mostrarConcursos(){
+	$.ajax({
+		url:'../acciones/main.php',
+		method: "POST",
+		data: {getConcursos: 1},
+		success: function(data){
+			$("#getConcursos").html(data);
+		}
+	});
+}
+
+
+/*----------  Ingresar usuario concurso  ----------*/
+
+	
+$('body').delegate("#ingConcurso", "click", async function(e){
+	e.preventDefault();				
+
+	Swal.fire({
+		title: 'Desea ingresar al concurso?',
+		 text: "Ingresara como participante a dicho concurso",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, continuar'
+	}).then((result)=>{
+		if(result.value){
+			var cid = $(this).attr('cid');
+			$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {
+				ingConcurso:1, concId:cid
+			},
+			success: function(data){
+
+				if(data === "false"){
+					message("Usted ya esta en este concurso", 2000, 'error');
+				}else{
+			
+				message("Se ingreso exitosamente", 2000, 'success');
+				setTimeout(function(){
+					location.reload();
+			   }, 2200); 		
+	
+			}
+				}
+			});
+
+		}
+	})
+
+});
+
+
+/*----------  Eliminar usuario concurso  ----------*/
+
+	
+$('body').delegate("#delConcurso", "click", async function(e){
+	e.preventDefault();				
+
+	Swal.fire({
+		title: 'Desea salir del concurso?',
+		 text: "Usted saldra del concurso y perdera su espacio. Esta seguro?",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, salir'
+	}).then((result)=>{
+		if(result.value){
+			var cid = $(this).attr('cid');
+			$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {
+				salConcurso:1, concId:cid
+			},
+			success: function(data){
+
+				if(data === "false"){
+					message("Usted no esta ingresado en este concurso", 2000, 'error');
+				}else{
+			
+				message("Salida de concurso exitosa", 2000, 'success');	
+				setTimeout(function(){
+					location.reload();
+			   }, 2200); 
+	
+			}
+				}
+			});
+
+		}
+	})
+
+});
 
 
 
