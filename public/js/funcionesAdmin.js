@@ -1079,6 +1079,33 @@ $("#frmEditUser").on("submit", function(e){
 });
 
 
+var dataClientes;
+
+dataClientes = $("#dtTablaClientes").DataTable({
+
+
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getClientes":1
+		},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data": "id"},
+		{"data": "nombre"},
+		{"data": "usuario"},
+		{"data": "email"},
+		{"data": "creado"},
+		{"data": "estado"},
+		{"data": "nota"}
+	]
+
+});
+
+
 
 
 

@@ -899,16 +899,37 @@ if(isset($_FILES['agregarDesc'])){
 		$q->execute();
 		$q->close();
 	}
+}
 
-	
 
-	
-	
+
+/*=====  End of Editar Descuento  ======*/
+
+/*===================================
+=            Ver Cliente            =
+===================================*/
+
+if(isset($_POST['getClientes'])){
+
+	$q = $con->prepare("SELECT id, nombre, usuario, email, creado, estado, nota FROM clientes");
+	$q->execute();
+
+	$row = $q->get_result();
+
+	$data = array();
+
+	while ($r = mysqli_fetch_array($row)){
+		$data[] = $r;
+	}
+
+	echo json_encode($data);
 
 
 }
 
-/*=====  End of Editar Descuento  ======*/
+
+/*=====  End of Ver Cliente  ======*/
+
 
 
 ?>
