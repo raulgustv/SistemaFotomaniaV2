@@ -41,8 +41,8 @@ $role = ($_SESSION['userRole']);
 			</div>
 			<div class="card-footer">
 				<div class="container">
-					<a href="verUsuarios.php" class="btn btn-primary">Ver Usuarios</a>
-					<a href="verClientes.php" class="btn btn-success">Ver Clientes</a>
+					<a href="verUsuarios.php" id="verUsers" class="btn btn-primary">Ver Usuarios</a>
+					<a href="verClientes.php" id="verClientes" class="btn btn-success">Ver Clientes</a>
 				</div>
 			</div>
 		</div>

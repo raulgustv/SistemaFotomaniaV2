@@ -30,8 +30,8 @@ checkAdmin();
 				<div class="form-group">
 					<label for="tipoUsuario">Tipo de Usuario</label>
 					<select class="form-control" name="tipoUsuario" id="tipoUsuario">
-						<option value="Admin">Admin</option>
-						<option value="Otro">Otro</option>
+						<option value="Admin">Administrador</option>
+						<option value="Servicio">Servicio al Cliente</option>
 					</select>
 					<button type="submit" name="registroAdminUsuario" class="btn btn-primary mt-3"><span class="fas fa-user"></span>&nbsp; Registrar</button>
 				</div>

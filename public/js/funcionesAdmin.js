@@ -1032,6 +1032,12 @@ function checkRoll(){
 		$("#agregarDesc").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
 		$("#verDesc").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
 		$("#registrarAdmin").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+		$("#verUsers").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
+		$("#verUsers").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+
+		$("#verClientes").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
+		$("#verClientes").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+
 
 		
 
