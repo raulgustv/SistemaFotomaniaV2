@@ -51,13 +51,22 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$("#resetpass-frm").validate();
+	
 	
 	$("#resetpass-frm").validate({
 		rules:{
 			cnewpass:{
-				equalTo: "#newpass"
+				required: true,
+				equalTo: "#newpass",
+				rangelength: [6,200]
 			}
+		},
+		messages:{
+			cnewpass:{
+				required: "Debe confirmar la contraseña",
+				minlength: "La contraseña debe contener almenos 6 caracteres",
+				equalTo: "Las contraseñas deben coincidir"
+			}, 
 		}
 	});
 
@@ -144,9 +153,28 @@ $(document).ready(function(){
 					method: 'post',
 					data: $("#resetpass-frm").serialize()+'&action=restcon',
 					success: function(data){
-						$("#alert").show();
+
+                        if(data === "falselocalNC"){
+							message("Las contraseñas ingresadas no coinciden", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");
+						}else if(data === "falsedbNC"){
+					
+						message("La contraseña que usted ingreso no coincide con su actual contraseña", 2000, 'error');	
+                        $("#resetpass-frm").trigger("reset");
+						}else if(data === "true"){
+							message("Contraseña actualizada correctamente", 2000, 'success');
+                            $("#resetpass-frm").trigger("reset");
+							setTimeout(function(){
+								location.reload();
+						   }, 2200); 
+						}else{
+							message("Error al cambiar la contraseña", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");	
+						}
+
+						/*$("#alert").show();
 						$("#result").html(data);
-						$("#loader").hide();
+						$("#loader").hide();*/
 					}
 				});
 			}
@@ -571,6 +599,30 @@ $('body').delegate("#delConcurso", "click", async function(e){
 
 });
 
+
+/*----------  Contacto email  ----------*/
+$(document).on("click", "#contactar", function(){
+//$("body").delegate("#contactar", "click", function(){
+
+	var email = $("#contEmail").val();
+	var nombre = $("#contNombre").val();
+	var mensaje = $("#contMensaje").val();
+
+	$.ajax({
+		url: '../acciones/main.php',
+		method: 'POST',
+		data: {sendContacto:1, correo:email, nombre:nombre, mensaje:mensaje},
+		success: function(data){
+			if(data === "false"){
+				message("No se pudo enviar su mensaje", 2000, 'error');
+			}else if(data ==="true"){
+			message("Mensaje enviado con exito", 2000, 'success');	
+		}else{
+			message("Error desconocido", 2000, 'error');
+		}
+                              }
+	});
+});
 
 
 });

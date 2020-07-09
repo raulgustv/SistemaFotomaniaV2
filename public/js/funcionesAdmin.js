@@ -17,6 +17,25 @@ function message(titulo, tiempo, icono){
 
 	/*----------  Registrar Usuario  ----------*/	
 
+	$("#resetpass-frm").validate({
+		rules:{
+			cnewpass:{
+				required: true,
+				equalTo: "#newpass",
+				rangelength: [6,200]
+			}
+		},
+		messages:{
+			cnewpass:{
+				required: "Debe confirmar la contraseña",
+				minlength: "La contraseña debe contener almenos 6 caracteres",
+				equalTo: "Las contraseñas deben coincidir"
+			}, 
+		}
+	});
+
+	$("#forgot-frm").validate();
+
 $("#registerform").validate({
 
 	rules:{
@@ -121,6 +140,68 @@ $("#loginForm").validate({
 		});
 	}
 });
+
+/*----------  Enviar email  ----------*/
+
+$("#forgotAdmin").click(function(e){
+	if(document.getElementById('resetForm').checkValidity()){
+		e.preventDefault();
+		$("#loader").show();
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'post',
+			data: $("#resetForm").serialize()+'&action=forgot',
+			success: function(data){
+				if(data === "true"){
+					message("Se le ha enviado un correo con los pasos a seguir para restablecer su contraseña", 9000, 'success');
+				}else if (data === "false"){
+					message("Error al enviar correo de restablecimiento", 9000, 'error');
+			}else if (data === "falseNSE"){
+              message("El correo electronico ingresado no se encuentra registrado en nuestro sistema",9000, 'error')
+			}
+		   }
+		});
+	}
+	return true;
+});	
+
+/*----------  Restablecer contra  ----------*/
+
+$("#restconAD").click(function(e){
+	if(document.getElementById('resetpass-frm').checkValidity()){
+		e.preventDefault();
+		$("#loader").show();
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'post',
+			data: $("#resetpass-frm").serialize()+'&action=adminrestcon',
+			success: function(data){
+
+				if(data === "falselocalNC"){
+					message("Las contraseñas ingresadas no coinciden", 2000, 'error');
+					$("#resetpass-frm").trigger("reset");
+				}else if(data === "falsedbNC"){
+				message("La contraseña que usted ingreso no coincide con su actual contraseña", 2000, 'error');	
+				$("#resetpass-frm").trigger("reset");
+				}else if(data === "true"){
+					message("Contraseña actualizada correctamente", 2000, 'success');
+					$("#resetpass-frm").trigger("reset");
+					setTimeout(function(){
+						location.reload();
+				   }, 2200); 
+				}else{
+					message("Error al cambiar la contraseña", 2000, 'error');
+					$("#resetpass-frm").trigger("reset");	
+				}
+
+				/*$("#alert").show();
+				$("#result").html(data);
+				$("#loader").hide();*/
+			}
+		});
+	}
+	return true;
+});	
 
 
 /*----------  Insertar Categoria  ----------*/
