@@ -20,7 +20,7 @@ checkAdmin();
 				<th>Fecha Registro</th>
 				<th>Estado</th>
 				<th>Nota</th>			
-				<!-- <th>Acciones</th> -->										
+				<th>Acciones</th> 								
 				
 			</tr>	
 		</thead>

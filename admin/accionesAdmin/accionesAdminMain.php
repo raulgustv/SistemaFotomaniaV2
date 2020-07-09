@@ -911,7 +911,7 @@ if(isset($_FILES['agregarDesc'])){
 
 if(isset($_POST['getClientes'])){
 
-	$q = $con->prepare("SELECT id, nombre, usuario, email, creado, estado, nota FROM clientes");
+	$q = $con->prepare("SELECT id, nombre, usuario, email, creado, status.status as estado, nota FROM clientes INNER JOIN status ON clientes.estado = status.idStatus");
 	$q->execute();
 
 	$row = $q->get_result();
@@ -929,6 +929,72 @@ if(isset($_POST['getClientes'])){
 
 
 /*=====  End of Ver Cliente  ======*/
+
+/*=======================================
+=            Activar Cliente            =
+=======================================*/
+
+if(isset($_POST['activarC'])){
+
+	$idCliente = $_POST['idCliente'];
+
+	$stmt = $con->prepare("SELECT id, status.idStatus FROM clientes INNER JOIN status ON clientes.estado = status.idStatus WHERE clientes.id = ?");
+	$stmt->bind_param("i", $idCliente);
+	$stmt->execute();
+
+	$row = $stmt->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$estado = $r['idStatus'];
+
+	if($estado == 1){
+		echo "false";
+	}else{
+		$q = $con->prepare("UPDATE clientes SET estado = 1 WHERE id = ?");
+		$q->bind_param("i", $idCliente);
+		$q->execute();
+
+		echo "true";
+	}
+
+}
+
+
+/*=====  End of Activar Cliente  ======*/
+
+/*==========================================
+=            Desactivar Cliente            =
+==========================================*/
+
+if(isset($_POST['desactivarC'])){
+
+	$idCliente = $_POST['idCliente'];
+	$nota = $_POST['nota'];
+
+	$stmt = $con->prepare("SELECT id, status.idStatus FROM clientes INNER JOIN status ON clientes.estado = status.idStatus WHERE clientes.id = ?");
+	$stmt->bind_param("i", $idCliente);
+	$stmt->execute();
+
+	$row = $stmt->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$estado = $r['idStatus'];
+
+	if($estado == 0){
+		echo "false";
+	}else{
+
+		$q = $con->prepare("UPDATE clientes SET estado = 0, nota = ? WHERE id = ?");
+		$q->bind_param("si", $nota, $idCliente);
+		$q->execute();
+
+		echo "true";
+	}
+}
+
+/*=====  End of Desactivar Cliente  ======*/
+
+
 
 
 

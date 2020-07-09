@@ -1078,6 +1078,12 @@ $("#frmEditUser").on("submit", function(e){
 
 });
 
+/*==================================================
+=            Manejo usuarios y clientes            =
+==================================================*/
+
+/*----------  Obtener Clientes  ----------*/
+
 
 var dataClientes;
 
@@ -1100,10 +1106,81 @@ dataClientes = $("#dtTablaClientes").DataTable({
 		{"data": "email"},
 		{"data": "creado"},
 		{"data": "estado"},
-		{"data": "nota"}
+		{"data": "nota"},
+		{"defaultContent": "<a href='#' id='btnActivarCliente' class='btn btn-success'><i class='fas fa-check'></i></a> <a href='#' id='btnDesactivarCliente' class='btn btn-danger' ><i class='fas fa-times-circle'></i></a>"}
 	]
 
 });
+
+
+/*----------  Botones Activos  ----------*/
+
+$(document).on("click", "#btnActivarCliente", function(e){
+	e.preventDefault();
+
+	fila = $(this).closest("tr");
+	var idCliente = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {activarC:1, idCliente:idCliente},
+		success: function(data){
+			if(data === "true"){
+				dataClientes.ajax.reload();
+				message("Cuenta ha sido reactivada", 2000, "success");
+			}else if (data === "false"){
+				message("Esta cuenta ya se encuentra activa", 2000, "error");
+			}
+		}
+	});
+});
+
+$(document).on("click", "#btnDesactivarCliente", async function(e){
+
+	fila = $(this).closest("tr");
+	var idCliente = parseInt(fila.find('td:eq(0)').text());
+
+	const {value:nota} = await Swal.fire({
+		title: 'Ingrese una nota para desactivar al cliente',
+		input: 'text',
+		showCancelButton: true,
+		inputPlaceholder: "Ingrese una nota",
+	});
+
+	if(nota !== ""){
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				desactivarC:1,
+				idCliente: idCliente,
+				nota: nota
+			},
+			success: function(data){
+				if(data === "true"){
+					dataClientes.ajax.reload();
+					message("Cuenta desactivada con éxito", 2000, "success");
+				}else if (data === "false"){
+					message("Esta cuenta ya está desactivada", 2000, "error");
+				}
+			}
+		});
+	}else{
+		message("Debes agregar una nota para bloquear al cliente", 2000, "error");
+	}
+
+});
+
+
+
+
+
+/*=====  End of Manejo usuarios y clientes  ======*/
+
+
+
+
 
 
 
