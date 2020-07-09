@@ -116,7 +116,7 @@ if(isset($_POST['getUserInfo'])){
         </div>
         <div class='form-group'>
           <label for='editEmailUser'>Correo Electrónico</label>
-          <input type='email' name='editEmailUser' disabled='true' class='form-control' id='editEmailUser' aria-describedby='emailHelp' value='$email' required>
+          <input type='email' name='editEmailUser' disabled='true' class='form-control' id='editEmailUser' aria-describedby='emailHelp' value='$email'>
         </div>
         <div class='form-group'>
           <label for='editAdminPass1'>Contraseña</label>
@@ -128,21 +128,34 @@ if(isset($_POST['getUserInfo'])){
         </div>
         <div class='form-group'>
           <label for='editTipoUser'>Tipo de Usuario</label>
-          <select class='form-control' name='editTipoUser' id='editTipoUser'>
+          <select disabled='true' class='form-control' name='editTipoUser' id='editTipoUser'>
             <option value='Admin'>Admin</option>
             <option value='Otro'>Otro</option>
           </select>
-          <button type='submit' name='editarAdminRegistro' class='btn btn-primary mt-3'><span class='fas fa-user'></span>&nbsp; Registrar</button>
+          <input type='submit' name='editarAdminRegistro' id='editarAdminRegistro' class='btn btn-primary' value='Guardar'>       
         </div>";
-
-
-
-
-
-	
 
 }
 
+if(isset($_POST['action']) && $_POST['action'] == 'updateUserInfo'){
+
+	session_start();
+	$userId = ($_SESSION['userId']);
+	
+	$nuevoUser = $_POST['editNombreUsuario'];
+	$nuevoPass = $_POST['editAdminPass1'];
+	$nuevoTipo = $_POST['editTipoUser'];
+
+	$newPassHash = password_hash($nuevoPass, PASSWORD_BCRYPT,["cost"=>8]);
+
+	$q = $con->prepare("UPDATE admin SET user = ?, pass = ?, tipoUsuario = ? WHERE id = ?");
+	$q->bind_param("sssi", $nuevoUser, $newPassHash, $nuevoTipo, $userId); 
+	$q->execute();
+
+
+
+
+}
 
 
 

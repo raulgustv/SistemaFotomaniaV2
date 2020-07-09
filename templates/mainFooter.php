@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <div class="navbar fixed-bottom bg-light text">
 	
 		
@@ -10,7 +10,7 @@
 		
 		<p class="text-center">Copyright &copy; 2020 FOTOMANIA CR - Todos los derechos reservados &reg;</p>
 	</div>	
-</div>
+</div> -->
 
 
 <footer>

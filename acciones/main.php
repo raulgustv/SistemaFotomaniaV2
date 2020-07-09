@@ -697,7 +697,7 @@
 
 
 
-			echo "<h6>Direccion de Envío:</h6>
+			echo "<h6>Dirección de Envío:</h6>
 				  <p>$dir1<br>$dir2
 					$cant, $dist<br>
 					$prov, $zip<br>

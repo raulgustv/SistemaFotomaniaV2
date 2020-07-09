@@ -779,6 +779,9 @@ $("#frmEditGaleria").on("submit", function(e){
 
 	var formData = new FormData(this);
 
+		
+
+
 	$.ajax({
 		url:  "accionesAdmin/accionesAdminMain.php",
 		method: "POST",
@@ -997,6 +1000,7 @@ $(document).on("click", "#editarDesc", function(){
 $("#frmEditDescuentos").on("submit", function(e){
 	e.preventDefault();
 
+
 	var formData = new FormData(this);
 
 	$.ajax({
@@ -1038,6 +1042,7 @@ function checkRoll(){
 $(document).on("click", "#editUser", function(e){
 	e.preventDefault();
 
+
 	$.ajax({
 		url: 'accionesAdmin/registrarAdmin.php',
 		method: 'POST',
@@ -1046,9 +1051,30 @@ $(document).on("click", "#editUser", function(e){
 			$("#frmEditUser").html(data);
 		}
 	})
-})
+});
+
+
+$("#frmEditUser").on("submit", function(e){
+	e.preventDefault();
+
+
+	$.ajax({
+		url: 'accionesAdmin/registrarAdmin.php',
+		method: 'POST',
+		data: $(this).serialize()+'&action=updateUserInfo',
+		success: function(data){
+			message("Usuario editado correctamente", 2000, 'success');
+		}
+	});
+
+
+});
+
+
+
 
 
 
 
 });
+

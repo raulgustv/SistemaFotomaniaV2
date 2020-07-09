@@ -58,11 +58,16 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 	$username = checkInput($_POST['username']);
 	$password = sha1($_POST['password']);
 
-	$stmt = $con->prepare("SELECT * FROM clientes WHERE usuario =? AND pass=?");
+	$stmt = $con->prepare("SELECT * FROM clientes WHERE usuario =? AND pass=? AND estado = 1");
 	$stmt->bind_param("ss", $username, $password);
 	$stmt->execute();
 
 	$user = $stmt->fetch();
+
+
+
+
+
 
 	
 
@@ -70,6 +75,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 
 	if($user!=null){
 		$_SESSION['username'] = $username;
+
+		
 		
 		echo "true";
 

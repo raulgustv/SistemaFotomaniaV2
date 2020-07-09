@@ -114,7 +114,10 @@ $(document).ready(function(){
 					if(data==="true"){
 						window.location = 'vistas/principal.php';
 						
-					}else{
+					}else if (data === "block"){
+						message("Usuario se encuentra bloqueado", 2000, 'error');
+					}
+					else{
 						Swal.fire(
 								'Error iniciando sesión',
 								'Verifica que tu usuario y contraseña sean correctos',

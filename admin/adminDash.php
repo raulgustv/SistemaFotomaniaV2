@@ -32,12 +32,18 @@ $role = ($_SESSION['userRole']);
 			    <p class="card-text"><i class="fas fa-user-circle">&nbsp</i><?php echo $userName; ?></p>
 			    <p class="card-text"><i class="far fa-id-card">&nbsp</i><?php echo $role ?></p>
 			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: <?php echo $ultimoLogin; ?></p>
-			    <a href="#" class="btn btn-primary" data-toggle="modal" id="editUser" data-target="#form_editAdmin"><i class="fas fa-user-edit">&nbsp</i>Editar Perfil</a>
+			    <a href="#" class="btn btn-primary" data-toggle="modal" id="editUser" data-target="#form_editAdmin"><i class="fas fa-user-edit">&nbsp;</i>Editar Perfil</a>
 			    <a href="registroAdmin.php" id="registrarAdmin" class="btn btn-success">Registrar Usuario</a>
 
 			
 			    
 			  </div>
+			</div>
+			<div class="card-footer">
+				<div class="container">
+					<a href="verUsuarios.php" class="btn btn-primary">Ver Usuarios</a>
+					<a href="verClientes.php" class="btn btn-success">Ver Clientes</a>
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-8">
@@ -51,8 +57,7 @@ $role = ($_SESSION['userRole']);
 				<div class="col-sm-6">
 					<div class="card">					  
 					  <div class="card-body">
-					    <h5 class="card-title">Pedidos</h5>
-					    <p class="card-text">Revisar Pedidos</p>
+					    <h5 class="card-title">Pedidos</h5>					   
 					    <a href="verPedidos.php" id="verPedidos" class="btn btn-primary">Ir a Pedidos</a>
 					  </div>
 					</div>				

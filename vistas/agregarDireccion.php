@@ -5,7 +5,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Nueva dirección</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -21,7 +21,7 @@
                <label for="addLine2">Dirección 2 (Opcional)</label>
                 <input type="text" class="form-control" name="addLine2" placeholder="#apartamento, #casa">
             </div>
-<option value="2">Alajuelita</option>
+
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="provincia">Provincia*</label>

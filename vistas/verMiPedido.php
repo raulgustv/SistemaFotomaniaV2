@@ -223,9 +223,7 @@ $idDireccion = $r['idDireccion'];
 
 	<div class="shadow-lg p-3 mb-5 bg-white rounded">
 		<h2 class="text-primary">Total: $<?php echo $totalFinal ?></h2>
-	</div>
-
-	<?php
+			<?php
 		if($idEstado == 1 || $idEstado == 2){
 		?>
 
@@ -238,9 +236,12 @@ $idDireccion = $r['idDireccion'];
 			<a href="#" class="btn btn-danger disabled">Cancelar Pedido</a>	<br>			
 		</div>
 		<div class="d-flex flex-row-reverse">
-			<small>No puedes cancelar este pedido porque ya ha sido procesado para más información<a href="#" class="btn btn-link"> contáctanos</a></small>
+			<small>No puedes cancelar este pedido porque ya ha sido procesado para más información<a href="principal.php#contact" class="btn btn-link"> contáctanos</a></small>
 		</div>
 	<?php 	} ?>
+	</div>
+
+
  
 </div>
 	
