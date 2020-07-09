@@ -52,6 +52,14 @@ include 'templates/header.php'
 						<p class="text-center">Nuevo Usuario? <a href="#" id="register-btn">Registrate aquí</a></p>
 					</div>				
 				</form>
+				<div class="container" id="alertBlock">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  <strong>¡Vaya!</strong> Parece que tu cuenta ha sido bloqueada, puedes contactarnos al (506) 4000-0938 o al 4000-0939. O escríbenos al número de WhatsApp (506) 7162-6776
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				</div>
 			</div>
 	</div>
 	
@@ -95,6 +103,7 @@ include 'templates/header.php'
 						<p class="text-center">Tienes cuenta ya?<a href="#" id="login-btn">Inicia sesión</a></p>
 					</div>				
 				</form>
+				
 			</div>
 	</div>
 	

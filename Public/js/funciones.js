@@ -114,7 +114,11 @@ $(document).ready(function(){
 					if(data==="true"){
 						window.location = 'vistas/principal.php';
 						
-					}else{
+					}else if(data === "block"){
+						$("#alertBlock").fadeIn(200);
+						$("#loader").hide();
+					}
+					else{
 						Swal.fire(
 								'Error iniciando sesión',
 								'Verifica que tu usuario y contraseña sean correctos',

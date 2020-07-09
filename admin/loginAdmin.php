@@ -19,6 +19,14 @@
 	  <div class="card-footer">
 	  	<a href="#">Olvidaste contraseña?</a>
 	  </div>
+	  <div  id="alertBlockUser">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  <strong>¡Vaya!</strong> Parece que tu cuenta ha sido bloqueada, por favor contacta con el administrador para ingresar a tu cuenta.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				</div>
 	</div>
 </div>
 

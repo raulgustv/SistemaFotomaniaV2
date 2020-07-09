@@ -115,6 +115,8 @@ $("#loginForm").validate({
 					
 					window.location.href = 'adminDash.php';
 
+				}else if (data === "blocked"){
+					$("#alertBlockUser").fadeIn(300);
 				}
 			}			
 

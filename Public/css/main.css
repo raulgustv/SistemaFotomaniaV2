@@ -12,7 +12,7 @@
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
+#alertBlockUser,#alertBlock, #alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
 	display: none;
 }
 

@@ -61,6 +61,8 @@ if(isset($_POST['loginAdmin'])){
 	}else{
 		$row = $result->fetch_assoc();
 
+
+
 		//De esta seccion salen todos los datos de login
 
 		if(password_verify($password, $row['pass'])){
@@ -69,6 +71,14 @@ if(isset($_POST['loginAdmin'])){
 			$_SESSION['user'] = $row['user'];
 			$_SESSION['ultimoLogin'] = $row['fechaLogin'];
 			$_SESSION['userRole'] = $row['tipoUsuario'];
+			$_SESSION['status'] = $row['status'];
+
+			if($_SESSION['status'] == 0){
+				session_destroy();
+				echo "blocked";
+			}else{
+
+
 
 
 			$ultimo_Login = date("Y-m-d h:i:s");
@@ -78,6 +88,7 @@ if(isset($_POST['loginAdmin'])){
 			$stmt->execute();
 
 			echo "true";
+		}
 
 
 
