@@ -1,5 +1,19 @@
 $(document).ready(function(){
 
+	/*====================================
+	=            Loading page            =
+	====================================*/
+	
+	$("#load").delay(800).fadeOut(400, function(){
+		$("#myProfile").fadeIn(500);
+		$("#dtPedidoCliente").fadeIn(500);
+	
+	});
+	
+	
+	/*=====  End of Loading page  ======*/
+	
+
 	/*----------  Funcion SWAL Alerta  ----------*/
 
 	function message(titulo, tiempo, icono){
@@ -389,6 +403,8 @@ $(document).ready(function(){
 		var precio = $("#precio-"+pid).val();
 		var total = $("#total-"+pid).val();
 
+
+
 		$.ajax({
 			url: '../acciones/main.php',
 			method: 'POST',
@@ -398,6 +414,7 @@ $(document).ready(function(){
 				getTotal();
 				//$(".botonPay").attr('disabled', true);
 				$(".botonPay").removeAttr("disabled");
+				location.reload();
 			}
 		});
 	});

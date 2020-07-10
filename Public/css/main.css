@@ -6,7 +6,9 @@
 
 /* Load screen */
 
-
+#dtPedidoCliente{
+	display: none;
+}
 	
 
 
@@ -41,6 +43,19 @@ img.loaderGif{
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+.backgroundOverlayLoad{
+	position: absolute;
+	background: rgb(228, 227, 227, .5);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+div.pedidoC{
+	display: none;
 }
 
 /* 

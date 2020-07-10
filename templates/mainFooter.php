@@ -33,7 +33,7 @@
 	<script type="text/javascript" src="../public/DataTables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
 	<script type="text/javascript" src="../public/DataTables/Buttons-1.6.1/js/buttons.print.min.js"></script>
 	<script type="text/javascript" src="../public/lightbox2-dev/dist/js/lightbox.min.js"></script>
-	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 
 	<script type="text/javascript" src="../public/js/funciones.js"></script>
 
