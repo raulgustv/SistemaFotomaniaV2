@@ -3,6 +3,10 @@
 include_once '../includes/db.php';
 include_once '../includes/funciones.php';
 
+access("editarImagen");
+
+
+
 ?>
 
 <div class="modal fade" id="form_editGal" tabindex="-1" role="dialog">

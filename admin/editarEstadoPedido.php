@@ -3,6 +3,9 @@
 include_once '../includes/db.php';
 include_once '../includes/funciones.php';
 
+access("editarEstadoPedido");
+
+
 ?>
 
 <div class="modal" tabindex="-1" role="dialog" id="formEditPedidoStatus">

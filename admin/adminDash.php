@@ -14,10 +14,6 @@ $ultimoLogin = ($_SESSION['ultimoLogin']);
 $role = ($_SESSION['userRole']);
 
 
-
-
-
-	
  ?> 
 
  <input type="hidden" name="role" id="role" value="<?php echo $role ?>">

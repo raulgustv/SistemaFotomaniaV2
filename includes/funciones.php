@@ -45,6 +45,16 @@
 	} 
 
 
+	//esta funcion previene el acceso a las ventanas modales 
+	function access($pagina){
+		$page = basename($_SERVER['PHP_SELF'], '.php');
+
+		if($page == $pagina){
+  			header("Location: adminDash.php");
+		}
+	}
+
+
 	function redir($var){
 		header("Location: ".$var."");
 
