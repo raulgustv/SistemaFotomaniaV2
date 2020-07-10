@@ -25,6 +25,11 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 
  ?>
 
+<!-- <div class="overlayShadow">
+	<img class="loaderGif" src="../vistas/../logos/preloader.gif">
+</div> -->
+
+
 
 <div class="container-fluid mt-3">
 	

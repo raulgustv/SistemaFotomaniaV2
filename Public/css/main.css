@@ -21,6 +21,7 @@
 img.loaderGif{
 	width: 90px;
 	height: 90px;
+	
 }
 
 /*Principal*/
@@ -87,6 +88,18 @@ nav.paginate{
 	margin-top: 10px;
 }
 
+.overlayShadow{
+	box-shadow: 2px 2px 5px #abce44;
+	opacity: .9;
+	background-color: ;
+	position: absolute;
+	
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
 
 
 /*
@@ -94,10 +107,7 @@ nav.paginate{
 	color: #000;
 }
 
-.shadowNav{
-	box-shadow: 2px 2px 5px #000;
-	opacity: .9;
-}
+
 */
 
 
