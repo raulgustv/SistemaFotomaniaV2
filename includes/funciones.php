@@ -24,6 +24,15 @@
 		}
 	}
 
+	function checkRole(){
+		if($_SESSION['userRole'] != "Admin"){
+			?> <script>
+				window.location.href='adminDash.php';
+			</script>
+			<?php
+		}
+	}
+
 	
 
 	function checkUser(){
