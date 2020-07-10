@@ -1172,6 +1172,152 @@ $(document).on("click", "#btnDesactivarCliente", async function(e){
 
 });
 
+/*----------  Ver Usuarios  ----------*/
+
+var dataUsers;
+
+dataUsers = $("#dtTablaUsers").DataTable({
+
+
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getUsers":1
+		},
+		"dataSrc": ""
+	},
+	"columns":[
+
+		{"data": "id"},
+		{"data": "user"},
+		{"data": "email"},
+		{"data": "tipoUsuario"},
+		{"data": "fechaLogin"},
+		{"data": "fechaRegistro"},
+		{"data": "estado"},
+		{"data": "notas"},
+		{"defaultContent": "<a href='#' id='btnActivarUser' class='btn btn-success'><i class='fas fa-check'></i></a> <a href='#' id='btnDesactivarUser' class='btn btn-danger' ><i class='fas fa-times-circle'></i></a> <a href='#' id='btnEditarPermiso' data-toggle='modal' data-target='#formEditPermisos' class='btn btn-primary' ><i class='fas fa-pencil-alt'></i></a>"}
+	]
+
+});
+
+
+/*----------  Activar User  ----------*/
+
+$(document).on("click", "#btnActivarUser", function(e){
+	e.preventDefault();
+
+	fila = $(this).closest("tr");
+	var idCliente = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {activarUser:1, idCliente:idCliente},
+		success: function(data){
+			if(data === "true"){
+				dataUsers.ajax.reload();
+				message("Cuenta ha sido reactivada", 2000, "success");
+			}else if (data === "false"){
+				message("Esta cuenta ya se encuentra activa", 2000, "error");
+			}
+		}
+	});
+});
+
+/*----------  Desactivar Usuario  ----------*/
+
+
+
+$(document).on("click", "#btnDesactivarUser", async function(e){
+
+	fila = $(this).closest("tr");
+	var idCliente = parseInt(fila.find('td:eq(0)').text());
+
+	const {value:nota} = await Swal.fire({
+		title: 'Ingrese una nota para desactivar al usuario',
+		input: 'text',
+		showCancelButton: true,
+		inputPlaceholder: "Ingrese una nota",
+	});
+
+	if(nota !== ""){
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				desactivarUser:1,
+				idCliente: idCliente,
+				nota: nota
+			},
+			success: function(data){
+				if(data === "true"){
+					dataUsers.ajax.reload();
+					message("Usuario desactivado con éxito", 2000, "success");
+				}else if (data === "false"){
+					message("Esta cuenta ya está desactivada", 2000, "error");
+				}
+			}
+		});
+	}else{
+		message("Debes agregar una nota para bloquear al cliente", 2000, "error");
+	}
+
+});
+
+/*----------  Editar Permiso  ----------*/
+
+$(document).on("click", "#btnEditarPermiso", function(e){
+	e.preventDefault();
+
+	fila = $(this).closest("tr");
+	var idUser = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data:{
+			llenarTipo:1,
+			idUser:idUser
+		},
+		success: function(data){
+			$("#frmEditPermiso").html(data);
+		}
+	});
+
+
+
+})
+
+
+$(document).on("submit", "#frmEditPermiso", function(e){
+
+	e.preventDefault();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: $("#frmEditPermiso").serialize()+'&editarPermiso',
+		success: function(data){
+			dataUsers.ajax.reload();
+			message("Permiso editado correctamente", 2000, "success");
+		}
+	});
+
+	
+
+
+
+
+
+
+
+
+	
+});
+
+
 
 
 

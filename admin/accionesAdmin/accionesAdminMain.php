@@ -994,6 +994,138 @@ if(isset($_POST['desactivarC'])){
 
 /*=====  End of Desactivar Cliente  ======*/
 
+/*===================================================
+=            Ver Usuarios Admin/Servicio            =
+===================================================*/
+
+if(isset($_POST['getUsers'])){
+
+
+	$q = $con->prepare("SELECT id, user, email, tipoUsuario, fechaLogin, fechaRegistro, status.status as estado, notas FROM admin INNER JOIN status ON admin.status = status.idStatus");
+	$q->execute();
+
+	$row = $q->get_result();
+
+	$data = array();
+
+	while ($r = mysqli_fetch_array($row)){
+		$data[] = $r;
+	}
+
+	echo json_encode($data);
+
+
+}
+
+/*=====  End of Ver Usuarios Admin/Servicio  ======*/
+
+/*=======================================
+=            Activar Usuario            =
+=======================================*/
+
+
+if(isset($_POST['activarUser'])){
+
+	$idCliente = $_POST['idCliente'];
+
+	$stmt = $con->prepare("SELECT id, status.idStatus FROM admin INNER JOIN status ON admin.status = status.idStatus WHERE admin.id = ?");
+	$stmt->bind_param("i", $idCliente);
+	$stmt->execute();
+
+	$row = $stmt->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$estado = $r['idStatus'];
+
+	if($estado == 1){
+		echo "false";
+	}else{
+		$q = $con->prepare("UPDATE admin SET status = 1 WHERE id = ?");
+		$q->bind_param("i", $idCliente);
+		$q->execute();
+
+		echo "true";
+	}
+
+}
+
+/*=====  End of Activar Usuario  ======*/
+
+/*==========================================
+=            Desactivar Usuario            =
+==========================================*/
+
+
+if(isset($_POST['desactivarUser'])){
+
+	$idCliente = $_POST['idCliente'];
+	$nota = $_POST['nota'];
+
+	$stmt = $con->prepare("SELECT id, status.idStatus FROM admin INNER JOIN status ON admin.status = status.idStatus WHERE admin.id = ?");
+	$stmt->bind_param("i", $idCliente);
+	$stmt->execute();
+
+	$row = $stmt->get_result();
+	$r = mysqli_fetch_array($row);
+
+	$estado = $r['idStatus'];
+
+	if($estado == 0){
+		echo "false";
+	}else{
+
+		$q = $con->prepare("UPDATE admin SET status = 0, notas = ? WHERE id = ?");
+		$q->bind_param("si", $nota, $idCliente);
+		$q->execute();
+
+		echo "true";
+	}
+}
+
+/*=====  End of Desactivar Usuario  ======*/
+
+
+/*======================================
+=            Editar Permiso            =
+======================================*/
+
+if(isset($_POST['llenarTipo'])){
+
+	$idUser = $_POST['idUser'];
+
+	echo "<input type='hidden' name='idUsuario' value='$idUser'>
+	<div class='form-group'>
+                <label for='tipoUsuario'>Tipo de Usuario</label>
+                  <select class='form-control' name='editTipoUser' id='editTipoUser'>
+              <option value='Admin'>Administrador</option>
+              <option value='Servicio'>Servicio al Cliente</option>
+            </select>
+          </div>
+          <div class='form-group'>
+              <button type='submit' name='editPermisoUser' class='btn btn-primary mt-3'>Guardar</button>
+          </div>";
+			
+
+}
+
+if(isset($_POST['editarPermiso'])){
+
+	$id = $_POST['idUsuario'];
+	$tipo = $_POST['editTipoUser'];
+
+	$q = $con->prepare("UPDATE admin SET tipoUsuario = ? WHERE id = ?");
+	$q->bind_param("si", $tipo, $id);
+	$q->execute();
+
+	
+
+
+
+}
+
+/*=====  End of Editar Permiso  ======*/
+
+
 
 
 
