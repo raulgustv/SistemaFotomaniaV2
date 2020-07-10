@@ -218,7 +218,7 @@
 		 }else{
 
 		 	 $stmt = $con->prepare("INSERT INTO carro (idCliente,idProducto,nombreProducto,cantidad,precio,total) VALUES (?,?,?,?,?,?)");
-		 	 $stmt->bind_param("iisiii", $uid,$prodId,$nombreProd,$cant,$precioTotal,$total);
+		 	 $stmt->bind_param("iisiii", $uid,$prodId,$nombreProd,$cant,$precio,$total);
 
 			 if($stmt->execute()){
 					echo "Productos agregados correctamente";
@@ -272,7 +272,7 @@
 					$fechahoy = date("Y-m-d h:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
 					$yatermino = ($fechaFinal>$fechahoy);
-					$totalDescuento= (($porcentDescuento/100)*$precio);
+					$totalDescuento= (round(($porcentDescuento/100)*$precio));
 					
 				}
 			}else{
@@ -441,7 +441,7 @@
 			$valortotal = $precioFinal*$cant;
 
 		$sql = $con->prepare("UPDATE carro set cantidad =?, precio =?, total=? WHERE idProducto = '$prodId' AND idCliente='$uid'");
-		$sql->bind_param("iii", $cant,$precioFinal,$valortotal);
+		$sql->bind_param("iii", $cant,$precio,$valortotal);
 		$sql->execute();
 		$sql->close();
 	}
@@ -539,8 +539,8 @@
 			if($yacomenzo==1 && $yatermino==1){
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
-			$precioTotal =$precio;
 			$totalDescuento=0;
+			$precioTotal =$precio;
 		}
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
