@@ -20,7 +20,7 @@
 		</form>
 	  </div>
 	  <div class="card-footer">
-	  	<a href="resetAdmin.php">Olvidaste contraseña?</a>
+	  	<a href="#">Olvidaste contraseña?</a>
 	  </div>
 	</div>
 </div>
