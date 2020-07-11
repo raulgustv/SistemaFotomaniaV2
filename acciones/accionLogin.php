@@ -161,7 +161,6 @@ if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
 	$currentpassHash = sha1($currentpass);
 	$newpassHash = sha1($newpass);
 	$cnewpassHash = sha1($cnewpass);
-	echo $uemail;
 	$sql = $con->prepare("SELECT usuario,email,pass FROM clientes WHERE email =?");
 	$sql->bind_param("s", $uemail);
 	$sql->execute();
@@ -169,14 +168,15 @@ if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
 	$row = $result->fetch_array(MYSQLI_ASSOC);
 	$currentpassDB = $row['pass'];
 	if($newpassHash != $cnewpassHash){
-		echo 'Error!!! Las contraseñas no coinciden';
+		echo 'falselocalNC';
 		exit();
 	}elseif($currentpassDB != $currentpassHash){
-		echo 'Error!!! La contraseña actual ingresada no coincide con nuestro sistema';
+		echo 'falsedbNC';
 		exit();
 	}else{
 		$con->query("UPDATE clientes SET pass = '$newpassHash' WHERE email = '$uemail'");
-		 	echo "Contraseña restablecida correctamente";
+		$con->query("DELETE FROM contrareset WHERE email = '$uemail'");
+		echo "true";
 			
 		
 	}

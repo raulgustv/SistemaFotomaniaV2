@@ -17,7 +17,7 @@
 										<th class="col-2">Nombre Producto</th>
 										<th class="col-1">Cantidad</th>
 										<th class="col-2">Precio unitario</th>
-										<th class="col-1">Descuento</th>
+										<th class="col-1">Descuento unitario</th>
 										<th class="col-2">Precio Final</th>
 										<th class="col-2">Acciones</th>
 									</tr>	
