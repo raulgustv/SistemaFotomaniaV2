@@ -1304,16 +1304,6 @@ $(document).on("submit", "#frmEditPermiso", function(e){
 			message("Permiso editado correctamente", 2000, "success");
 		}
 	});
-
-	
-
-
-
-
-
-
-
-
 	
 });
 
