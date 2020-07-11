@@ -3,7 +3,6 @@
 include_once '../includes/db.php';
 include_once '../includes/funciones.php';
 
-access("editarDescuentos");
 
 
 ?>
@@ -17,18 +16,18 @@ access("editarDescuentos");
 });
 </script>
 
-<div class="modal fade" id="formEditDesc" tabindex="-1" role="dialog">
+<div class="modal fade" id="formEditConc" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Editar descuento</h5>
+        <h5 class="modal-title">Editar concurso</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="editDesc">
+      <div class="modal-body" id="editConc">
 
-       <form method='post' id='frmEditDescuentos' enctype='multipart/form-data'>
+       <form method='post' id='frmEditConcursos' enctype='multipart/form-data'>
           
        
          
@@ -65,7 +64,7 @@ access("editarDescuentos");
             
           </form>  
   
-          <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
+          <input type='submit' name='editNewConc' id='editNewConc' class='btn btn-primary' value='Guardar'>
                
       </div>      
     </div>
