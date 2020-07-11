@@ -7,7 +7,22 @@ $(document).ready(function(){
 	$("#load").delay(800).fadeOut(400, function(){
 		$("#myProfile").fadeIn(500);
 		$("#dtPedidoCliente").fadeIn(500);
-	
+		$("#principalPage").fadeIn(500);
+		$("#tiendaLoad").fadeIn(500);
+		$("#galLoad").fadeIn(500);
+		$("#cartLoad").fadeIn(500);
+
+		
+		
+
+
+
+
+
+		
+
+		
+
 	});
 	
 	

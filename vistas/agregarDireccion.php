@@ -1,4 +1,13 @@
+<?php
 
+    $page = basename($_SERVER['PHP_SELF'], '.php');
+
+    if($page == "agregarDireccion"){
+        header("Location: principal.php");
+    } 
+
+
+?>
 
 
 <div class="modal" tabindex="-1" role="dialog" id="form_direccion">

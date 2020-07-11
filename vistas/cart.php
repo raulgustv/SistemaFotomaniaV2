@@ -1,6 +1,17 @@
 <?php include '../templates/mainHeader.php' ?>
 
-<div class="container-fluid">
+
+<div class="backgroundOverlayLoad" id="load">
+	<div class="d-flex justify-content-md-center align-items-center vh-100">
+		<div class="card bg-primary bg-light">
+			<div class="card-body">
+				<img class="loaderGif" src="../vistas/../logos/preloader.gif">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" id="cartLoad">
 	<div class="row">		
 		<div class="col-lg-12">
 			<div class="card">

@@ -6,7 +6,7 @@
 
 /* Load screen */
 
-#dtPedidoCliente{
+#dtPedidoCliente, #principalPage, #tiendaLoad, #galLoad, #cartLoad{
 	display: none;
 }
 	

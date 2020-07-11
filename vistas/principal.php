@@ -9,6 +9,17 @@ include '../includes/db.php'
 =            Cabecera Principal            =
 =========================================-->
 
+<div class="backgroundOverlayLoad" id="load">
+	<div class="d-flex justify-content-md-center align-items-center vh-100">
+		<div class="card bg-primary bg-light">
+			<div class="card-body">
+				<img class="loaderGif" src="../vistas/../logos/preloader.gif">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="principalPage">
 <header class="headMain">
 	<div class="background-overlay text- py-5">
 		<div class="container">
@@ -200,6 +211,8 @@ include '../includes/db.php'
 		<div id="map"></div>
 	</div>
 </section>
+
+</div>
 
 
 
