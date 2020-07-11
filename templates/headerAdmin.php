@@ -1,7 +1,6 @@
 <?php 
 
 require_once '../includes/funciones.php';
-require_once '../includes/smail.php';
 
 ?>
 
