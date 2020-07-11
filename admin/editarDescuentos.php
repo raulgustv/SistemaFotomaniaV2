@@ -7,14 +7,7 @@ include_once '../includes/funciones.php';
 
 ?>
 
-<script>
-    (function() {
-  $('#datetimepicker1').datetimepicker();
-});
-(function() {
-  $('#datetimepicker2').datetimepicker();
-});
-</script>
+
 
 <div class="modal fade" id="formEditDesc" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -64,7 +57,7 @@ include_once '../includes/funciones.php';
             
           </form>  
   
-          <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
+  
                
       </div>      
     </div>
