@@ -1,3 +1,12 @@
+<?php 
+
+include_once '../includes/funciones.php';
+
+access("agregarImagenes");
+
+
+?>
+
 <div class="modal fade" id="form_imagenes" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -1,4 +1,10 @@
-<?php include_once '../templates/headerAdmin.php'; ?> 
+<?php include_once '../templates/headerAdmin.php'; 
+
+session_start();
+
+checkAdmin();
+
+?> 
 
 <div class="container mt-3">
 	<div class="card mx-auto">
@@ -24,15 +30,15 @@
 				<div class="form-group">
 					<label for="tipoUsuario">Tipo de Usuario</label>
 					<select class="form-control" name="tipoUsuario" id="tipoUsuario">
-						<option value="Admin">Admin</option>
-						<option value="Otro">Otro</option>
+						<option value="Admin">Administrador</option>
+						<option value="Servicio">Servicio al Cliente</option>
 					</select>
 					<button type="submit" name="registroAdminUsuario" class="btn btn-primary mt-3"><span class="fas fa-user"></span>&nbsp; Registrar</button>
 				</div>
 			</form>
 		</div>
 		<div class="card-footer text-muted">
-			<a href="loginAdmin.php">Ir a Login</a>
+			<a href="adminDash.php">Ir a Inicio</a>
 		</div>
 	</div>
 </div>

@@ -6,26 +6,73 @@
 
 /* Load screen */
 
-
+#dtPedidoCliente, #principalPage, #tiendaLoad, #galLoad, #cartLoad{
+	display: none;
+}
 	
 
 
 /* Ocultar Forms */
 
-#alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
+#alertBlockUser,#alertBlock, #alert, #register-box, #forgot-box, #loader, #btnGuardarNombre, #confirmNewPass, #btnGuardarNuevoPass, #loaderBS, #cancelGuardarNuevoPass, #cancelGuardarNombre{
 	display: none;
 }
 
-nav.navegacionPrincipal{
-	background-color: var(--naranja);
-}
+
 
 img.loaderGif{
 	width: 90px;
 	height: 90px;
+	
 }
 
 /*Principal*/
+
+.headMain{
+	background: url(../../logos/fondo5.jpg);
+	min-height: 600px;
+	background-size: cover;
+	position: relative;
+
+}
+
+.background-overlay{
+	position: absolute;
+	background: rgb(7, 153, 146, .5);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.backgroundOverlayLoad{
+	position: absolute;
+	background: rgb(228, 227, 227, .5);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+div.pedidoC{
+	display: none;
+}
+
+/* 
+#map{
+	height: 500px;
+	width: 100%;
+} */
+
+.cardPrincipal{
+	height: 300px;
+}
+
+
+
+
+/*End Principal*/
+
 
 div.cartCard{
 	width: 350px;
@@ -55,6 +102,30 @@ img.cartDisplay{
 nav.paginate{
 	margin-top: 10px;
 }
+
+.overlayShadow{
+	box-shadow: 2px 2px 5px #abce44;
+	opacity: .9;
+	background-color: ;
+	position: absolute;
+	
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+
+
+/*
+.navbar .nav-item .nav-link{
+	color: #000;
+}
+
+
+*/
+
+
 
 /*Ajax Search Auto*/
 
@@ -185,6 +256,8 @@ img.carImg{
 	width: 550px;
 	background-color: gray;
 }
+
+/*Página principal*/
 
 
 

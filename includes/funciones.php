@@ -24,6 +24,15 @@
 		}
 	}
 
+	function checkRole(){
+		if($_SESSION['userRole'] != "Admin"){
+			?> <script>
+				window.location.href='adminDash.php';
+			</script>
+			<?php
+		}
+	}
+
 	
 
 	function checkUser(){
@@ -36,7 +45,14 @@
 	} 
 
 
+	//esta funcion previene el acceso a las ventanas modales 
+	function access($pagina){
+		$page = basename($_SERVER['PHP_SELF'], '.php');
 
+		if($page == $pagina){
+  			header("Location: adminDash.php");
+		}
+	}
 
 
 	function redir($var){

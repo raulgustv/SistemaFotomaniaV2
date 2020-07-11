@@ -85,10 +85,10 @@
 											<div class='card-text'>";
 											if($precioProducto != $precioTotal){
 												echo "<strike style='color:black'>
-												<span style='color:red'>$$precioProducto<span>
+												<span style='color:red'>$$precioProducto.00<span>
 											  </strike>";
 											}
-											echo "$$precioTotal<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
+											echo "$$precioTotal.00<button pid='$idProducto' id='product' class='btn btn-success float-right'><i class='fas fa-cart-plus'></i></button></div>											
 										</div>
 									</div>
 								</div>
@@ -292,9 +292,9 @@
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
-				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio' disabled></td>
+				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio.00' disabled></td>
 				<td class='col-1'><input type='text' class='form-control descuento' id='descuento-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
-				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal' disabled></td>
+				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal.00' disabled></td>
 				<td class='col-2'>
 					<a class='btn btn-danger' id='removeProduct' removeId='$idProducto' href='#'><i class='fas fa-trash'></i></a>
 					<a class='btn btn-success' id='updateProduct' updateId='$idProducto' href='#'><i class='fas fa-check-circle'></i></a>
@@ -338,7 +338,7 @@
 
 		
 
-		echo "<div class='col-lg-12' id='montoPagar'><b>Total: $$montoTotal</b></div>";
+		echo "<div class='col-lg-12' id='montoPagar'><b>Total: $$montoTotal.00</b></div>";
 
 
 
@@ -347,7 +347,6 @@
 	/*========================================
 	=            Carrito Checkout            =
 	========================================*/
-	
 	if(isset($_POST['pagar'])){
 
 		$uid = $row['id'];
@@ -546,7 +545,7 @@
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
                      <div class='col-lg-4'>$nombre</div> 
-                     <div class='col-lg-4'>$precioTotal</div>";
+                     <div class='col-lg-4'>$$precioTotal.00</div>";
 				
 			}
 		}		
@@ -698,7 +697,7 @@
 
 
 
-			echo "<h6>Direccion de Envío:</h6>
+			echo "<h6>Dirección de Envío:</h6>
 				  <p>$dir1<br>$dir2
 					$cant, $dist<br>
 					$prov, $zip<br>
@@ -1139,14 +1138,23 @@
 	}
 	
 	/*=====  End of Ver Galeria Imagenes  ======*/
-	
-	
-	
-		
-	
+
+
+	/*====================================================
+	=            Obtener productos destacados            =
+	====================================================
 	
 
-	
+	if(isset($_POST['getDestacados'])){
+
+		$q= $con->prepare("SELECT COUNT(productoId) AS prodCount, productos.nombre AS nombre, productos.imagen AS imagen FROM comprafinalizada INNER JOIN productos on comprafinalizada.productoId = productos.id GROUP BY productos.nombre LIMIT 3");
+		$q->execute();
+
+		$row = $q->get_result();
+
+		while($r = mysqli_fetch_array($row)){
+			$imagen = $r['imagen'];
+
 	
 	
 
@@ -1493,6 +1501,13 @@
 	}
 
 
+
+			echo "<div class='carousel-item'>
+				      <img class='d-block text-center carImg' src='imagenes/$imagen'>
+				    </div>";
+		}
+	
+	} 
 	
 	/*=====  Salir del concurso  ======*/
 
@@ -1501,6 +1516,9 @@
 	=            Enviar mensaje contacto            =
 	==================================*/
 	
+
+	/*=====  End of Obtener productos destacados  ======*/
+
 	if(isset($_POST['sendContacto'])){
 		$nombreContacto = $_POST['nombre'];
 		$correoContacto = $_POST['correo'];
@@ -1536,6 +1554,7 @@ if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
 
 
 	}
+
 	
 }	
 	

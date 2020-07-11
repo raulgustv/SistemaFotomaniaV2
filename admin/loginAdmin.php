@@ -13,15 +13,20 @@
 		    <label for="adminPass">Contraseña</label>
 		    <input type="password" class="form-control" name="adminPass" id="adminPass" placeholder="Tu contraseña">
 		  </div> 
-		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>
-		  <span>
-		  	<a href="registroAdmin.php">Registrar</a>
-		  </span>
+		  <button type="submit" class="btn btn-primary">Iniciar Sesión <i class="fas fa-clipboard-check"></i></button>		 
 		</form>
 	  </div>
 	  <div class="card-footer">
 	  	<a href="resetAdmin.php">Olvidaste contraseña?</a>
 	  </div>
+	  <div  id="alertBlockUser">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  <strong>¡Vaya!</strong> Parece que tu cuenta ha sido bloqueada, por favor contacta con el administrador para ingresar a tu cuenta.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				</div>
 	</div>
 </div>
 

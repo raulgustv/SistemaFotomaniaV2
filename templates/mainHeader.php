@@ -19,13 +19,14 @@ require '../acciones/sesion.php';
 
   <link rel="stylesheet" type="text/css" href="../public/css/main.css">
 
-    <link rel="stylesheet" type="text/css" href="../public/css/main.css">
 
  
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-  <a class="navbar-brand" href="#">Fotomanía Costa Rica</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-warning shadow-lg p-3 mb-4 rounded">
+  <a class="navbar-brand" href="../vistas/principal.php">
+    <img src="../logos/logoFotomania.PNG" alt="Logo Fotomanía" style="width: 40%">
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -41,7 +42,7 @@ require '../acciones/sesion.php';
       <li class="nav-item">
         <a class="nav-link" href="galeria.php">Galería de Imágenes</a>
       </li>
-       <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span id="cartSum" class="badge-dark"></span><i class="fas fa-cart-plus"></i></a>
+       <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Carrito <span id="cartSum" class="badge-warning"></span><i class="fas fa-cart-plus"></i></a>
        <div class="dropdown-menu dropMenuSize">
           <div class="card">
               <div class="card-header bg-info">

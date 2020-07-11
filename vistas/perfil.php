@@ -25,8 +25,19 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 
  ?>
 
+<div class="backgroundOverlayLoad" id="load">
+	<div class="d-flex justify-content-md-center align-items-center vh-100">
+		<div class="card bg-primary bg-light">
+			<div class="card-body">
+				<img class="loaderGif" src="../vistas/../logos/preloader.gif">
+			</div>
+		</div>
+	</div>
+</div>
 
-<div class="container-fluid mt-3">
+
+
+<div class="container-fluid mt-3" id="myProfile" style="display: none;">
 	
 
 <div class="row">
@@ -182,11 +193,12 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 	</div>
 </div>
 
+
 <!--=============================
 =            Pedidos            =
 ==============================-->
 
-<div class="container-fluid">
+<div class="container-fluid" id="pedidosC">
 	<div class="row mt-3">
 		<div class="col-lg-12">
 			<div class="card bg-warning">
@@ -208,6 +220,7 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 		</div>
 	</div>
 </div>
+
 
 
 <!--====  End of Pedidos  ====-->

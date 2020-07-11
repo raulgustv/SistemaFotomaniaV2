@@ -3,6 +3,17 @@ include_once '../includes/funciones.php';
 include '../includes/db.php';
 checkUser();?>
 
+<div class="backgroundOverlayLoad" id="load">
+	<div class="d-flex justify-content-md-center align-items-center vh-100">
+		<div class="card bg-primary bg-light">
+			<div class="card-body">
+				<img class="loaderGif" src="../vistas/../logos/preloader.gif">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="galLoad">
 <div class="container-fluid">
 	<div class="row mt-2 mb-2">
 		<div class="col-lg-10 offset-lg-2">
@@ -27,6 +38,8 @@ checkUser();?>
 		
 	</div>
 </div>
+</div>
+
 
 
 

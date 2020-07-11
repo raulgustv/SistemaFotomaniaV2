@@ -3,7 +3,7 @@
 
 session_start();
 
-unset($_SESSION['username']);
+unset($_SESSION['userId']);
 
 header("location:../index.php");
 

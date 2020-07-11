@@ -1,5 +1,34 @@
 $(document).ready(function(){
 
+	/*====================================
+	=            Loading page            =
+	====================================*/
+	
+	$("#load").delay(800).fadeOut(400, function(){
+		$("#myProfile").fadeIn(500);
+		$("#dtPedidoCliente").fadeIn(500);
+		$("#principalPage").fadeIn(500);
+		$("#tiendaLoad").fadeIn(500);
+		$("#galLoad").fadeIn(500);
+		$("#cartLoad").fadeIn(500);
+
+		
+		
+
+
+
+
+
+		
+
+		
+
+	});
+	
+	
+	/*=====  End of Loading page  ======*/
+	
+
 	/*----------  Funcion SWAL Alerta  ----------*/
 
 	function message(titulo, tiempo, icono){
@@ -123,7 +152,11 @@ $(document).ready(function(){
 					if(data==="true"){
 						window.location = 'vistas/principal.php';
 						
-					}else{
+					}else if(data === "block"){
+						$("#alertBlock").fadeIn(200);
+						$("#loader").hide();
+					}
+					else{
 						Swal.fire(
 								'Error iniciando sesión',
 								'Verifica que tu usuario y contraseña sean correctos',
@@ -416,6 +449,8 @@ $(document).ready(function(){
 		var precio = $("#precio-"+pid).val();
 		var total = $("#total-"+pid).val();
 
+
+
 		$.ajax({
 			url: '../acciones/main.php',
 			method: 'POST',
@@ -425,6 +460,7 @@ $(document).ready(function(){
 				getTotal();
 				//$(".botonPay").attr('disabled', true);
 				$(".botonPay").removeAttr("disabled");
+				location.reload();
 			}
 		});
 	});
@@ -1034,6 +1070,27 @@ cargarImagenGal();
 
 
 /*=====  End of Galeria Imagenes  ======*/
+
+
+/*========================================
+=            Página principal            =
+========================================*/
+
+/*---------- Mapa ----------
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8
+  });
+}
+
+*/
+
+
+/*=====  End of Página principal  ======*/
+
 
 
 
