@@ -1402,7 +1402,7 @@ if(isset($_POST['PartConcurso'])){
 
 	
 
-    $numParticipante = 0;
+    $numParticipante = 1;
 	while($rowed = mysqli_fetch_array($red)){
 		$idCliente = $rowed['idCliente'];
 		$idConcurso = $rowed['idConcursoP'];
@@ -1430,42 +1430,6 @@ if(isset($_POST['PartConcurso'])){
 /*=====  End of Participantes Rifa  ======*/
 
 
-if(isset($_POST['PartConcurso'])){
-
-	$concId = $_POST['concId'];
-
-	//echo $concId;
-
-	$qed = $con->prepare("SELECT idCliente, clientesxconcurso.idConcurso AS idConcursoP, concurso.nombre AS nombreConcurso, concurso.cantidadMaxima as cantMaxima, clientes.nombre AS nombreCliente FROM clientesxconcurso INNER JOIN concurso ON clientesxconcurso.idConcurso = concurso.idConcurso INNER JOIN clientes ON clientesxconcurso.idCliente = clientes.id WHERE clientesxconcurso.idConcurso = ? ");
-	$qed->bind_param("i", $concId);
-	$qed->execute();
-	$red = $qed->get_result();
-
-	$cantidadParticipantes = mysqli_num_rows($red);
-
-
-	
-
-    $numParticipante = 1;
-	while($rowed = mysqli_fetch_array($red)){
-		$idCliente = $rowed['idCliente'];
-		$idConcurso = $rowed['idConcursoP'];
-		$nombreConcurso = $rowed['nombreConcurso'];
-		$nombreCliente = $rowed['nombreCliente'];
-		$cantMax = $rowed['cantMaxima'];
-	echo "<tr><td>$nombreConcurso</td>
-	<td>$idCliente</td>
-	<td>$nombreCliente</td>
-	<td>";
-		echo $numParticipante."/".$cantMax;
-	echo "</td></tr>
-	 ";
-	 $numParticipante++;
-	}
-          //echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
-
-
-}
 
 /*===========================================
 =            Seleccionar Ganador            =
