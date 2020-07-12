@@ -2,6 +2,7 @@
 
 include '../../includes/db.php';
 include '../../includes/funciones.php';
+include 'smail.php';
 
 
 /*=========================================
@@ -1499,6 +1500,94 @@ if(isset($_POST['ganadorConc'])){
 
 
 /*=====  End of Concursos  ======*/
+
+
+/*===== Restablecer Admin =====*/
+
+/*===========================================
+=            Contraseña Olvidada            =
+===========================================*/
+
+if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
+	$afemail = $_POST['emailReset'];
+
+
+	$stmt = $con->prepare("SELECT id FROM admin WHERE email=?");
+	$stmt->bind_param("s", $afemail);
+	$stmt->execute();
+
+	$res = $stmt->get_result();
+
+	if($res->num_rows>0){
+		$stmt1 = $con->prepare("SELECT * FROM contrareset WHERE email=?");
+	    $stmt1->bind_param("s", $afemail);
+		$stmt1->execute();
+		$resec = $stmt1->get_result();
+        if($resec->num_rows>0){
+		$stmt3 = $con->prepare("DELETE FROM contrareset WHERE email=?");
+	    $stmt3->bind_param("s", $afemail);
+		$stmt3->execute(); 
+        }
+		$token = generarRandomString(40);
+		$stmt2 = $con->prepare("INSERT INTO contrareset(email, token) VALUES (?,?)");
+	    $stmt2->bind_param("ss", $afemail,$token);
+		$stmt2->execute();
+		$stmt3 = $con->prepare("UPDATE contrareset SET tokenExpira=DATE_ADD(NOW(),INTERVAL 10 MINUTE)");
+		$stmt3->execute();
+        $titulo = 'Restablecimiento de contraseña para sistema FotomaniaCR';
+        $cuerpo = 'Usted solicito restablecer su contraseña para <b>FotomaniaCR</b><br>Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/admin/resetPassword.php?token='.$token;
+        $cuerposimple = 'Usted solicito restablecer su contraseña para FotomaniaCR. Ingrese al siguiente link para realizar el restablecimiento:http://localhost/SISTEMAFOTOMANIAv2/admin/resetPassword.php?token='.$token;
+        if($func = emailreset($afemail,$titulo,$cuerpo,$cuerposimple)){
+			echo "true";
+		}else{
+			echo "false";
+		}
+
+	}else{
+		echo "falseNSE";	
+	}
+
+}
+
+/*================================
+=    Restableciemiento de contra       =
+================================*/
+
+if(isset($_POST['action']) && $_POST['action'] == 'adminrestcon'){
+	$currentpass = checkInput($_POST['currentpassword']);
+	$newpass = checkInput($_POST['newpass']);
+	$cnewpass = checkInput($_POST['cnewpass']);
+	$uemail = checkInput($_POST['uemail']);
+	$currentpassHash = password_hash($currentpass, PASSWORD_BCRYPT,["cost"=>8]);
+	$newpassHash = password_hash($newpass, PASSWORD_BCRYPT,["cost"=>8]);
+	$cnewpassHash = password_hash($cnewpass, PASSWORD_BCRYPT,["cost"=>8]);
+	$sql = $con->prepare("SELECT user,email,pass FROM admin WHERE email =?");
+	$sql->bind_param("s", $uemail);
+	$sql->execute();
+	$result = $sql->get_result();
+	$row = $result->fetch_array(MYSQLI_ASSOC);
+	$currentpassDB = $row['pass'];
+	if($newpass != $cnewpass){
+		echo 'falselocalNC';
+		exit();
+	}elseif(password_verify($currentpass,$currentpassDB) == FALSE){
+		echo $currentpassHash;
+		echo " ";
+		echo $currentpassDB;
+		exit();
+	}else{
+		$con->query("UPDATE admin SET pass = '$newpassHash' WHERE email = '$uemail'");
+		$con->query("DELETE FROM contrareset WHERE email = '$uemail'");
+		echo "true";
+			
+		
+	}
+}
+
+/*=====  End of Restablecimiento de contra  ======*/
+
+
+/*===== End of Restablecer Admin =====*/
 
 
 

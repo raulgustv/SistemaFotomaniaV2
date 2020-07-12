@@ -3,6 +3,7 @@
 	include '../includes/db.php';
 	include '../includes/funciones.php';
 	include '../acciones/sesion.php';
+	include '../includes/smail.php';
 
 	/*==========================================
 	=            Obtener categorias            =
@@ -1265,6 +1266,48 @@
 
 	
 	/*=====  Salir del concurso  ======*/
+
+	/*==================================
+	=            Enviar mensaje contacto            =
+	==================================*/
+	
+	if(isset($_POST['sendContacto'])){
+		$nombreContacto = $_POST['nombre'];
+		$correoContacto = $_POST['correo'];
+		$mensajeContacto = $_POST['mensaje'];
+
+		$emails = 'mintreiscool15@gmail.com';
+        $titulo = 'Nuevo mensaje de un usuario desde la pagina FotomaniaCR';
+        $cuerpo = '<h2>Consulta de '.$nombreContacto.' para FotomaniaCR</h2>
+
+<table style="width:100%;border: 1px solid black;border-collapse: collapse;">
+  <tr style="border: 1px solid black;border-collapse: collapse;">
+    <th style="border: 1px solid black;">Nombre</th>
+    <th style="border: 1px solid black;">Correo</th> 
+    <th style="border: 1px solid black;">Mensaje</th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">'.$nombreContacto.'</td>
+    <td style="border: 1px solid black;">'.$correoContacto.'</td>
+    <td style="border: 1px solid black;">'.$mensajeContacto.'</td>
+</table><br>Una respuesta debe llegar al correo adjunto en las proximas 48hrs';
+
+$cuerposimple = 'Mensaje de'.$nombreContacto.'<br>Consulta:'.$mensajeContacto.'<br>Correo:'.$correoContacto;   
+		
+if((trim($correoContacto) == "") || (trim($mensajeContacto)=="")){
+echo "false";
+exit();
+}else{
+if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
+	echo "true";
+}else{
+	echo "false";
+}
+
+
+	}
+	
+}	
 	
 	
 	

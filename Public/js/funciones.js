@@ -1173,7 +1173,30 @@ $('body').delegate("#delConcurso", "click", async function(e){
 
 
 
-
+/*----------  Contacto email  ----------*/
+$(document).on("click", "#contactar", function(){
+	//$("body").delegate("#contactar", "click", function(){
+	
+		var email = $("#contEmail").val();
+		var nombre = $("#contNombre").val();
+		var mensaje = $("#contMensaje").val();
+	
+		$.ajax({
+			url: '../acciones/main.php',
+			method: 'POST',
+			data: {sendContacto:1, correo:email, nombre:nombre, mensaje:mensaje},
+			success: function(data){
+				if(data === "false"){
+					message("No se pudo enviar su mensaje", 2000, 'error');
+				}else if(data ==="true"){
+				message("Mensaje enviado con exito", 2000, 'success');
+				$("#formContacto").trigger("reset")	
+			}else{
+				message("Error desconocido", 2000, 'error');
+			}
+								  }
+		});
+	});
 
 
 

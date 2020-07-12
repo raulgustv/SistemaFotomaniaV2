@@ -17,7 +17,7 @@
 		</form>
 	  </div>
 	  <div class="card-footer">
-	  	<a href="#">Olvidaste contraseña?</a>
+	  	<a href="resetAdmin.php">Olvidaste contraseña?</a>
 	  </div>
 	  <div  id="alertBlockUser">
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
