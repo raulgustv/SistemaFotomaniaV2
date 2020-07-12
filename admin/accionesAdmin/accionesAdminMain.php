@@ -777,59 +777,82 @@ if(isset($_POST['cargarDescuento'])){
 
 	//echo $descId;
 
-	$q = $con->query("SELECT idOferta, productos.nombre AS nombreProducto, productos.id AS idProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id WHERE idOferta = ?");
-	$q->bind_param("i", $descId);
-	$q->execute();
+	$qed = $con->prepare("SELECT idOferta, productos.nombre AS nombreProducto, productos.id AS idProducto, titulo, ofertas.descripcion AS descripcionDesc, totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id WHERE idOferta = ? ");
+	$qed->bind_param("i", $descId);
+	$qed->execute();
+	$red = $qed->get_result();
 
-	$r = $q->get_result();
-
-	$row = mysqli_fetch_array($r);
+	$rowed = mysqli_fetch_array($red);
 
 	
-	$titulo = $row['titulo'];
-	$nombreProducto = $row['nombreProducto'];
-	$idProducto = $row['idProducto'];
-	$descripcion = $row['descripcionDesc'];
-	$totalOferta = $row['totalOferta'];
-	$fechaInicio = $row['fechaInicio'];
-	$fechaFinaliz = $row['fechaFinal'];
+	$titulo = $rowed['titulo'];
+	$nombreProducto = $rowed['nombreProducto'];
+	$idProducto = $rowed['idProducto'];
+	$descripcion = $rowed['descripcionDesc'];
+	$totalOferta = $rowed['totalOferta'];
+	$fechaInicio = $rowed['fechaInicio'];
+	$fechaFinaliz = $rowed['fechaFinal'];
 
 	
 	echo "
 			<div class='form-group'>              
-              <input type='hidden' name='prodId' value='$descId'> 
+              <input type='hidden' name='descId' id='descId' value='$descId'> 
           	</div>
 
 			<div class='form-group'>
-              <label for='editNombre'>Nombre</label>
+              <label for='editNombre'>Titulo</label>
               <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$titulo'> 
           </div>
 	
 			 <div class='form-group'>
-              <label for='editDesc'>Descripción</label>
-              <textarea  type='text' rows='3' class='form-control' name='editDesc' id='editDesc'>$descripcion</textarea> 
+              <label for='descripcion'>Descripción</label>
+              <textarea  type='text' rows='3' class='form-control' name='descripcion' id='descripcion'>$descripcion</textarea> 
           </div>
+		  
+		  <div class='input-group mb-3'>
+		  <div class='input-group-prepend'>
+			  <label class='input-group-text' for='totalDescu'>Porcentaje Descuento</label>
+			  <select class='custom-select' name='totalDescu' id='totalDescu'>";
+			  $comienza = 5;
+				while($comienza<=100){
+				echo "<option value='$comienza'";
+				if($comienza == $totalOferta){
+					echo " selected";
+				}
+				echo ">Descuento de $comienza%</option>";
+				$comienza = $comienza+5;	
 
-          <div class='form-group'>
-              <label for='editPrecio'>Precio</label>
-              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$totalOferta'> 
-          </div> 
+			}                   		
+			echo "</select> 
+		  </div>
+	  </div>
+	  ";
 
 
-		  <div class='form-group'>
-		  <label for='editPrecio'>Precio</label>
-		  <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$fechaInicio'> 
-	  </div> 
+		echo "<div class='form-group'>
+		<label for='fechaInicio'>Fecha de Inicio</label>
+	<div class='input-group date' id='datetimepicker1' data-target-input='nearest'>
+	  <input type='text' id='fechaInicio' name='fechaInicio' class='form-control datetimepicker-input' value='$fechaInicio' data-target='#datetimepicker1' />
+	  <div class='input-group-append' data-target='#datetimepicker1' data-toggle='datetimepicker'>
+		<div class='input-group-text'><i class='fa fa-calendar'></i></div>
+	  </div>
+	</div>
+  </div> ";
 
-	  <div class='form-group'>
-              <label for='editPrecio'>Precio</label>
-              <input type='text' class='form-control' name='editPrecio' id='editPrecio' placeholder='$fechaFinaliz'> 
-          </div> 
+	  echo"  <div class='form-group'>
+	  <label for='fechaFinal'>Fecha de Finalizacion</label>
+  <div class='input-group date' id='datetimepicker2' data-target-input='nearest'>
+	<input type='text' id='fechaFinal' name='fechaFinal' class='form-control datetimepicker-input' value='$fechaFinaliz' data-target='#datetimepicker2' />
+	<div class='input-group-append' data-target='#datetimepicker2' data-toggle='datetimepicker'>
+	  <div class='input-group-text'><i class='fa fa-calendar'></i></div>
+	</div>
+  </div>
+</div>
 
             <div class='input-group mb-3'>
               <div class='input-group-prepend'>
-                  <label class='input-group-text' for='catProd'>Categoría</label>
-                  <select class='custom-select' name='catAddProd' id='catAddProd'>";
+                  <label class='input-group-text' for='prodDesc'>Producto</label>
+                  <select class='custom-select' name='prodAddDesc' id='prodAddDesc'>";
 
                   $sql = $con->query("SELECT * FROM productos");
 					while($row = mysqli_fetch_array($sql)){
@@ -843,15 +866,13 @@ if(isset($_POST['cargarDescuento'])){
 						
 
 				}                   		
-                  "</select> 
+               echo "</select> 
               </div>
           </div>
 
           ";
 
-          echo "<div class='form-control mt-5'>
-              <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
-            </div>";
+          //echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
 
 
 }
