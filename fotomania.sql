@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2020 a las 04:51:33
+-- Tiempo de generación: 13-07-2020 a las 01:17:55
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.29
 
@@ -35,21 +35,26 @@ CREATE TABLE `admin` (
   `user` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `pass` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
-  `tipoUsuario` enum('Admin','Otro') COLLATE utf8_spanish2_ci NOT NULL,
+  `tipoUsuario` enum('Admin','Servicio') COLLATE utf8_spanish2_ci NOT NULL,
   `fechaRegistro` datetime NOT NULL,
   `fechaLogin` datetime NOT NULL,
-  `notas` varchar(255) COLLATE utf8_spanish2_ci NOT NULL
+  `notas` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `admin`
 --
 
-INSERT INTO `admin` (`id`, `user`, `email`, `pass`, `tipoUsuario`, `fechaRegistro`, `fechaLogin`, `notas`) VALUES
-(1, 'admin', 'admin@admin.com', '1234', 'Admin', '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
-(17, 'rgustv', 'raulgus@hotmail.com', '$2y$08$MMRrPIYY13Bjzj2w8U7S1eyN09u1AglynNztfd27x6ER8HTYNFuUm', 'Admin', '2020-05-19 01:50:55', '2020-06-19 09:52:09', ''),
-(20, 'Erick Torres', 'erick@gmail.com', '$2y$08$prx6hA2Bg5EX.mzeHqKxYeXO9cIGQvbVo5abkONdprVv1UK0HJnwu', 'Admin', '2020-05-20 08:52:57', '2020-05-20 08:52:57', ''),
-(21, 'rmmirand', 'rmmirand@amazon.com', '$2y$08$pADaL82JgQaOUEtxsWBNqOQS1H8GSqPWIIw3mp7w1hYA8o7DBA8LS', 'Admin', '2020-05-20 11:58:55', '2020-05-20 11:59:37', '');
+INSERT INTO `admin` (`id`, `user`, `email`, `pass`, `tipoUsuario`, `fechaRegistro`, `fechaLogin`, `notas`, `status`) VALUES
+(1, 'admin', 'admin@admin.com', '1234', 'Servicio', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 1),
+(20, 'Erick Torres', 'erick@gmail.com', '$2y$08$prx6hA2Bg5EX.mzeHqKxYeXO9cIGQvbVo5abkONdprVv1UK0HJnwu', 'Admin', '2020-05-20 08:52:57', '2020-05-20 08:52:57', '', 1),
+(21, 'rmmirand', 'rmmirand@amazon.com', '$2y$08$pADaL82JgQaOUEtxsWBNqOQS1H8GSqPWIIw3mp7w1hYA8o7DBA8LS', 'Admin', '2020-05-20 11:58:55', '2020-07-08 03:50:12', '', 1),
+(22, 'Carlos', 'carlos@gmail.com', '$2y$08$Q5ugfLr/jOpHl4mx4cEX1u6odRgaIopD.ag88GXiYI.dIOLXsTLoy', 'Servicio', '2020-07-06 01:50:40', '2020-07-09 11:00:33', '', 1),
+(23, 'Raul Rodriguez', 'raulgus@hotmail.com', '$2y$08$dZEOB3KUDOlA.kRJ1PKfY.I6xZmw/m3Dia0ngCA6MNsh/GkGOSZtS', 'Admin', '2020-07-08 03:50:31', '2020-07-12 01:57:59', '', 1),
+(25, 'test', 'test@gmail.com', '$2y$08$O5rKOvG3zUi6tR9UTU7WieU0njDbpaZDSNUgcan7JM7g2QN7ugRLe', 'Servicio', '2020-07-09 10:39:43', '2020-07-11 08:48:19', 'Prueba', 1),
+(26, 'Pedro', 'pedroram@gmail.com', '$2y$08$kjhdmcoc0cpbO6SkueN2d.JP.DLkrXpwu6J1DnsdRvxo.GtIdQqze', 'Admin', '2020-07-09 02:13:25', '2020-07-09 02:13:25', '', 1),
+(27, 'Andres', 'andres@gmail.com', '$2y$08$1TL4umF7oTTGjL5vaTNgludLHreSvufBYuvAw1uYooFMdaGpMZhZ.', 'Servicio', '2020-07-12 12:06:04', '2020-07-12 01:47:52', '', 1);
 
 -- --------------------------------------------------------
 
@@ -168,13 +173,6 @@ CREATE TABLE `carro` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
--- Volcado de datos para la tabla `carro`
---
-
-INSERT INTO `carro` (`id`, `idCliente`, `idProducto`, `nombreProducto`, `cantidad`, `precio`, `total`) VALUES
-(184, 37, 81, 'Lente Tamron  SP', 2, 1269, 2538);
-
 -- --------------------------------------------------------
 
 --
@@ -194,9 +192,12 @@ CREATE TABLE `categorias` (
 INSERT INTO `categorias` (`idCategoria`, `nombre`) VALUES
 (77, 'Lentes de Cámaras'),
 (78, 'Cámaras de video'),
-(79, 'Cámara fotográfica'),
-(80, 'Televisores'),
-(81, 'Cables');
+(79, 'Cámaras Sony'),
+(80, 'Mantenimiento y limpieza'),
+(81, 'Cables'),
+(82, 'Maletines'),
+(83, 'Tripodes'),
+(89, 'Cámara Canon');
 
 -- --------------------------------------------------------
 
@@ -210,23 +211,29 @@ CREATE TABLE `clientes` (
   `nombre` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `usuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `email` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
-  `pass` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
+  `pass` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `nota` text COLLATE utf8_spanish2_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `token` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `tokenExpira` timestamp NOT NULL DEFAULT current_timestamp(),
-  `idDireccion` int(11) NOT NULL
+  `estado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `creado`, `token`, `tokenExpira`, `idDireccion`) VALUES
-(34, 'Raul Rodriguez', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08 06:00:00', '', '2020-06-08 21:20:03', 0),
-(35, 'user', 'user', 'usuario@usuario.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-08 06:00:00', '', '2020-06-08 21:35:20', 0),
-(37, 'Lulu Miranda', 'Lulu', 'lulumir@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-09 06:00:00', '', '2020-06-08 23:20:17', 0),
-(38, 'Arturo Mendoza', 'art12', 'art12@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-19 03:04:15', '', '2020-06-19 03:04:15', 0),
-(39, 'Raul R', 'raulgus', 'raulgust@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '2020-06-20 06:00:00', '', '2020-06-20 04:08:33', 0);
+INSERT INTO `clientes` (`id`, `nombre`, `usuario`, `email`, `pass`, `nota`, `creado`, `token`, `tokenExpira`, `estado`) VALUES
+(34, 'Raul Rodriguez Miranda', 'rgustv', 'raulgus@hotmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'customer closed', '2020-07-11 04:14:57', '', '2020-06-08 21:20:03', 1),
+(35, 'user', 'user', 'usuario@usuario.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-06-08 06:00:00', '', '2020-06-08 21:35:20', 1),
+(37, 'Lulu Ramirez', 'Lulu', 'lulumir@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-07-09 22:27:12', '', '2020-06-08 23:20:17', 1),
+(38, 'Arturo Mendoza', 'art12', 'art12@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-06-19 03:04:15', '', '2020-06-19 03:04:15', 1),
+(39, 'Raul R', 'raulgus', 'raulgust@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Customer abuse', '2020-07-11 04:15:18', '', '2020-06-20 04:08:33', 1),
+(40, 'Nina Espinoza Mianda', 'nina', 'ninaes@gmail.es', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-06-26 04:39:22', '', '2020-06-22 03:01:14', 1),
+(47, 'Alberto', 'Alb321', 'alb321@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Cuenta cerrada', '2020-07-12 19:47:05', '', '2020-07-09 04:32:30', 0),
+(48, 'test', 'test', 'test@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-07-09 22:22:51', '', '2020-07-09 14:54:55', 0),
+(49, 'Eli', 'Elia', 'eli@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '', '2020-07-12 18:17:02', '', '2020-07-12 18:17:02', 1),
+(50, 'Camilo', 'camil', 'camil@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Inactividad', '2020-07-12 19:46:22', '', '2020-07-12 19:03:47', 0);
 
 -- --------------------------------------------------------
 
@@ -245,16 +252,12 @@ CREATE TABLE `clientesxconcurso` (
 --
 
 INSERT INTO `clientesxconcurso` (`idCliente`, `idConcurso`) VALUES
-(0, 2),
-(13, 2),
-(15, 2),
-(15, 3),
-(17, 2),
-(17, 3),
-(19, 3),
-(24, 4),
-(25, 4),
-(29, 4);
+(34, 10),
+(37, 10),
+(38, 10),
+(39, 10),
+(40, 10),
+(49, 10);
 
 -- --------------------------------------------------------
 
@@ -310,23 +313,62 @@ CREATE TABLE `comprafinalizada` (
   `monto` int(11) NOT NULL,
   `transaccionId` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `FechaCompra` timestamp NOT NULL DEFAULT current_timestamp(),
-  `estado` int(11) NOT NULL DEFAULT 1
+  `estado` int(11) NOT NULL DEFAULT 1,
+  `idDireccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `comprafinalizada`
 --
 
-INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `cantidad`, `monto`, `transaccionId`, `FechaCompra`, `estado`) VALUES
-(36, 34, 85, 2, 138, '0J620943PD7590623', '2020-06-12 19:36:09', 8),
-(37, 34, 83, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
-(38, 34, 85, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
-(39, 34, 82, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7),
-(40, 37, 81, 1, 1269, '15871900600026356', '2020-06-14 22:14:17', 1),
-(41, 34, 79, 4, 2499, '235548626N162371X', '2020-06-15 18:14:30', 9),
-(42, 34, 81, 2, 1269, '235548626N162371X', '2020-06-15 18:14:31', 9),
-(43, 34, 87, 2, 88, '2TM80116P07222703', '2020-06-19 02:47:15', 1),
-(44, 34, 84, 3, 15, '2TM80116P07222703', '2020-06-19 02:47:15', 1);
+INSERT INTO `comprafinalizada` (`compraId`, `clienteId`, `productoId`, `cantidad`, `monto`, `transaccionId`, `FechaCompra`, `estado`, `idDireccion`) VALUES
+(37, 34, 83, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7, 0),
+(38, 34, 85, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7, 0),
+(39, 34, 82, 1, 172, '43B13314UG350334W', '2020-06-12 19:42:19', 7, 0),
+(40, 37, 81, 1, 1269, '15871900600026356', '2020-06-14 22:14:17', 1, 0),
+(41, 34, 79, 4, 2499, '235548626N162371X', '2020-06-15 18:14:30', 9, 0),
+(42, 34, 81, 2, 1269, '235548626N162371X', '2020-06-15 18:14:31', 9, 0),
+(43, 34, 87, 2, 88, '2TM80116P07222703', '2020-06-19 02:47:15', 1, 0),
+(44, 34, 84, 3, 15, '2TM80116P07222703', '2020-06-19 02:47:15', 1, 0),
+(45, 34, 87, 2, 88, '3RD21106SH765772R', '2020-06-22 01:04:15', 11, 1),
+(46, 34, 79, 1, 2499, '3RD21106SH765772R', '2020-06-22 01:04:16', 11, 0),
+(47, 34, 87, 1, 88, '23A03331X2595492N', '2020-06-22 01:26:54', 11, 0),
+(48, 34, 83, 2, 89, '0EP07294KA088814S', '2020-06-22 01:29:45', 4, 8),
+(49, 34, 82, 3, 14, '0EP07294KA088814S', '2020-06-22 01:30:40', 4, 8),
+(50, 34, 87, 1, 88, '0EP07294KA088814S', '2020-06-22 01:30:40', 4, 8),
+(51, 34, 84, 2, 15, '5N4939448S324823X', '2020-06-22 01:33:11', 1, 9),
+(52, 34, 87, 1, 88, '5N4939448S324823X', '2020-06-22 01:33:11', 1, 9),
+(53, 34, 84, 2, 15, '36L47641KY323825F', '2020-06-22 02:53:16', 4, 9),
+(54, 40, 84, 1, 15, '01G37730N9634831U', '2020-06-26 04:41:06', 11, 14),
+(55, 40, 89, 1, 699, '01G37730N9634831U', '2020-06-26 04:41:07', 11, 14),
+(56, 37, 89, 1, 699, '15E8632713177242R', '2020-06-26 04:48:57', 1, 16),
+(57, 37, 87, 3, 88, '15E8632713177242R', '2020-06-26 04:48:58', 1, 16),
+(58, 34, 89, 1, 699, '1KK510286P3602802', '2020-06-27 02:13:04', 11, 1),
+(59, 34, 84, 2, 15, '1KK510286P3602802', '2020-06-27 02:13:05', 11, 1),
+(60, 34, 84, 1, 15, '3R133912PG050412U', '2020-06-27 16:00:34', 11, 1),
+(61, 34, 91, 2, 155, '18X36100LN906831Y', '2020-06-27 16:59:31', 4, 15),
+(62, 34, 90, 1, 69, '18X36100LN906831Y', '2020-06-27 16:59:31', 4, 15),
+(63, 34, 93, 2, 12, '18X36100LN906831Y', '2020-06-27 16:59:31', 4, 15),
+(64, 34, 89, 2, 699, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(65, 34, 84, 4, 15, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(66, 34, 91, 1, 155, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(67, 34, 92, 1, 3199, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(68, 34, 93, 1, 12, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(69, 34, 99, 1, 59, '9KA75393G8136692W', '2020-07-01 18:09:26', 1, 9),
+(70, 34, 84, 3, 15, '1NL270584V380971U', '2020-07-08 23:21:38', 4, 9),
+(71, 34, 91, 1, 155, '02Y7787565991662V', '2020-07-08 23:38:35', 1, 9),
+(72, 34, 89, 1, 699, '7HR10385A9071782U', '2020-07-09 00:31:23', 9, 12),
+(73, 34, 90, 1, 69, '8DR37853G9114204H', '2020-07-10 15:17:32', 1, 12),
+(74, 34, 93, 1, 12, '8DR37853G9114204H', '2020-07-10 15:17:32', 1, 12),
+(75, 34, 84, 3, 15, '05T32622PG7509537', '2020-07-10 15:33:59', 1, 12),
+(76, 34, 93, 1, 12, '05T32622PG7509537', '2020-07-10 15:34:00', 1, 12),
+(77, 34, 84, 4, 15, '51753371UX271931V', '2020-07-11 03:36:49', 1, 12),
+(78, 34, 90, 1, 69, '51753371UX271931V', '2020-07-11 03:36:49', 1, 12),
+(79, 34, 91, 2, 155, '2FC33791T8271402V', '2020-07-11 04:12:29', 1, 12),
+(80, 50, 91, 2, 93, '3W953403DH252492Y', '2020-07-12 19:19:44', 1, 21),
+(81, 50, 99, 2, 59, '3W953403DH252492Y', '2020-07-12 19:19:44', 1, 21),
+(82, 37, 84, 2, 11, '7JX32982682887814', '2020-07-12 22:57:23', 1, 16),
+(83, 37, 90, 1, 69, '7JX32982682887814', '2020-07-12 22:57:23', 1, 16);
 
 -- --------------------------------------------------------
 
@@ -352,7 +394,8 @@ CREATE TABLE `concurso` (
 
 INSERT INTO `concurso` (`idConcurso`, `nombre`, `descripcion`, `idPremio`, `fechaInicio`, `fechaFinal`, `cantidadMaxima`, `ganador`) VALUES
 (4, 'Rifa prueba', 'Algo', 12, '2020-04-10 10:00:00', '2020-04-10 10:00:00', 7, 25),
-(6, 'Ganate una Canon X420!', 'Concurso para ganar una Canon X420', 11, '2020-04-01 11:00:00', '2020-04-05 11:00:00', 60, 0);
+(6, 'Ganate una Canon X420!', 'Concurso para ganar una Canon X420', 11, '2020-04-01 11:00:00', '2020-04-05 11:00:00', 60, 0),
+(10, 'Rifa Julio Cable', 'Rifa de cable gratis', 84, '2020-07-12 02:29:00', '2020-07-14 02:29:00', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -364,16 +407,17 @@ DROP TABLE IF EXISTS `contrareset`;
 CREATE TABLE `contrareset` (
   `id` int(11) NOT NULL,
   `email` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tokenExpira` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `contrareset`
 --
 
-INSERT INTO `contrareset` (`id`, `email`, `token`) VALUES
-(26, 'raulgus@hotmail.com', 'OAgsOQvHFHpKWvIqfYuAaoTcElq57XCx4HWMcDSO'),
-(27, 'raulgust@gmail.com', 'jKux2wy52OEkBdCxiH5nNVqogL5oa0J6B5zBA8VH');
+INSERT INTO `contrareset` (`id`, `email`, `token`, `tokenExpira`) VALUES
+(26, 'raulgus@hotmail.com', 'OAgsOQvHFHpKWvIqfYuAaoTcElq57XCx4HWMcDSO', '0000-00-00 00:00:00'),
+(27, 'raulgust@gmail.com', 'jKux2wy52OEkBdCxiH5nNVqogL5oa0J6B5zBA8VH', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -385,20 +429,36 @@ DROP TABLE IF EXISTS `direccion`;
 CREATE TABLE `direccion` (
   `idDir` int(11) NOT NULL,
   `direccion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `direccion2` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `idProv` int(11) DEFAULT NULL,
   `idCanton` int(11) DEFAULT NULL,
   `idDistrito` int(11) DEFAULT NULL,
   `zip` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `idCliente` int(11) DEFAULT NULL
+  `telefono` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `main` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `direccion`
 --
 
-INSERT INTO `direccion` (`idDir`, `direccion`, `idProv`, `idCanton`, `idDistrito`, `zip`, `idCliente`) VALUES
-(1, 'Del parque de sabanilla 250m sur', 1, 15, 91, '11502', 34),
-(2, 'Parque sabanilla 250 m sur casa 12', 1, 15, 91, '11502', 37);
+INSERT INTO `direccion` (`idDir`, `direccion`, `direccion2`, `idProv`, `idCanton`, `idDistrito`, `zip`, `telefono`, `idCliente`, `main`, `status`) VALUES
+(2, 'Parque sabanilla 250 m sur casa 12', '', 1, 15, 91, '11502', '', 37, 0, 0),
+(5, 'Del palo de mango 600m este', '12a', 3, 38, 255, '33457', '', 38, 1, 1),
+(6, 'Gimanasio George angulo', '', 2, 22, 138, '45689', '', 38, 0, 1),
+(9, 'De la atalaya sur ', '', 1, 16, 96, '11567', '', 34, 0, 0),
+(10, '10000 Turkey Lake Rd', '', 2, 26, 174, '11349', '', 34, 0, 0),
+(11, 'Del parque de alajuelita 450sur', 'casa 5a', 1, 10, 70, '45707', '', 34, 0, 0),
+(12, 'Jaco beach', '', 6, 75, 454, '66795', '', 34, 1, 1),
+(14, 'De la pozuelo 600 oeste', '', 4, 46, 299, '34790', '', 40, 1, 1),
+(16, 'De la iglesa de San Felipe 300 al este, 200 al sur', 'casa color naranja', 5, 55, 341, '66783', '', 37, 1, 1),
+(17, '10000 Turkey Lake Rd', '', 3, 37, 249, '32819', '', 37, 0, 1),
+(18, 'De la antigua panadería valverde 350m sur, ', '', 4, 52, 329, '89768', '', 34, 0, 1),
+(19, 'De la antigua casa 450m Sur', 'apartamento 12', 3, 38, 258, '34567', '', 34, 0, 1),
+(20, 'De la antigua fábrica 100m este', 'apt 12', 2, 23, 153, '22345', '', 34, 0, 1),
+(21, 'De la cosecha 450 m este', '', 3, 37, 250, '45791', '', 50, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -922,14 +982,15 @@ CREATE TABLE `estados` (
 
 INSERT INTO `estados` (`idEstado`, `nombreEstado`) VALUES
 (1, 'Pedido Recibido'),
-(2, 'Preparando Entregado'),
+(2, 'Preparando pedido'),
 (3, 'Preparando Pedido/Enviando Pedido'),
 (4, 'Pedido en Camino'),
 (5, 'Atraso en el Envío'),
 (6, 'Pedido Previsto para la Entrega Hoy'),
 (7, 'Intento De Entrega Fallido'),
 (8, 'Problema con el Envío'),
-(9, 'No se pudo entregar el pedido');
+(9, 'No se pudo entregar el pedido'),
+(11, 'Pedido Cancelado');
 
 -- --------------------------------------------------------
 
@@ -941,7 +1002,8 @@ DROP TABLE IF EXISTS `galeria`;
 CREATE TABLE `galeria` (
   `idGaleria` int(10) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `imagenThumb` varchar(250) NOT NULL,
+  `autor` varchar(255) NOT NULL,
+  `cam` varchar(100) NOT NULL,
   `imagen` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -949,17 +1011,11 @@ CREATE TABLE `galeria` (
 -- Volcado de datos para la tabla `galeria`
 --
 
-INSERT INTO `galeria` (`idGaleria`, `nombre`, `imagenThumb`, `imagen`) VALUES
-(26, 'girl', 'girl601.png', 'girl864.png'),
-(27, 'desk', 'desk157.png', 'desk964.png'),
-(28, 'Escritorio', 'Escritorio498.png', 'Escritorio829.png'),
-(29, 'confRoom', 'confRoom757.png', 'confRoom580.png'),
-(30, 'conference', 'conference715.png', 'conference296.png'),
-(31, 'emptyRoom', 'emptyRoom853.png', 'emptyRoom771.png'),
-(32, 'hall', 'hall874.png', 'hall300.png'),
-(33, 'fullRoom', 'fullRoom516.png', 'fullRoom786.png'),
-(34, 'food', 'food319.png', 'food535.png'),
-(35, 'event', 'event578.png', 'event591.png');
+INSERT INTO `galeria` (`idGaleria`, `nombre`, `autor`, `cam`, `imagen`) VALUES
+(41, 'Conferencia Cadiz', 'Karina Montoya', 'Canon PowerShot SX540', '17.jpg5efa868fa328c6.53988246.png'),
+(50, 'Menú Boquitas', 'Anónimo', 'Nikon D3500', '11.jpg5efcb9b8572c69.52163646.png'),
+(51, 'Aurora Borealis', 'Nomse Name', 'Nikon P1000', 'kayaganLake.jpg5efccaa59038f6.71415052.png'),
+(54, 'Aurora Borealis Alaska', 'Andrea De Santi', 'Canon EOS Rebel T6', 'auroraBorealis.jpg5f07f4ab066a86.38891118.png');
 
 -- --------------------------------------------------------
 
@@ -972,6 +1028,7 @@ CREATE TABLE `ofertas` (
   `idOferta` int(11) NOT NULL,
   `idProducto` int(11) NOT NULL,
   `titulo` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `totalOferta` int(11) NOT NULL,
   `fechaInicio` datetime NOT NULL DEFAULT current_timestamp(),
   `fechaFinal` datetime DEFAULT NULL
@@ -981,10 +1038,15 @@ CREATE TABLE `ofertas` (
 -- Volcado de datos para la tabla `ofertas`
 --
 
-INSERT INTO `ofertas` (`idOferta`, `idProducto`, `titulo`, `totalOferta`, `fechaInicio`, `fechaFinal`) VALUES
-(2, 10, 'Oferta test', 10, '2020-03-02 14:49:39', '2020-03-02 14:49:39'),
-(25, 35, 'Oferta video Sony', 10, '0000-00-00 00:00:00', '2020-04-15 10:00:00'),
-(26, 14, 'Oferta Accesorio', 60, '2020-04-08 15:00:00', '2020-04-30 11:15:00');
+INSERT INTO `ofertas` (`idOferta`, `idProducto`, `titulo`, `descripcion`, `totalOferta`, `fechaInicio`, `fechaFinal`) VALUES
+(2, 10, 'Oferta test', '', 10, '2020-03-02 14:49:39', '2020-03-02 14:49:39'),
+(25, 35, 'Oferta video Sony', '', 10, '0000-00-00 00:00:00', '2020-04-15 10:00:00'),
+(26, 14, 'Oferta Accesorio', '', 60, '2020-04-08 15:00:00', '2020-04-30 11:15:00'),
+(27, 87, '', 'Nuevo descuentos', 35, '2020-07-06 09:01:00', '2020-07-07 09:01:00'),
+(29, 91, '', '', 40, '2020-07-05 09:05:00', '2020-08-14 09:05:00'),
+(32, 99, '', 'crash', 30, '2020-07-09 10:58:00', '2020-07-09 11:00:00'),
+(34, 90, 'nueva', 'nueva', 65, '2020-07-22 08:16:00', '2020-07-23 08:16:00'),
+(35, 84, 'Descuento cables', 'Descuentos de cables', 25, '2020-07-11 01:58:00', '2020-07-30 01:58:00');
 
 -- --------------------------------------------------------
 
@@ -1013,10 +1075,19 @@ INSERT INTO `productos` (`id`, `nombre`, `idCategoria`, `precio`, `Descripcion`,
 (81, 'Lente Tamron  SP', 77, 1269, 'Profesional Lente Full HD', 'leteTamron.PNG5edeb1f77ab011.47049899.png', 0),
 (82, 'Cable HDMI', 81, 14, 'Cable HDMI Marca HP', 'hdmiCableHP.PNG5edecadadff080.49662330.png', 0),
 (83, 'Reproductor de DVD ', 80, 89, 'Reproductor de DVD ', 'dvd.PNG5edecb2cb54b38.00239305.png', 0),
-(84, 'Cable HDMI', 81, 15, 'Cable HDMI 20\"', 'hdmiCableHP.PNG5edf14340ddc59.66137949.png', 1),
+(84, 'Cable HDMI', 81, 15, 'Cable HDMI 20\" Pulgadas', 'hdmiCableHP.PNG5edf14340ddc59.66137949.png', 1),
 (85, 'Plancha Samsung', 80, 69, 'Plancha para la casa ', 'plancha.PNG5ee30006a59bb4.57023261.png', 0),
 (86, 'Equipo de sonido', 80, 299, 'Equipo sony de sonido', 'equipo.PNG5ee3002bdb75b2.35288469.png', 0),
-(87, 'bati', 80, 88, 'jlñjk', 'batidora.png5ee7baf305ed24.73198341.png', 1);
+(87, 'bati', 80, 88, 'jlñjk', 'batidora.png5ee7baf305ed24.73198341.png', 0),
+(88, 'Lente Tamron', 77, 1990, 'Lente Tamron profesional', 'lentetamron2.PNG5ef57b35e27dd0.66187859.png', 1),
+(89, 'Televisor Samsung UHD700', 80, 699, 'Televisor Samsung 4K Ultra HD ', 'televisorSamsung.PNG5ef57b925ac472.52636682.png', 1),
+(90, 'Maletin Neewer', 82, 69, 'Maletin Neewer 36x9x9\" color negro amplio, duradero', 'neewer.PNG5ef775c63cd6f1.83833170.png', 1),
+(91, 'Tripode Viltrox', 83, 155, 'Soporta has 6kg de peso de, giro panorámico', 'tripodeVil.PNG5ef77696e017b0.57478341.png', 1),
+(92, 'Camara Nikon Z7', 79, 3199, 'Camara Nikon Z7 con Adaptador FTZ', 'nikonz7.PNG5ef779f7ef5148.52243117.png', 1),
+(93, 'Cargador Camara Nikon', 81, 12, 'Cargador USB de cámara NIKON para también transferencia de datos', 'cargadorNikon.PNG5ef77a8728d565.23772767.png', 1),
+(98, 'Playstation 5', 80, 1589, 'Playstation 5 with two controllers', 'ps5.jpg5efccfb634eb84.00214744.png', 1),
+(99, 'Crash Bandicoot 4', 80, 59, 'Crash Bandicoot for PS5', 'crash4.PNG5efcd01d8d2558.82328519.png', 1),
+(101, 'New Nikon ', 89, 799, 'Nikon New with more info', 'nikon transparent.png5f0b6a9999d851.44085310.png', 0);
 
 -- --------------------------------------------------------
 
@@ -1084,28 +1155,29 @@ INSERT INTO `provincia` (`idProv`, `provincia`) VALUES
 (2, 'Alajuela'),
 (3, 'Cartago'),
 (4, 'Heredia'),
-(5, 'Liberia'),
+(5, 'Guanacaste'),
 (6, 'Puntarenas'),
 (7, 'Limón');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `quienessomos`
+-- Estructura de tabla para la tabla `status`
 --
 
-DROP TABLE IF EXISTS `quienessomos`;
-CREATE TABLE `quienessomos` (
-  `idNosotros` int(11) NOT NULL,
-  `SobreNosotros` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status` (
+  `idStatus` tinyint(1) NOT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `quienessomos`
+-- Volcado de datos para la tabla `status`
 --
 
-INSERT INTO `quienessomos` (`idNosotros`, `SobreNosotros`) VALUES
-(4, '<p>ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci ac auctor augue mauris. Mauris augue neque gravida in fermentum. Sit amet facilisis magna etiam tempor. Morbi tincidunt augue interdum velit euismod in pellentesque massa placerat. Ut tristique et egestas quis ipsum suspendisse ultrices gravida. Orci phasellus egestas tellus rutrum. Molestie ac feugiat sed lectus. Tincidunt id aliquet risus feugiat in ante metus dictum at. Pretium lectus quam id leo in vitae turpis. Tellus id interdum velit laoreet id donec ultrices tincidunt. Turpis massa sed elementum tempus egestas sed sed risus. Diam phasellus vestibulum lorem sed. Velit aliquet sagittis id consectetur.</p>\r\n\r\n<hr />\r\n<p>Dictumst quisque sagittis purus sit amet. Nisl pretium fusce id velit ut tortor pretium viverra suspendisse. Quam vulputate dignissim suspendisse in est. Elementum nibh tellus molestie nunc non blandit massa. Cras tincidunt lobortis feugiat vivamus at augue eget arcu dictum. Pharetra sit amet aliquam id diam maecenas. Eget nullam non nisi est sit amet. Facilisis leo vel fringilla est ullamcorper. Et egestas quis ipsum suspendisse ultrices. Leo a diam sollicitudin tempor. Quam vulputate dignissim suspendisse in est. Interdum velit euismod in pellentesque massa placerat. Sit amet porttitor eget dolor morbi non arcu risus. Pellentesque habitant morbi tristique senectus et netus et. Pellentesque massa placerat duis ultricies. Ac ut consequat semper viverra nam. Duis convallis convallis tellus id interdum. Neque viverra justo nec ultrices dui sapien eget mi.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Facilisis sed odio morbi quis commodo odio aenean. Nunc id cursus metus aliquam eleifend mi in. Et sollicitudin ac orci phasellus egestas tellus rutrum. Sit amet dictum sit amet justo donec enim diam vulputate. Sem integer vitae justo eget magna fermentum iaculis eu. Amet commodo nulla facilisi nullam vehicula. Sit amet consectetur adipiscing elit pellentesque habitant morbi tristique. Ante metus dictum at tempor commodo ullamcorper. Nunc sed augue lacus viverra vitae. Vitae justo eget magna fermentum iaculis eu. Scelerisque purus semper eget duis. Faucibus vitae aliquet nec ullamcorper sit amet risus. Elit ut aliquam purus sit amet luctus. Adipiscing enim eu turpis egestas.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n');
+INSERT INTO `status` (`idStatus`, `status`) VALUES
+(0, 'Inactivo'),
+(1, 'Activo');
 
 --
 -- Índices para tablas volcadas
@@ -1115,7 +1187,8 @@ INSERT INTO `quienessomos` (`idNosotros`, `SobreNosotros`) VALUES
 -- Indices de la tabla `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `status` (`status`);
 
 --
 -- Indices de la tabla `canton`
@@ -1140,7 +1213,8 @@ ALTER TABLE `categorias`
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estado` (`estado`);
 
 --
 -- Indices de la tabla `clientesxconcurso`
@@ -1217,7 +1291,9 @@ ALTER TABLE `ofertas`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idCategoria` (`idCategoria`);
+  ADD KEY `idCategoria` (`idCategoria`),
+  ADD KEY `status` (`status`),
+  ADD KEY `status_2` (`status`);
 
 --
 -- Indices de la tabla `productoscompra`
@@ -1232,10 +1308,10 @@ ALTER TABLE `provincia`
   ADD PRIMARY KEY (`idProv`);
 
 --
--- Indices de la tabla `quienessomos`
+-- Indices de la tabla `status`
 --
-ALTER TABLE `quienessomos`
-  ADD PRIMARY KEY (`idNosotros`);
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`idStatus`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -1245,7 +1321,7 @@ ALTER TABLE `quienessomos`
 -- AUTO_INCREMENT de la tabla `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `canton`
@@ -1257,19 +1333,19 @@ ALTER TABLE `canton`
 -- AUTO_INCREMENT de la tabla `carro`
 --
 ALTER TABLE `carro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -1281,13 +1357,13 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `comprafinalizada`
 --
 ALTER TABLE `comprafinalizada`
-  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `concurso`
 --
 ALTER TABLE `concurso`
-  MODIFY `idConcurso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idConcurso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `contrareset`
@@ -1299,7 +1375,7 @@ ALTER TABLE `contrareset`
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `idDir` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idDir` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `distrito`
@@ -1311,25 +1387,25 @@ ALTER TABLE `distrito`
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idEstado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `galeria`
 --
 ALTER TABLE `galeria`
-  MODIFY `idGaleria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `idGaleria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `ofertas`
 --
 ALTER TABLE `ofertas`
-  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `productoscompra`
@@ -1344,20 +1420,26 @@ ALTER TABLE `provincia`
   MODIFY `idProv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `quienessomos`
---
-ALTER TABLE `quienessomos`
-  MODIFY `idNosotros` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `admin`
+--
+ALTER TABLE `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`status`) REFERENCES `status` (`idStatus`);
 
 --
 -- Filtros para la tabla `canton`
 --
 ALTER TABLE `canton`
   ADD CONSTRAINT `fk_canton_provincia` FOREIGN KEY (`idProv`) REFERENCES `provincia` (`idProv`);
+
+--
+-- Filtros para la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`estado`) REFERENCES `status` (`idStatus`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `comprafinalizada`
