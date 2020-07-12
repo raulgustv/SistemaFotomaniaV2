@@ -1302,15 +1302,260 @@ $(document).on("submit", "#frmEditPermiso", function(e){
 			dataUsers.ajax.reload();
 			message("Permiso editado correctamente", 2000, "success");
 		}
+	});	
+});
+
+
+/*=====  End of Manejo usuarios y clientes  ======*/
+
+/*=================================
+=            Concursos            =
+=================================*/
+
+var dataConc;
+
+
+
+dataConc = $("#dtTablaConc").DataTable({
+	"dom": "Bfrtip",
+	"buttons": "['copy', 'excel', 'pdf']",
+	"processing": true,	
+	"paging": false,
+	"responsive": true,
+	"destroy": true,	
+	"ajax": {
+		"url": "accionesAdmin/accionesAdminMain.php",
+		"method": "POST",
+		"data": {
+			"getConc":1
+		},
+		"dataSrc": ""
+	},
+	"columns": [
+
+		{"data": "idConcurso"},
+		{"data": "nombreConcurso"},
+		{"data": "descripcionConc"},
+		{"data": "nombrePremio"},
+		{"data": "fechaInicio"},
+		{"data": "fechaFinal"},
+		{"data": "cantidadMaxima"},
+		{"data": "ganador"},
+		{"defaultContent": "<a href='#' id='btnDeleteConc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarConc' data-toggle='modal' data-target='#formEditConc' class='btn btn-primary' ><i class='fas fa-edit'></i></a> <a href='#' id='PartConc' data-toggle='modal' data-target='#formPartConc' class='btn btn-primary' ><i class='fa fa-users'></i></a> <a href='#' id='btnSelectGanador' class='btn btn-danger'><i class='fa fa-trophy'></i></a>"}
+
+	]
+});
+
+
+llenarProdAddConc();
+function llenarProdAddConc(){
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {getProdConc:1},
+		success: function(data){
+			$("#prodAddConc").html(data);
+		}
+	});
+}
+
+
+/*----------  Insertar Concurso  ----------*/
+
+$("#frmConcurso").validate({
+
+	rules:{
+		nombreConc:{
+			required: true,
+			rangelength: [5,50]
+		},
+	},
+	messages:{
+		nombreConc:{
+			required: "Por favor ingrese un nombre para la rifa",
+			rangelength: "El nombre de la rifa debe tener entre 5 y 50 caractéres"
+		},
+	},
+	submitHandler: function(form){
+
+		$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: $("#frmConcurso").serialize()+"&agregarConc",
+			success: function(data){
+				if(data === "false"){
+					message("Ya existe un concurso bajo el mismo nombre", 2000, 'error');
+					$("#frmConcurso").trigger("reset");
+				}else{
+					message("Concurso ingresado con exito", 20000, 'success');
+					$("#frmConcurso").trigger("reset");
+				}
+			}
+		});
+	}
+
+
+});
+
+/*----------  Borrar Concurso  ----------*/
+
+$(document).on("click", "#btnDeleteConc", function(){
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		title: 'Deseas borrar este concurso?',
+		 text: "Borrar este concurso eliminara los datos sobre el mismo y no sera posible completarlo, ademas desaparecera para el usuario. Esta seguro que desea realizar esto?! No podrás deshacer estra acción!!",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, borrar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				borrarConc:1, concId:concId
+			},
+			success: function(data){
+				dataConc.ajax.reload();
+				}
+			});
+
+		}
 	});
 
+
 	
+});
 
 
+/*----------  Obtener concursos Editar  ----------*/
 
 
+$(document).on("click", "#editarConc", function(){
+
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			cargarConcurso:1,
+			concId:concId
+		},
+		success: function(data){
+			$("#frmEditConcursos").html(data);
+			//alert(data);
+		}
+	})
 
 
+});
+
+
+/*----------  Editar Concurso  ----------*/
+
+
+$(document).on("click", "#editNewConc", function(){
+	var idConc = $("#concId").val();
+	var idProd = $("#prodAddConc").val();
+	var nombre = $("#editNombre").val();
+	var descripcion = $("#descripcion").val();
+	var cantMaxima = $("#cantMaxi").val();
+	var fechaInicio = $("#fechaInicio").val();
+	var fechaFinal = $("#fechaFinal").val();
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data:{
+			editarConc:1,
+			idConc: idConc,
+			idProd: idProd,
+			nombre: nombre,
+			descripcion: descripcion,
+			cantMaxima: cantMaxima,
+			fechaInicio: fechaInicio,
+			fechaFinal: fechaFinal
+		},
+		success: function(data){
+
+			if(data === "false"){
+				message("Este concurso ya existe", 2000, 'error');
+			}else{
+
+			dataConc.ajax.reload();			
+			message("El concurso se editó correctamente", 2000, 'success');		
+			$("#formEditConc").modal('hide');
+
+		}
+
+			
+
+		}
+	});
+});
+
+/*----------  Obtener Participantes Concurso  ----------*/
+
+
+$(document).on("click", "#PartConc", function(){
+
+	//$('#formPartConc').modal('show');
+
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	$.ajax({
+		url: 'accionesAdmin/accionesAdminMain.php',
+		method: 'POST',
+		data: {
+			PartConcurso:1,
+			concId:concId
+		},
+		success: function(data){
+			$("#tblBPartConc").html(data);
+			//alert(data);
+		}
+	})
+
+
+});
+
+
+/*----------  Seleccionar Ganador  ----------*/
+
+$(document).on("click", "#btnSelectGanador", function(){
+	fila = $(this).closest("tr");
+	concId = parseInt(fila.find('td:eq(0)').text());
+
+	Swal.fire({
+		title: 'Deseas seleccionar un ganador para este concurso?',
+		 text: "Se seleccionara un cliente al azar para ganar esta rifa, si ya existe un ganador este sera reemplazado. Esta seguro que desea continuar?",
+		 icon: 'warning',
+		 showCancelButton: true,
+		 confirmButtonColor: '#3085d6',
+		 cancelButtonColor: '#d33',
+		 confirmButtonText: 'Si, continuar'
+	}).then((result)=>{
+		if(result.value){
+			$.ajax({
+			url: 'accionesAdmin/accionesAdminMain.php',
+			method: 'POST',
+			data: {
+				ganadorConc:1, concId:concId
+			},
+			success: function(data){
+				dataConc.ajax.reload();
+				}
+			});
+
+		}
+	})
 
 
 	
@@ -1320,9 +1565,7 @@ $(document).on("submit", "#frmEditPermiso", function(e){
 
 
 
-
-/*=====  End of Manejo usuarios y clientes  ======*/
-
+/*=====  End of Concursos  ======*/
 
 
 
