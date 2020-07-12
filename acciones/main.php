@@ -1234,13 +1234,18 @@
 	=========================================*/
 			
 	if(isset($_POST['ingConcurso'])){
+		$uid = $row['id'];
 		$idConcurso = $_POST['concId'];
-		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $userId AND idConcurso = $idConcurso");
+		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $uid AND idConcurso = $idConcurso");
 		if(mysqli_num_rows($sqlccq)>0){
 			echo "false";
 
 		}else{
-		$sqlcc=$con->query("INSERT INTO clientesxconcurso VALUES ($userId,$idConcurso)");
+			$sqlcc=$con->prepare("INSERT INTO clientesxconcurso (idCliente, idConcurso)  VALUES (?,?)");
+			$sqlcc->bind_param("ii", $uid, $idConcurso);
+			$sqlcc->execute();
+			
+			
 	    }
 	}
 

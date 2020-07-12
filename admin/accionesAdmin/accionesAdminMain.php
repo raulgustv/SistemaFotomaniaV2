@@ -1402,7 +1402,7 @@ if(isset($_POST['PartConcurso'])){
 
 	
 
-    $numParticipante = 1;
+    $numParticipante = 0;
 	while($rowed = mysqli_fetch_array($red)){
 		$idCliente = $rowed['idCliente'];
 		$idConcurso = $rowed['idConcursoP'];
