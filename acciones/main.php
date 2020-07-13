@@ -1200,6 +1200,8 @@
 				        $precioProducto = $rowProd['precio'];
 				        $imagenProducto = $rowProd['imagen'];
 
+				        
+
 						echo '<div class="w3-card-4 w3-grey w3-center" style="width:100%">
 
 						<div class="w3-container w3-center">
@@ -1214,7 +1216,7 @@
 						  </div>
 						</div>
 					
-					  </div>';
+					  </div>'; 
                 $cont++;
 			}
 

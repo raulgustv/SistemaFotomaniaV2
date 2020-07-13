@@ -1108,7 +1108,7 @@ $('body').delegate("#ingConcurso", "click", async function(e){
 			
 				message("Se ingreso exitosamente", 2000, 'success');
 				setTimeout(function(){
-					location.reload();
+					mostrarConcursos();
 			   }, 2200); 		
 	
 			}
@@ -1152,7 +1152,7 @@ $('body').delegate("#delConcurso", "click", async function(e){
 			
 				message("Salida de concurso exitosa", 2000, 'success');	
 				setTimeout(function(){
-					location.reload();
+					mostrarConcursos();
 			   }, 2200); 
 	
 			}
