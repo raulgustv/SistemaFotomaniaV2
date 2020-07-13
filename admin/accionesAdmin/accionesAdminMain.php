@@ -873,7 +873,7 @@ if(isset($_POST['cargarDescuento'])){
 
           ";
 
-          //echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
+          echo "<input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>";
 
 
 }
@@ -884,45 +884,29 @@ if(isset($_POST['cargarDescuento'])){
 =            Editar Descuento            =
 =======================================*/
 
-if(isset($_FILES['agregarDesc'])){
-	$img = $_FILES['editImgProd']['name'];
-	$newStoreImg = uniqid($img, true).".png";
-	$nuevaImg = $_FILES['editImgProd']['tmp_name'];
-
-	$id = $_POST['prodId'];
-	$nombre = $_POST['editNombre'];
-	$descripcion = $_POST['editDesc'];	
-	$precio = $_POST['editPrecio'];
-	$categoria = $_POST['catAddProd'];
+if(isset($_POST['editarDesc'])){
+	$id = $_POST['idDesc'];
+	$idProd = $_POST['idProd'];
+	$titulo = $_POST['titulo'];
+	$descripcion = $_POST['descripcion'];	
+	$porcentOferta = $_POST['totalOferta'];
+	$fechaInicio = strtotime($_POST['fechaInicio']);
+	$fechaFinal = strtotime($_POST['fechaFinal']);
+	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinal);
 
 	
-	
-
-	if(is_uploaded_file($nuevaImg)){
-		move_uploaded_file($nuevaImg, "../../vistas/imagenes/".$newStoreImg);
-
-		$qImg = $con->prepare("SELECT * FROM productos WHERE id = ?");
-		$qImg->bind_param("i", $id);
-		$qImg->execute();
-		//$qImg->close();
-
-		$r = $qImg->get_result(); 
-		$row = mysqli_fetch_array($r);
-		$oldImg = $row['imagen'];
-		unlink('../../vistas/imagenes/'.$oldImg);
-
-		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ?, imagen = ? WHERE id = ? ");
-		$q->bind_param("siissi", $nombre, $categoria, $precio, $descripcion, $newStoreImg, $id);
-		$q->execute();
-		$q->close();
+	$sql = $con->query("SELECT * FROM ofertas WHERE idProducto = $idProd ");
+	if(mysqli_num_rows($sql) > 1){
+		echo "false";
 	}else{
-		$q = $con->prepare("UPDATE productos SET nombre = ?, idCategoria = ?, precio = ?, Descripcion = ? WHERE id = ? ");
-		$q->bind_param("siisi", $nombre, $categoria, $precio, $descripcion, $id);
-		$q->execute();
-		$q->close();
+		
+		$q = $con->query("UPDATE ofertas SET idProducto = $idProd, titulo = '$titulo', descripcion = '$descripcion', totalOferta = $porcentOferta, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idOferta = '$id' ");
+		echo "true";
 	}
-}
 
+
+}
 
 
 /*=====  End of Editar Descuento  ======*/

@@ -56,7 +56,7 @@
             
           </form>  
   
-          <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
+          
                
       </div>      
     </div>
