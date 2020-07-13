@@ -11,17 +11,11 @@ $(document).ready(function(){
 		$("#tiendaLoad").fadeIn(500);
 		$("#galLoad").fadeIn(500);
 		$("#cartLoad").fadeIn(500);
+		$("#getConcursos").fadeIn(500);
 
 		
 		
 
-
-
-
-
-		
-
-		
 
 	});
 	

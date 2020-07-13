@@ -9,6 +9,17 @@
 <body>
 
 
+  <div class="backgroundOverlayLoad" id="load">
+  <div class="d-flex justify-content-md-center align-items-center vh-100">
+    <div class="card bg-primary bg-light">
+      <div class="card-body">
+        <img class="loaderGif" src="../vistas/../logos/preloader.gif">
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div id="getConcursos">
 
  <!----- <div class="w3-card-4 w3-grey w3-center" style="width:100%">
