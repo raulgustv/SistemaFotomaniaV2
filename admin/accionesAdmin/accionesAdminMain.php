@@ -1178,8 +1178,8 @@ if(isset($_POST['agregarConc'])){
 	$idPrem = $_POST['prodAddConc'];
 	$fechaInicio = strtotime($_POST['fechaInicio']);
 	$fechaFinalizacion = strtotime($_POST['fechaFinal']);
-	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
-	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinalizacion);
+	$fechaIFormat = date("Y-m-d H:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinalizacion);
 
 	$sql = $con->prepare("SELECT * FROM concurso WHERE idPremio = ?");
 	$sql->bind_param("i", $idPrem);
@@ -1347,8 +1347,8 @@ if(isset($_POST['editarConc'])){
 	$cantidadMax = $_POST['cantMaxima'];
 	$fechaInicio = strtotime($_POST['fechaInicio']);
 	$fechaFinal = strtotime($_POST['fechaFinal']);
-	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
-	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinal);
+	$fechaIFormat = date("Y-m-d H:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinal);
 
 	
 	$sql = $con->query("SELECT * FROM concurso WHERE idPremio = $idProd ");
@@ -1356,7 +1356,7 @@ if(isset($_POST['editarConc'])){
 		echo "false";
 	}else{
 		$q = $con->query("UPDATE concurso SET idPremio = $idProd, nombre = '$nombre', descripcion = '$descripcion', cantidadMaxima = $cantidadMax, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idConcurso = '$id' ");
-		echo $id;
+		//echo $id;
 		echo "true";
 	}
 
