@@ -1,3 +1,14 @@
+<?php
+
+include_once '../includes/db.php';
+include_once '../includes/funciones.php';
+
+access("editarCategoria");
+
+
+?>
+
+
 
 <script>
     (function() {

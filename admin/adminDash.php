@@ -151,8 +151,8 @@ $role = ($_SESSION['userRole']);
 				<img class="card-img-top mx-auto imgPanel" src="../logos/rifas.svg" alt="Card image cap">				  
 				<div class="card-body">					
 					<p class="card-text">Administra las rifas disponibles para los usuarios</p>
-					<a href="#" data-toggle="modal" data-target="#form_concurso" class="btn btn-primary">Agregar Rifa</a>
-					<a href="verRifas.php"class="btn btn-success">Ver Rifas</a>
+					<a href="#" data-toggle="modal" id="agregarRifa" data-target="#form_concurso" class="btn btn-primary">Agregar Rifa</a>
+					<a href="verRifas.php" id="verRifas" class="btn btn-success">Ver Rifas</a>
 				</div>
 			</div>
 		</div>
