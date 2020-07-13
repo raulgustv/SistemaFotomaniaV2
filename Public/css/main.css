@@ -257,7 +257,13 @@ img.carImg{
 	background-color: gray;
 }
 
-/*Página principal*/
+/*Concurso*/
+
+div.vDivider{
+	border-right: 1px solid #eaeaea;
+}
+
+
 
 
 

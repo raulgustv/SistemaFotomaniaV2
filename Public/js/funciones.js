@@ -1066,7 +1066,7 @@ function mostrarConcursos(){
 		method: "POST",
 		data: {getConcursos: 1},
 		success: function(data){
-			$("#getConcursos").html(data);
+			//$("#getConcursos").html(data);
 		}
 	});
 }
