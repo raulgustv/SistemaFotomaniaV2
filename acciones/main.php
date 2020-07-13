@@ -1185,6 +1185,9 @@
 				$fechaFinalizacion = $row['fechaFinal'];
 				date_default_timezone_set("America/Costa_Rica");
 				$fechahoy = date("Y-m-d h:i:s");
+
+	
+
 				$yacomenzo = ($fechaInicio<$fechahoy);
 				$yatermino = ($fechaFinalizacion>$fechahoy);
 	           // $fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
@@ -1193,30 +1196,42 @@
 				$prodQuery = $con->query("SELECT * FROM productos WHERE id= '$idPrem' AND status = 1");
 				$cxcQuery = $con->query("SELECT * FROM clientesxconcurso WHERE idConcurso= '$idConc'");
 				$cParticipantes = mysqli_num_rows($cxcQuery);
+
+			
+
+
 				if(mysqli_num_rows($prodQuery)){
 					while($rowProd = mysqli_fetch_array($prodQuery)){
 						$idProducto = $rowProd['id'];
 				        $nombreProducto = $rowProd['nombre'];
 				        $precioProducto = $rowProd['precio'];
 				        $imagenProducto = $rowProd['imagen'];
+				        $fechaFinalizacion; 	
 
-				        /*
+				        /*		        
 
-						echo '<div class="w3-card-4 w3-grey w3-center" style="width:100%">
+						echo " <div class='col-lg-6 mb-2'>
+					            <div class='card'>
+					              <div class='card-header text-center'>
+					                  Nombre Rifa
+					              </div>
+					              <div class='card-body'>
+					                  <div class='row'>
+					                      <div class='col-lg-6 vDivider'>
+					                        <img class='card-img-top' src='imagenes/Canon EOS SL2681.png'>
+					                      </div>
+					                      <div class='col-lg-6'>
+					                          <p>Cámara Canon</p>
+					                          <p>6/10 Participantes</p>
+					                          <p>Ganador: Antonio Vera</p>
 
-						<div class="w3-container w3-center">
-						  <h3>Concurso '; echo $cont; echo '</h3>
-						  <img src="'; echo $srclink; echo $imagenProducto; echo '"alt="Producto" style="width:20%">
-						  <h5>'; echo $nombre; echo '</h5>
-						  <h3>'; echo $cParticipantes; echo '/'; echo $cantidadmax; echo '</h3>
-					
-						  <div class="w3-section">
-							<button cid="'; echo $idConc; echo '" id="ingConcurso" class="btn btn-success">Ingresar</button>
-							<button cid="'; echo $idConc; echo '" id="delConcurso" class="btn btn-danger">Salir</button>
-						  </div>
-						</div>
-					
-					  </div>';  */
+					                          <button  id='ingConcurso' class='btn btn-success'>Ingresar</button>
+					                          <button  id='delConcurso' class='btn btn-danger'>Salir</button>
+					                      </div>
+					                  </div>              
+					            </div>			           
+					          </div>
+					      </div>";   */
 
                 $cont++;
 			}

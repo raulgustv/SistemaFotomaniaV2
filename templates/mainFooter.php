@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="../public/css/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../public/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="../public/sweetAlert/sweetalert2.all.min.js"></script>	
+	<script type="text/javascript" src="../public/js/TimeCircles.js"></script>
 
 	
       

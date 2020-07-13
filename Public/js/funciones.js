@@ -1066,10 +1066,26 @@ function mostrarConcursos(){
 		method: "POST",
 		data: {getConcursos: 1},
 		success: function(data){
-			//$("#getConcursos").html(data);
+			//$("#obtenerConcurso").html(data);
+
+			//alert(data);
 		}
 	});
 }
+
+$(".Countdown").TimeCircles({
+	circle_bg_color: "#eaeaea",
+	time:{
+			Seconds:{color: "#FE5935"},
+			Minutes: {color: "#44B000"},
+			Hours: {color: "#0475EF"},
+			Days: {color: "#DCDF00"},
+	},
+	count_past_zero: false
+});
+
+
+
 
 /*----------  Ingresar usuario concurso  ----------*/
 
@@ -1102,7 +1118,8 @@ $('body').delegate("#ingConcurso", "click", async function(e){
 			
 				message("Se ingreso exitosamente", 2000, 'success');
 				setTimeout(function(){
-					mostrarConcursos();
+					//mostrarConcursos();
+					location.reload();
 			   }, 2200); 		
 	
 			}
@@ -1146,7 +1163,7 @@ $('body').delegate("#delConcurso", "click", async function(e){
 			
 				message("Salida de concurso exitosa", 2000, 'success');	
 				setTimeout(function(){
-					mostrarConcursos();
+					location.reload();
 			   }, 2200); 
 	
 			}
@@ -1192,6 +1209,7 @@ $(document).on("click", "#contactar", function(){
 		});
 	});
 
+	
 
 
 
