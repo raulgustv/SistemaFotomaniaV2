@@ -1086,20 +1086,18 @@ $("#frmEditDescuentos").on("submit", function(e){
 	e.preventDefault();
 
 
-	var formData = new FormData(this);
+	
 
 	$.ajax({
 		url: 'accionesAdmin/accionesAdminMain.php',
 		method: 'POST',
-		data: formData,
+		data: $(this).serialize()+"&editarDesc",
 		success: function(data){
-			dataProducts.ajax.reload();
-			message("Descuento editado con éxito", 2000, 'success');			
+			dataDesc.ajax.reload();
+			message("Descuento se editó con éxito", 2000, 'success');
 			$("#formEditDesc").modal('hide');
-		},
-		contentType: false,
-		processData: false,
-		cache: false
+		}
+		
 	})
 
 });
@@ -1114,7 +1112,9 @@ function checkRoll(){
 	if(role !== "Admin"){
 		$("#agregarDesc").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
 		$("#verDesc").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+
 		$("#registrarAdmin").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
+		
 		$("#verUsers").prop('disabled', true).css({'opacity': '0.5', 'cursor': 'not-allowed'});
 		$("#verUsers").removeAttr('href').css({'opacity': 0.5,'cursor': 'not-allowed'});
 

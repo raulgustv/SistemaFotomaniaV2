@@ -802,7 +802,7 @@ if(isset($_POST['cargarDescuento'])){
 
 			<div class='form-group'>
               <label for='editNombre'>Titulo</label>
-              <input type='text'  class='form-control' name='editNombre' id='editNombre' placeholder='$titulo'> 
+              <input type='text'  class='form-control' name='editNombre' id='editNombre' value='$titulo'> 
           </div>
 	
 			 <div class='form-group'>
@@ -885,11 +885,11 @@ if(isset($_POST['cargarDescuento'])){
 =======================================*/
 
 if(isset($_POST['editarDesc'])){
-	$id = $_POST['idDesc'];
-	$idProd = $_POST['idProd'];
-	$titulo = $_POST['titulo'];
+	$id = $_POST['descId'];
+	$idProd = $_POST['prodAddDesc'];
+	$titulo = $_POST['editNombre'];
 	$descripcion = $_POST['descripcion'];	
-	$porcentOferta = $_POST['totalOferta'];
+	$porcentOferta = $_POST['totalDescu'];
 	$fechaInicio = strtotime($_POST['fechaInicio']);
 	$fechaFinal = strtotime($_POST['fechaFinal']);
 	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
