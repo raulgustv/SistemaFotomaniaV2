@@ -166,29 +166,29 @@ include '../includes/db.php'
 			<div class="col-lg-9">
 				<h3>Contacto</h3>
 				<p>Es un gusto atenderte por favor escribe tu mensaje e indícanos con todos los detalles cómo podemos ayudarte.</p>
-				<form action="" id="formContacto" name = "formContacto">
+				<form action="">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 						    <i class="fas fa-user input-group-text"></i>
 						</div>
-					<input type="text" class="form-control" id="contNombre" name="contNombre" placeholder="Tu Nombre" aria-label="Username" aria-describedby="basic-addon1">
+					<input type="text" class="form-control" placeholder="Tu Nombre" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 						    <span class="input-group-text" id="addon-wrapping">@</span>
 						</div>
-					<input type="text" class="form-control" id="contEmail" name="contEmail" placeholder="Tu Correo electrónico" aria-label="Username" aria-describedby="basic-addon1">
+					<input type="text" class="form-control" placeholder="Tu Correo electrónico" aria-label="Username" aria-describedby="basic-addon1">
 					</div>
 
 					<div class="input-group mb-3 input-group-lg">
 						<div class="input-group-prepend">
 						    <i class="fas fa-envelope input-group-text"></i>
 						</div>
-					<textarea name="messageForm" id="contMensaje" name="contMensaje" cols="30" rows="7" class="form-control" aria-label="hola" placeholder="Indícanos todos los detalles relacionados a tu consulta, asegurate de incluir tu número de pedido si preguntas por un pedido específico"></textarea>
+					<textarea name="messageForm" cols="30" rows="7" class="form-control" aria-label="hola" placeholder="Indícanos todos los detalles relacionados a tu consulta, asegurate de incluir tu número de pedido si preguntas por un pedido específico"></textarea>
 					</div>
 				</form>
-				<button id="contactar" name="contactar" class="btn btn-primary btn-lg btn-block">Envía tu mensaje</button>
+				<button class="btn btn-primary btn-lg btn-block">Envía tu mensaje</button>
 			</div>
 			<div class="col-lg-3">
 				<img src="../logos/logoFotomania.PNG" alt="Logo Fotomania" style="width: 40%;">

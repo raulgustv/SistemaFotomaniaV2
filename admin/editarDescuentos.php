@@ -1,12 +1,14 @@
+<?php
 
-<script>
-    (function() {
-  $('#datetimepicker1').datetimepicker();
-});
-(function() {
-  $('#datetimepicker2').datetimepicker();
-});
-</script>
+include_once '../includes/db.php';
+include_once '../includes/funciones.php';
+
+access("editarDescuentos");
+
+
+?>
+
+
 
 <div class="modal fade" id="formEditDesc" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -56,7 +58,7 @@
             
           </form>  
   
-          <input type='submit' name='editNewDesc' id='editNewDesc' class='btn btn-primary' value='Guardar'>
+  
                
       </div>      
     </div>
