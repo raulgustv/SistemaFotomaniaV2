@@ -141,8 +141,8 @@ $(document).ready(function(){
 						$("#alertBlock").fadeIn(200);
 						$("#loader").hide();
 					}
-					else{
-						message("Usuario y contraseña incorrectos", 10000, 'success');
+					else if(data == "false"){
+						message("Usuario y contraseña incorrectos", 10000, 'error');
 						$("#loader").hide();
 					}
 					

@@ -63,21 +63,25 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 	$stmt->bind_param("ss", $username, $password);
 	$stmt->execute();
 
-
+	
 	$r = $stmt->get_result();
 	$row = mysqli_fetch_array($r);
+
+	$count = mysqli_num_rows($r);
+	
 
 	$status = $row['estado'];
 
 	//$user = $stmt->fetch();
 
-	//echo $status;
 
-	
 
-	
 
-	if($status == 0){
+	if($count == 0){
+		echo "false";
+	}	
+
+	else if($status == 0){
 		echo "block";
 	}
 
