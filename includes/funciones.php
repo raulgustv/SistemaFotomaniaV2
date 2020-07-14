@@ -45,6 +45,7 @@
 	} 
 
 
+
 	//esta funcion previene el acceso a las ventanas modales 
 	function access($pagina){
 		$page = basename($_SERVER['PHP_SELF'], '.php');

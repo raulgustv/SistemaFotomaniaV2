@@ -1142,7 +1142,8 @@ $(document).on("click", "#editUser", function(e){
 		method: 'POST',
 		data: {getUserInfo:1},
 		success: function(data){
-			$("#frmEditUser").html(data);
+			//$("#frmEditUser").html(data);
+			alert(data);
 		}
 	})
 });

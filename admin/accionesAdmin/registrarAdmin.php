@@ -103,7 +103,7 @@ if(isset($_POST['loginAdmin'])){
 
 
 
-/*=====  End of Login  ======*/
+/*=====  End of Login  ======
 
 if(isset($_POST['getUserInfo'])){
 	session_start();
@@ -169,7 +169,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'updateUserInfo'){
 }
 
 
-
+*/
 
 
 

@@ -8,10 +8,13 @@ session_start();
 checkAdmin();
 
 
+
 $userId =($_SESSION['userId']);
 $userName = ($_SESSION['user']);
 $ultimoLogin = ($_SESSION['ultimoLogin']);
 $role = ($_SESSION['userRole']);
+
+echo $userId;
 
 
  ?> 

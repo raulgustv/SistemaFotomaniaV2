@@ -142,11 +142,7 @@ $(document).ready(function(){
 						$("#loader").hide();
 					}
 					else{
-						Swal.fire(
-								'Error iniciando sesión',
-								'Verifica que tu usuario y contraseña sean correctos',
-								'error'
-							);
+						message("Usuario y contraseña incorrectos", 10000, 'success');
 						$("#loader").hide();
 					}
 					
