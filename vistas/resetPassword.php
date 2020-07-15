@@ -82,7 +82,7 @@ if(!isset($tokenenviado)){
 						<input type="hidden" id="uemail" name="uemail" value="<?=$ucorreo?>" class="btn btn-success btn-block">
 					</div>
 					<div class="form-group">
-						<p class="text-center"><a href="#" id="login-btn">Volver</a></p>
+						<p class="text-center"><a href="../index.php" id="login-btn">Volver</a></p>
 					</div>				
 				</form>
 			</div>
