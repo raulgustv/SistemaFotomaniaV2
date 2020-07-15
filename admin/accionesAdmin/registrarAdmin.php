@@ -103,7 +103,10 @@ if(isset($_POST['loginAdmin'])){
 
 
 
-/*=====  End of Login  ======
+/*=====  End of Login  ====== */
+
+/*----------  Editar Perfil User  ----------
+
 
 if(isset($_POST['getUserInfo'])){
 	session_start();
@@ -139,7 +142,7 @@ if(isset($_POST['getUserInfo'])){
         </div>
         <div class='form-group'>
           <label for='editTipoUser'>Tipo de Usuario</label>
-          <select disabled='true' class='form-control' name='editTipoUser' id='editTipoUser'>
+          <select disabled='true' class='form-control' name='editTipoUser'>
             <option value='Admin'>Admin</option>
             <option value='Otro'>Otro</option>
           </select>
@@ -148,28 +151,34 @@ if(isset($_POST['getUserInfo'])){
 
 }
 
-if(isset($_POST['action']) && $_POST['action'] == 'updateUserInfo'){
+if(isset($_POST['updateUserInfo'])){
 
 	session_start();
 	$userId = ($_SESSION['userId']);
 	
 	$nuevoUser = $_POST['editNombreUsuario'];
 	$nuevoPass = $_POST['editAdminPass1'];
-	$nuevoTipo = $_POST['editTipoUser'];
+	//$nuevoTipo = $_POST['editTipoUser'];
+
+
 
 	$newPassHash = password_hash($nuevoPass, PASSWORD_BCRYPT,["cost"=>8]);
 
+	
+
+	
+
 	$q = $con->prepare("UPDATE admin SET user = ?, pass = ?, tipoUsuario = ? WHERE id = ?");
 	$q->bind_param("sssi", $nuevoUser, $newPassHash, $nuevoTipo, $userId); 
-	$q->execute();
+	$q->execute(); 
 
 
 
 
-}
+} */
 
 
-*/
+
 
 
 

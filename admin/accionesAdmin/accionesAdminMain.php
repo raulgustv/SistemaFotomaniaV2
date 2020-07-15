@@ -91,7 +91,7 @@ if(isset($_POST['cargarCategoria'])){
 	$nombre = $row['nombre'];
 
 	echo "<label for='categoria'>Categoría</label>
-         <input id='nuevaCat' editCatId='$catId' name='categoria' class='form-control' id='categoria' placeholder='$nombre'>";
+         <input id='nuevaCat' editCatId='$catId' name='categoria' class='form-control' id='categoria' value='$nombre'>";
 }
 
 if(isset($_POST['editarCat'])){
@@ -625,9 +625,6 @@ if(isset($_FILES['imgMainEdit'])){
 
 
 	
-
-
-
 /*=====  End of Editar Imagen  ======*/
 
 /*=====================================

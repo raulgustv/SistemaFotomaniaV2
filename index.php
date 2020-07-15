@@ -47,6 +47,7 @@ include 'templates/header.php'
 					</div>
 					<div class="form-group">
 						<p class="text-center">Nuevo Usuario? <a href="#" id="register-btn">Registrate aquí</a></p>
+						<p class="text-center"><a href="#" id="forgot-btn">Olvidaste tu contraseña?</a></p>
 					</div>				
 				</form>
 				<div class="container" id="alertBlock">
