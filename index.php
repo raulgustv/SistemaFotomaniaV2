@@ -38,14 +38,7 @@ include 'templates/header.php'
 					</div>
 					<div class="form-group">
 						<input type="password" name="password" class="form-control" placeholder="Contraseña" value="<?php if(isset($_COOKIE['password'])){echo $_COOKIE['password'];} ?>" required>
-					</div>
-					<div class="form-group">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="rem" class="custom-control-input" id="customCheck" <?php if(isset($_COOKIE['username'])){?> checked <?php }  ?> >
-							<label for="customCheck" class="custom-control-label">Recuérdame</label>
-							<a href="#" id="forgot-btn" class="float-right">Olvidaste tu contraseña?</a>
-						</div>
-					</div>
+					</div>					
 					<div class="form-group">
 						<input type="submit" id="login" name="login" value="Login" class="btn btn-success btn-block">
 					</div>
@@ -101,7 +94,7 @@ include 'templates/header.php'
 						<input type="submit" id="register" name="register" value="Registrar" class="btn btn-success btn-block">
 					</div>
 					<div class="form-group">
-						<p class="text-center">Tienes cuenta ya?<a href="#" id="login-btn">Inicia sesión</a></p>
+						<p class="text-center">Tienes cuenta ya? <a href="#" id="login-btn">Inicia sesión</a></p>
 					</div>				
 				</form>
 				
@@ -144,10 +137,6 @@ include 'templates/header.php'
 	
 </div>
 
-<?php include 'templates/footer.php';
+<?php include 'templates/footer.php'; ?>
 
-	
-
-
-?>
 
