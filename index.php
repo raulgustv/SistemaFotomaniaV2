@@ -15,8 +15,11 @@ include 'templates/header.php'
 <div class="container mt-4">
 	<div class="row">
 		<div class="col-lg-4 offset-lg-4" id="alert">
-			<div class="alert alert-success text-center">
+			<div class="alert alert-success text-center alert-dismissible fade show" id="alertRegister" role="alert">
 				<strong id="result" ></strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 		</div>		
 	</div>

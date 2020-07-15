@@ -113,13 +113,17 @@ $(document).ready(function(){
 				method: 'post',
 				data: $("#register-frm").serialize()+'&action=register',
 				success: function(data){
-					$("#alert").show();
+					$("#alert").fadeIn(300);	
 					$("#result").html(data);
-					$("#loader").hide();
+					$("#loader").hide();									
+					$("#register-frm").trigger("reset");	
+					$("#alert").fadeOut(2000);			
+					
 					
 				}
 			});
 		}
+
 		return true;
 	});	
 
