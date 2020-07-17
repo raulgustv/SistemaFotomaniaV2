@@ -1133,6 +1133,9 @@ function checkRoll(){
 
 }
 
+/*----------  Subsection Editar Perfil  ----------
+
+
 $(document).on("click", "#editUser", function(e){
 	e.preventDefault();
 
@@ -1143,6 +1146,7 @@ $(document).on("click", "#editUser", function(e){
 		data: {getUserInfo:1},
 		success: function(data){
 			$("#frmEditUser").html(data);
+			//alert(data);
 		}
 	})
 });
@@ -1155,14 +1159,15 @@ $("#frmEditUser").on("submit", function(e){
 	$.ajax({
 		url: 'accionesAdmin/registrarAdmin.php',
 		method: 'POST',
-		data: $(this).serialize()+'&action=updateUserInfo',
+		data: $(this).serialize()+'&updateUserInfo',
 		success: function(data){
 			message("Usuario editado correctamente", 2000, 'success');
+
 		}
 	});
 
 
-});
+}); */
 
 /*==================================================
 =            Manejo usuarios y clientes            =

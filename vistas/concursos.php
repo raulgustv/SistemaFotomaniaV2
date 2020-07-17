@@ -49,7 +49,7 @@
               $fechaFinalizado = date('Y-m-d H:i:s', strtotime($fechaFinal));
 
               date_default_timezone_set("America/Costa_Rica");
-              $fechahoy = date("Y-m-d h:i:s");
+              $fechahoy = date("Y-m-d H:i:s");
 
              $yacomenzo = ($fechaInicio<$fechahoy);
              $yatermino = ($fechaFinal>$fechahoy);
@@ -58,7 +58,7 @@
               ?>
 
               <div class="col-lg-6 mb-2">
-            <div class="card">
+            <div class="card cardRifa">
               <div class="card-header text-center">
                   <?php echo $nombreC; ?>
               </div>

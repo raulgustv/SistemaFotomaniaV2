@@ -54,6 +54,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'register'){
 
 if(isset($_POST['action']) && $_POST['action'] == 'login'){
 
+	session_start();
 
 	$username = checkInput($_POST['username']);
 	$password = sha1($_POST['password']);
@@ -62,25 +63,49 @@ if(isset($_POST['action']) && $_POST['action'] == 'login'){
 	$stmt->bind_param("ss", $username, $password);
 	$stmt->execute();
 
-	$result = $stmt->get_result();
+	
+	$r = $stmt->get_result();
+	$row = mysqli_fetch_array($r);
 
-	if($result->num_rows < 1){
+	$count = mysqli_num_rows($r);
+	
+
+	$status = $row['estado'];
+
+	//$user = $stmt->fetch();
+
+
+
+
+	if($count == 0){
 		echo "false";
-	}else{
-		$row = $result->fetch_assoc();
+	}	
 
-		session_start();
-		$_SESSION['userId'] = $row['id'];
-		$_SESSION['status'] = $row['estado'];
-
-		if($_SESSION['status'] == 0){
-			echo "block";
-		}else{
-			echo "true";
-		}
-
-		
+	else if($status == 0){
+		echo "block";
 	}
+
+	else if($status == 1){
+		$_SESSION['username'] = $username;
+		
+		echo "true";
+
+
+
+		if(!empty($_POST['rem'])){
+			setcookie("username", $_POST['username'], time()+(10*365*24*60*60));
+			setcookie("password", $_POST['password'], time()+(10*365*24*60*60));
+		}else{
+			if(isset($_COOKIE['username'])){
+				setcookie("username","");
+			}if(isset($_COOKIE['password'])){
+				setcookie("password","");
+			}
+		}
+	}else{
+		echo "Error de inicio de sesión, verifique sus datos";
+	}
+
 }
 
 /*=====  End of Login  ======*/

@@ -122,13 +122,17 @@ $(document).ready(function(){
 				method: 'post',
 				data: $("#register-frm").serialize()+'&action=register',
 				success: function(data){
-					$("#alert").show();
+					$("#alert").fadeIn(300);	
 					$("#result").html(data);
-					$("#loader").hide();
+					$("#loader").hide();									
+					$("#register-frm").trigger("reset");	
+					$("#alert").fadeOut(2000);			
+					
 					
 				}
 			});
 		}
+
 		return true;
 	});	
 
@@ -150,12 +154,8 @@ $(document).ready(function(){
 						$("#alertBlock").fadeIn(200);
 						$("#loader").hide();
 					}
-					else{
-						Swal.fire(
-								'Error iniciando sesión',
-								'Verifica que tu usuario y contraseña sean correctos',
-								'error'
-							);
+					else if(data == "false"){
+						message("Usuario y contraseña incorrectos", 10000, 'error');
 						$("#loader").hide();
 					}
 					

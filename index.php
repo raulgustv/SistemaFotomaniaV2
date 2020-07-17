@@ -3,10 +3,11 @@
 session_start();
 
 
-
 if(isset($_SESSION['username'])){
 	header("location:vistas/principal.php");
 }
+
+
 
 include 'templates/header.php'
 ?>
@@ -14,8 +15,11 @@ include 'templates/header.php'
 <div class="container mt-4">
 	<div class="row">
 		<div class="col-lg-4 offset-lg-4" id="alert">
-			<div class="alert alert-success text-center">
+			<div class="alert alert-success text-center alert-dismissible fade show" id="alertRegister" role="alert">
 				<strong id="result" ></strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 		</div>		
 	</div>
@@ -37,19 +41,13 @@ include 'templates/header.php'
 					</div>
 					<div class="form-group">
 						<input type="password" name="password" class="form-control" placeholder="Contraseña" value="<?php if(isset($_COOKIE['password'])){echo $_COOKIE['password'];} ?>" required>
-					</div>
-					<div class="form-group">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="rem" class="custom-control-input" id="customCheck" <?php if(isset($_COOKIE['username'])){?> checked <?php }  ?> >
-							<label for="customCheck" class="custom-control-label">Recuérdame</label>
-							<a href="#" id="forgot-btn" class="float-right">Olvidaste tu contraseña?</a>
-						</div>
-					</div>
+					</div>					
 					<div class="form-group">
 						<input type="submit" id="login" name="login" value="Login" class="btn btn-success btn-block">
 					</div>
 					<div class="form-group">
 						<p class="text-center">Nuevo Usuario? <a href="#" id="register-btn">Registrate aquí</a></p>
+						<p class="text-center"><a href="#" id="forgot-btn">Olvidaste tu contraseña?</a></p>
 					</div>				
 				</form>
 				<div class="container" id="alertBlock">
@@ -100,7 +98,7 @@ include 'templates/header.php'
 						<input type="submit" id="register" name="register" value="Registrar" class="btn btn-success btn-block">
 					</div>
 					<div class="form-group">
-						<p class="text-center">Tienes cuenta ya?<a href="#" id="login-btn">Inicia sesión</a></p>
+						<p class="text-center">Tienes cuenta ya? <a href="#" id="login-btn">Inicia sesión</a></p>
 					</div>				
 				</form>
 				
@@ -143,10 +141,6 @@ include 'templates/header.php'
 	
 </div>
 
-<?php include 'templates/footer.php';
+<?php include 'templates/footer.php'; ?>
 
-	
-
-
-?>
 

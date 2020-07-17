@@ -8,10 +8,13 @@ session_start();
 checkAdmin();
 
 
+
 $userId =($_SESSION['userId']);
 $userName = ($_SESSION['user']);
 $ultimoLogin = ($_SESSION['ultimoLogin']);
 $role = ($_SESSION['userRole']);
+
+//echo $userName;
 
 
  ?> 
@@ -28,19 +31,22 @@ $role = ($_SESSION['userRole']);
 			    <p class="card-text"><i class="fas fa-user-circle">&nbsp</i><?php echo $userName; ?></p>
 			    <p class="card-text"><i class="far fa-id-card">&nbsp</i><?php echo $role ?></p>
 			    <p class="card-text"><i class="fas fa-user-clock">&nbsp</i>Último Inicio Sesión: <?php echo $ultimoLogin; ?></p>
-			    <a href="#" class="btn btn-primary" data-toggle="modal" id="editUser" data-target="#form_editAdmin"><i class="fas fa-user-edit">&nbsp;</i>Editar Perfil</a>
-			    <a href="registroAdmin.php" id="registrarAdmin" class="btn btn-success">Registrar Usuario</a>
+			   <!--  <a href="#" class="btn btn-primary" data-toggle="modal" id="editUser" data-target="#form_editAdmin"><i class="fas fa-user-edit">&nbsp;</i>Editar Perfil</a> -->
+			   <div class="d-flex justify-content-end">
+			   	 <a href="registroAdmin.php" id="registrarAdmin" class="btn btn-success">Registrar Usuario</a>
+			   </div>
+			   
 
 			
 			    
 			  </div>
 			</div>
-			<div class="card-footer">
+		<!--	<div class="card-footer">
 				<div class="container">
 					<a href="verUsuarios.php" id="verUsers" class="btn btn-primary">Ver Usuarios</a>
 					<a href="verClientes.php" id="verClientes" class="btn btn-success">Ver Clientes</a>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-lg-8">
 			<div class="jumbotron adminJmb">
@@ -153,6 +159,18 @@ $role = ($_SESSION['userRole']);
 					<p class="card-text">Administra las rifas disponibles para los usuarios</p>
 					<a href="#" data-toggle="modal" id="agregarRifa" data-target="#form_concurso" class="btn btn-primary">Agregar Rifa</a>
 					<a href="verRifas.php" id="verRifas" class="btn btn-success">Ver Rifas</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="card">	
+				<div class="card-header text-center">Administrar Usuarios</div>	
+				<img class="card-img-top mx-auto imgPanel" src="../logos/allusers.svg" alt="Card image cap">				  
+				<div class="card-body">					
+					<p class="card-text">Administra las rifas disponibles para los usuarios</p>
+					<a href="verUsuarios.php" id="verUsers" class="btn btn-primary">Ver Usuarios</a>
+					<a href="verClientes.php" id="verClientes" class="btn btn-success">Ver Clientes</a>
 				</div>
 			</div>
 		</div>
