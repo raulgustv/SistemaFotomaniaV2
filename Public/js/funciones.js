@@ -95,8 +95,17 @@ $(document).ready(function(){
 	$("#resetpass-frm").validate({
 		rules:{
 			cnewpass:{
-				equalTo: "#newpass"
+				required: true,
+				equalTo: "#newpass",
+				rangelength: [6,200]
 			}
+		},
+		messages:{
+			cnewpass:{
+				required: "Debe confirmar la contraseña",
+				minlength: "La contraseña debe contener almenos 6 caracteres",
+				equalTo: "Las contraseñas deben coincidir"
+			}, 
 		}
 	});
 
@@ -178,7 +187,7 @@ $(document).ready(function(){
 
 		/*----------  Restablecer contra  ----------*/
 
-		$("#restcon").click(function(e){
+		/*$("#restcon").click(function(e){
 			if(document.getElementById('resetpass-frm').checkValidity()){
 				e.preventDefault();
 				$("#loader").show();
@@ -190,6 +199,42 @@ $(document).ready(function(){
 						$("#alert").show();
 						$("#result").html(data);
 						$("#loader").hide();
+					}
+				});
+			}
+			return true;
+		});	*/
+
+		$("#restcon").click(function(e){
+			if(document.getElementById('resetpass-frm').checkValidity()){
+				e.preventDefault();
+				$("#loader").show();
+				$.ajax({
+					url: '../acciones/accionLogin.php',
+					method: 'post',
+					data: $("#resetpass-frm").serialize()+'&action=restcon',
+					success: function(data){
+		
+						if(data === "falselocalNC"){
+							message("Las contraseñas ingresadas no coinciden", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");
+						}else if(data === "falsedbNC"){
+						message("La contraseña que usted ingreso no coincide con su actual contraseña", 2000, 'error');	
+						$("#resetpass-frm").trigger("reset");
+						}else if(data === "true"){
+							message("Contraseña actualizada correctamente", 2000, 'success');
+							$("#resetpass-frm").trigger("reset");
+							setTimeout(function(){
+								location.reload();
+						   }, 2200); 
+						}else{
+							message("Error al cambiar la contraseña", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");	
+						}
+		
+						/*$("#alert").show();
+						$("#result").html(data);
+						$("#loader").hide();*/
 					}
 				});
 			}

@@ -1502,11 +1502,11 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 ================================*/
 
 if(isset($_POST['action']) && $_POST['action'] == 'adminrestcon'){
-	$currentpass = checkInput($_POST['currentpassword']);
+	//$currentpass = checkInput($_POST['currentpassword']);
 	$newpass = checkInput($_POST['newpass']);
 	$cnewpass = checkInput($_POST['cnewpass']);
 	$uemail = checkInput($_POST['uemail']);
-	$currentpassHash = password_hash($currentpass, PASSWORD_BCRYPT,["cost"=>8]);
+	//$currentpassHash = password_hash($currentpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$newpassHash = password_hash($newpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$cnewpassHash = password_hash($cnewpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$sql = $con->prepare("SELECT user,email,pass FROM admin WHERE email =?");
@@ -1518,12 +1518,12 @@ if(isset($_POST['action']) && $_POST['action'] == 'adminrestcon'){
 	if($newpass != $cnewpass){
 		echo 'falselocalNC';
 		exit();
-	}elseif(password_verify($currentpass,$currentpassDB) == FALSE){
+	}/*elseif(password_verify($currentpass,$currentpassDB) == FALSE){
 		echo $currentpassHash;
 		echo " ";
 		echo $currentpassDB;
 		exit();
-	}else{
+	}*/else{
 		$con->query("UPDATE admin SET pass = '$newpassHash' WHERE email = '$uemail'");
 		$con->query("DELETE FROM contrareset WHERE email = '$uemail'");
 		echo "true";
