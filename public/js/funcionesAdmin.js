@@ -455,7 +455,13 @@ $("#frmProductos").validate({
 
 }); */
 
+/*----------  Método que valida tamaño imagen  ----------*/
+
+
+
 /*----------  Carga producto nuevo   ----------*/
+
+
 
 $("#frmProductos").validate({
 	rules:{
@@ -465,7 +471,12 @@ $("#frmProductos").validate({
 		},
 		descProd:{
 			required: true,
-			range: [10, 1000],
+			rangelength: [10, 1000]
+		},
+		imgProd: {
+			required: true,
+			extension: "png|jpeg|jpg",
+			
 		}
 	},
 	messages: {
@@ -475,7 +486,12 @@ $("#frmProductos").validate({
 		},
 		descProd:{
 			required: "Ingrese una descripción para el producto",
-			range: "La descripción del producto debe tener entre 10 y 1000 caracteres"
+			rangelength: "La descripción del producto debe tener entre 10 y 1000 caracteres"
+		},
+		imgProd: {
+			required: "Debe subir una imagen",
+			extension: "La imagen debe contener una extensión válida: png, jpeg ó jpg",
+			
 		}
 	},
 	submitHandler: function(form){
