@@ -457,11 +457,30 @@ $("#frmProductos").validate({
 
 /*----------  Carga producto nuevo   ----------*/
 
-$("#frmProductos").on("submit", function(e){
-	e.preventDefault();
-	var formData = new FormData(this);	
+$("#frmProductos").validate({
+	rules:{
+		nombreProd:{
+			required: true,
+			minlength: 3
+		},
+		descProd:{
+			required: true,
+			range: [10, 1000],
+		}
+	},
+	messages: {
+		nombreProd: {
+			required: "Ingrese un nombre para el producto",
+			minlength: "El nombre del producto debe contener al menos 3 caracteres"
+		},
+		descProd:{
+			required: "Ingrese una descripción para el producto",
+			range: "La descripción del producto debe tener entre 10 y 1000 caracteres"
+		}
+	},
+	submitHandler: function(form){
 
-	//var form = $("#frmProductos").serialize()+"&agregarProducto";
+	var formData = new FormData(form);	
 
 	$.ajax({
 			url: 'accionesAdmin/accionesAdminMain.php',
@@ -471,6 +490,7 @@ $("#frmProductos").on("submit", function(e){
 				if(data === "false"){
 					message("El producto ya existe", 2000, 'error');
 				}else{
+					
 					message("Producto insertado correctamente", 2000, 'success');	
 					$("#frmProductos").trigger("reset");
 					$("#imgPrev").attr('src', '#');
@@ -481,9 +501,12 @@ $("#frmProductos").on("submit", function(e){
 			processData: false,
 			cache: false
 
-		})
+		});	
+
+	}
+});
+
 	
-}); 
 
 
 /*----------  Ver imagen previo a subir  ----------*/
