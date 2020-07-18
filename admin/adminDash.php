@@ -168,7 +168,7 @@ $role = ($_SESSION['userRole']);
 				<div class="card-header text-center">Administrar Usuarios</div>	
 				<img class="card-img-top mx-auto imgPanel" src="../logos/allusers.svg" alt="Card image cap">				  
 				<div class="card-body">					
-					<p class="card-text">Administra las rifas disponibles para los usuarios</p>
+					<p class="card-text">Administra los clientes y usuarios que están registrados en la plataforma</p>
 					<a href="verUsuarios.php" id="verUsers" class="btn btn-primary">Ver Usuarios</a>
 					<a href="verClientes.php" id="verClientes" class="btn btn-success">Ver Clientes</a>
 				</div>
