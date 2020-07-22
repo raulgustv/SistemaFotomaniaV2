@@ -134,8 +134,8 @@ $(document).ready(function(){
 				pwcheck: "<p>Tu contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"
 			},
 			cpass: {
-				required: "Por favor confimra tu contraseña",
-				equalTo: "Las contraseñas deben coincidir "
+				required: "Por favor confirma tu contraseña",
+				equalTo: "Ambas contraseñas deben coincidir "
 			}
 		}
 	});
