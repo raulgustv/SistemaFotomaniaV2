@@ -20,14 +20,14 @@ function emailreset($correo,$titulo,$cuerpo,$cuerposimple){
         $mail->Host       = 'smtp.sendgrid.net';                    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
         $mail->Username   = 'apikey';                     // SMTP username
-        $mail->Password   = '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';                               // SMTP password
+        $mail->Password   = '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';                               // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
         $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     
         //Recipients
-        $mail->setFrom('fotomaniafid20@gmail.com', 'FotomaniaCR');
+        $mail->setFrom('fotomaniafidcr@gmail.com', 'FotomaniaCR');
         $mail->addAddress($correo);               // Name is optional
-        $mail->addReplyTo('fotomaniafid20@gmail.com', 'Information');
+        $mail->addReplyTo('fotomaniafidcr@gmail.com', 'Information');
     
         // Content
         $mail->isHTML(true);                                  // Set email format to HTML
