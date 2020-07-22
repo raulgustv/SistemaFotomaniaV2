@@ -83,13 +83,64 @@ $(document).ready(function(){
 
 	$("#login-frm").validate();
 
+	$.validator.addMethod("pwcheck", function(value){
+		return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(value)
+		&& /[a-z]/.test(value) 
+       	&& /\d/.test(value)
+	});
+
 	$("#register-frm").validate({
-		rules:{
+		rules:{			
+			name:{
+				required: true,
+				rangelength: [3,25]
+			},
+			uname:{
+				required: true,
+				rangelength: [3,25]
+			},
+			email:{
+				required: true,
+				rangelength: [3,25],
+				email: true
+			},
+			pass:{
+				required: true,
+				maxlength: 25,
+				pwcheck: true,
+			},
 			cpass:{
+				required: true,
 				equalTo: "#pass"
+			}
+		},
+		messages: {		
+			name:{
+				required: "Por favor digita tu nombre",
+				rangelength: "Tu nombre debe tener entre 3-25 caracteres"
+			},
+			uname:{
+				required: "Por favor ingresa tu nombre de usuario",
+				rangelength: "Tu nombre de usuario debe tener entre 3-25 caracteres"
+			},
+			email:{
+				required: "Por favor ingres tu email",
+				rangelength: "Tu email debe tener entre 3-25",
+				email: "Ingresa un email válido <small>Ej: ejemplo@ejemplo.com</small>"
+			},
+			pass: {
+				required: "Debes ingresar una contraseña",
+				maxlength: "Tu contraseña debe tener menos de 25 caracteres",
+				pwcheck: "<p>Tu contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"
+			},
+			cpass: {
+				required: "Por favor confimra tu contraseña",
+				equalTo: "Las contraseñas deben coincidir "
 			}
 		}
 	});
+
+
 	$("#resetpass-frm").validate();
 	
 	$("#resetpass-frm").validate({

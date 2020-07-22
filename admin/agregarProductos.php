@@ -26,10 +26,14 @@ access("agregarProductos");
               <label for="descProd">Descripción</label>
               <textarea  type="text" rows="3" class="form-control" name="descProd" id="#descProd" placeholder="Descripción del producto"></textarea> 
           </div>
-          <div class="form-group">
-              <label for="precioProd">Precio</label>
-              <input type="text" class="form-control" name="precioProd" id="#precioProd" placeholder="Precio producto"> 
-          </div>                    
+
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">$</div>
+          </div>
+          <input type="text" class="form-control" name="precioProd" id="#precioProd" placeholder="Precio producto">
+       </div>
+                           
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                    <div class="custom-file">
