@@ -14,6 +14,13 @@ function message(titulo, tiempo, icono){
 }
 
 
+$.validator.addMethod("pwcheck", function(value){
+		return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(value)
+		&& /[a-z]/.test(value) 
+       	&& /\d/.test(value)
+	});
+
+
 
 	/*----------  Registrar Usuario  ----------*/	
 
@@ -22,16 +29,18 @@ $("#registerform").validate({
 	rules:{
 		username:{
 			required: true,
-			minlength: 3
+			rangelength: [3,25]
 		},
 		email: {
 			required: true,
 			email: true,
+			rangelength: [3,25]
 
 		},
 		password1:{
 			required: true,
-			rangelength: [6,25]
+			maxlength: 25,
+			pwcheck: true,
 		},
 		password2:{
 			required: true,
@@ -43,15 +52,17 @@ $("#registerform").validate({
 	messages:{
 		username:{
 			required: "Ingrese su nombre de usuario",
-			minlength: "Nombre de usuario debe contener al menos 3 caracteres"
+			rangelength: "Nombre de usuario debe contener al menos 3 caracteres y máximo 25 caracteres"
 		}, 
 		email:{
 			required: "Ingrese un correo electrónico",
-			email: "Ingrese un correo válido. Ejemplo: ejemplo@ejemplo.com",			
+			email: "Ingrese un correo válido. <small>Ejemplo: ejemplo@ejemplo.com</small>",
+			rangelength: "Correo debe tener entre 3 y 25 caracteres"			
 			},
 		password1:{
 			required: "Contraseña es requerida",
-			rangelength: "La contraseña debe tener entre 6 y 25 caracteres"
+			maxlength: "Contraseña debe ser menor de 25 caracteres",
+			pwcheck: "<p>La contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"
 		},
 		password2:{
 			required: "Contraseña es requerida",
@@ -128,18 +139,26 @@ $("#loginForm").validate({
 
 $("#resetpass-frm").validate({
 	rules:{
+		newpass:{
+			required: true,
+			pwcheck: true,
+			maxlength: 25
+		},
 		cnewpass:{
 			required: true,
-			equalTo: "#newpass",
-			rangelength: [6,200]
+			equalTo: "#newpass"
 		}
 	},
 	messages:{
-		cnewpass:{
-			required: "Debe confirmar la contraseña",
-			minlength: "La contraseña debe contener almenos 6 caracteres",
-			equalTo: "Las contraseñas deben coincidir"
-		}, 
+		newpass:{
+			required: "Por favor ingrese la nueva contraseña",
+			pwcheck: "<p>La contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>",
+			maxlength: "La contraseña debe tener un máximo de 25 caracteres"
+		},
+		cnewpass: {
+			required: "Por favor ingrese la nueva contraseña",
+			equalTo: "Las contraseñas deben coincidr"
+		}
 	}
 });
 
@@ -182,6 +201,8 @@ $("#frmCategoria").validate({
 
 
 });
+
+
 
 /*----------  Enviar email  ----------*/
 

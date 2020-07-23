@@ -112,6 +112,9 @@ $(document).ready(function(){
 			cpass:{
 				required: true,
 				equalTo: "#pass"
+			},
+			terms:{
+				required: true,
 			}
 		},
 		messages: {		
@@ -136,31 +139,55 @@ $(document).ready(function(){
 			cpass: {
 				required: "Por favor confirma tu contraseña",
 				equalTo: "Ambas contraseñas deben coincidir "
+			},
+			terms: {
+				required: "Debes aceptar los términos y condiciones antes de registr"
 			}
 		}
 	});
 
 
-	$("#resetpass-frm").validate();
+	//$("#resetpass-frm").validate();
 	
 	$("#resetpass-frm").validate({
+		
 		rules:{
+			newpass: {
+				required: true,
+				pwcheck: true
+			},
 			cnewpass:{
 				required: true,
-				equalTo: "#newpass",
-				rangelength: [6,200]
+				equalTo: "#newpass"
 			}
 		},
 		messages:{
-			cnewpass:{
-				required: "Debe confirmar la contraseña",
-				minlength: "La contraseña debe contener almenos 6 caracteres",
-				equalTo: "Las contraseñas deben coincidir"
-			}, 
+			newpass:{
+				required: "Por favor ingresa tu nueva contraseña",
+				pwcheck: "<p>Tu contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"			
+			},
+			cnewpass: {
+				required: "Por favor confirma tu contraseña",
+				equalTo: "Las contraseñas no coinciden"
+			}
 		}
+		
 	});
 
-	$("#forgot-frm").validate();
+	$("#forgot-frm").validate({
+		rules:{
+			femail:{
+				required: true,
+				email: true
+			}
+		},
+		messages:{
+			femail:{
+				required: "Por favor ingresa tu email",
+				email: "Ingresa un email válido <small>Ej: ejemplo@ejemplo.com</small>"
+			}
+		}
+	});
 
 	/*----------  Enviar Registro  ----------*/
 

@@ -90,7 +90,7 @@ include 'templates/header.php'
 					
 					<div class="form-group">
 						<div class="custom-control custom-checkbox">
-							<input type="checkbox" name="rem" class="custom-control-input" id="customCheck2">
+							<input type="checkbox" name="terms" class="custom-control-input" id="customCheck2">
 							<label for="customCheck2" class="custom-control-label">Estoy de acuerdo con los <a href="#">Términos y condiciones</a></label>
 							
 						</div>

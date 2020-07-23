@@ -70,7 +70,7 @@ if(!isset($tokenenviado)){
 						<input type="password" name="currentpassword" id="currentpassword" class="form-control" placeholder="Contraseña actual" required>
 					</div> -->
 					<div class="form-group">
-						<input type="password" name="newpass" id="newpass" class="form-control" placeholder="Nueva contraseña" required minlength="6">
+						<input type="password" name="newpass" id="newpass" class="form-control" placeholder="Nueva contraseña" required>
 					</div>
 					<div class="form-group">
 						<input type="password" name="cnewpass" id="cnewpass" class="form-control" placeholder="Confirmar nueva contraseña" required>
