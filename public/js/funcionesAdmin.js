@@ -843,25 +843,60 @@ function llenarDetallePedido(){
 
 	/*----------  Subir Imagen  ----------*/
 
-	$("#frmGaleria").on("submit", function(e){
-		e.preventDefault();
-
-		var formData = new FormData(this);
-
-		$.ajax({
-			url: 'accionesAdmin/accionesAdminMain.php',
-			method: 'post',
-			data: formData,
-			success: function(data){
-				message("Imagen subida correctamente", 2000, 'success');	
-				$("#frmGaleria").trigger("reset");
-				$("#prev3").attr('src', '#');
-
+	$("#frmGaleria").validate({
+		rules:{
+			tituloImg:{
+				required: true,
+				rangelength: [5,30]
 			},
-			contentType: false,
-			processData: false,
-			cache: false
-		});
+			nombreAutor: {
+				required: true,
+				minlength: 3,
+			},
+			nombreCam: {
+				required: true
+			},
+			imgMain: {
+				required: true,
+				extension: "png|jpeg|jpg",
+			}
+		},
+		messages: {
+			tituloImg:{
+				required: "La imagen debe contener un título",
+				rangelength: "El título de la imagen debe tener entre 5-15 caracteres"
+			},
+			nombreAutor: {
+				required: "Ingrese el nombre del autor de la fotografía",
+				minlength: "Nombre debe contener más de 3 caracteres"
+			},
+			nombreCam: {
+				required: "Ingrese el nombre de la cámara"
+			},
+			imgMain: {
+				required: "Seleccione una imagen para la galería",
+				extension: "La extensión de la foto debe ser png, jpeg o jpg"
+			}
+		},
+		submitHandler: function(form){
+
+			var formData = new FormData(form);
+
+			$.ajax({
+				url: 'accionesAdmin/accionesAdminMain.php',
+				method: 'post',
+				data: formData,
+				success: function(data){
+					message("Imagen subida correctamente", 2000, 'success');	
+					$("#frmGaleria").trigger("reset");
+					$("#prev3").attr('src', '#');
+
+				},
+				contentType: false,
+				processData: false,
+				cache: false
+			});
+		}
 	});
 
 
@@ -1009,19 +1044,44 @@ function llenarProdAddDesc(){
 
 /*----------  Insertar Descuento  ----------*/
 
+
+
 $("#frmDescuento").validate({
 
 	rules:{
 		nombreDesc:{
 			required: true,
-			rangelength: [5,50]
+			rangelength: [5,15]
 		},
+		descripciondesc:{
+			required: true,
+			rangelength: [10, 50]
+		},
+		fechaInicio:{
+			required: true,
+			//greaterThan: "#fechaInicio"
+		},
+		fechaFinal: {
+			required: true,
+		}
 	},
 	messages:{
 		nombreDesc:{
 			required: "Por favor ingrese el nombre del descuento",
-			rangelength: "El nombre del descuento debe tener entre 5 y 50 caractéres"
+			rangelength: "El nombre del descuento debe tener entre 5 y 15 caractéres"
 		},
+		descripciondesc:{
+			required: "Por favor ingrese una descripción",
+			rangelength: "La descripcion debe tener entre 10 y 50 caracteres"
+		},
+		fechaInicio:{
+			required: "Por favor ingresar una fecha inicial",
+			//greaterThan: "Fecha debe ser posterior a hoy"
+
+		},
+		fechaFinal: {
+			required: "Por favor ingresar una fecha final"
+		}
 	},
 	submitHandler: function(form){
 
@@ -1032,7 +1092,7 @@ $("#frmDescuento").validate({
 			success: function(data){
 				if(data === "false"){
 					message("Ya existe un descuento para el producto seleccionado", 2000, 'error');
-					$("#frmDescuento").trigger("reset");
+					//$("#frmDescuento").trigger("reset");
 				}else{
 					message(data, 200000, 'success');
 					$("#frmDescuento").trigger("reset");
@@ -1519,14 +1579,34 @@ $("#frmConcurso").validate({
 	rules:{
 		nombreConc:{
 			required: true,
-			rangelength: [5,50]
+			rangelength: [5,15]
 		},
+		descripcionConc:{
+			required: true,
+			rangelength: [10, 50],
+		},
+		fechaInicio: {
+			required: true
+		},
+		fechaFinal:{
+			required: true
+		}
 	},
 	messages:{
 		nombreConc:{
 			required: "Por favor ingrese un nombre para la rifa",
-			rangelength: "El nombre de la rifa debe tener entre 5 y 50 caractéres"
+			rangelength: "El nombre de la rifa debe tener entre 5 y 15 caractéres"
 		},
+		descripcionConc:{
+			required: "Por favor ingrese una descripción de la rifa",
+			rangelength: "La descripción debe tener entre 10 y 50 caracteres"
+		},
+		fechaInicio:{
+			required: "Por favor elige una fecha de inicio para la rifa"
+		},
+		fechaFinal:{
+			required: "Por favor elige una fecha final para la rifa"
+		}
 	},
 	submitHandler: function(form){
 
@@ -1537,10 +1617,11 @@ $("#frmConcurso").validate({
 			success: function(data){
 				if(data === "false"){
 					message("Ya existe un concurso bajo el mismo nombre", 2000, 'error');
-					$("#frmConcurso").trigger("reset");
+					//$("#frmConcurso").trigger("reset");
 				}else{
 					message("Concurso ingresado con exito", 20000, 'success');
-					$("#frmConcurso").trigger("reset");
+					//$("#frmConcurso").trigger("reset");
+					$("#form_concurso").modal('hide')
 				}
 			}
 		});
