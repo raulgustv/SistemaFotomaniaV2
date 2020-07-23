@@ -14,6 +14,8 @@ function message(titulo, tiempo, icono){
 }
 
 
+
+
 $.validator.addMethod("pwcheck", function(value){
 		return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(value)
 		&& /[a-z]/.test(value) 
@@ -267,13 +269,24 @@ $("#restconAD").click(function(e){
 });	
 
 
+
+
 /*----------  Ver Categorias  ----------*/
 
 var dataCats;
 
 dataCats = $("#dtTablaCats").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Ver PDF",
+				"className": "btn-danger"
+			}
+		],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
@@ -595,9 +608,27 @@ $("#frmProductos").validate({
 /*----------  Get Products  ----------*/
 
 
+
+
 var dataProducts; 
 
 dataProducts = $("#dtTablaProds").DataTable({
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -725,6 +756,22 @@ function lastOrders(){
 var dataOrders;
 
 dataOrders = $("#dtTablaPedidos").DataTable({
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			}
+	],
 
 	"order": [[2, "desc"]],
 	
@@ -911,6 +958,22 @@ function llenarDetallePedido(){
 	var dataGal;
 
 	dataGal = $("#dtTablaGal").DataTable({
+		"language": {
+		"url": "../includes/Spanish.json"
+		},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 		"ajax": {
 			"url":  "accionesAdmin/accionesAdminMain.php",
 			"method": "post",
@@ -1112,8 +1175,22 @@ var dataDesc;
 
 
 dataDesc = $("#dtTablaDesc").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
@@ -1299,8 +1376,22 @@ $("#frmEditUser").on("submit", function(e){
 var dataClientes;
 
 dataClientes = $("#dtTablaClientes").DataTable({
-
-
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -1388,8 +1479,22 @@ $(document).on("click", "#btnDesactivarCliente", async function(e){
 var dataUsers;
 
 dataUsers = $("#dtTablaUsers").DataTable({
-
-
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -1529,8 +1634,22 @@ var dataConc;
 
 
 dataConc = $("#dtTablaConc").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
