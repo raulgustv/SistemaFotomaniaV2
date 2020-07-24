@@ -787,7 +787,7 @@ dataOrders = $("#dtTablaPedidos").DataTable({
 		{"data" : "nombre"},
 		{"data" : "FechaCompra"},
 		{"data" : "nombreEstado"},
-		{"data" : "monto"},
+		//{"data" : "monto"},
 		{"defaultContent" : "<a href='#' class='btn btn-primary' id='editProdStatus' data-toggle='modal' data-target='#formEditPedidoStatus'><i class='fas fa-edit'></i></a> <a href='#' class='btn btn-success' id='verPedidoCliente'><i class='fas fa-eye'></i></a> "},	
 
 	]

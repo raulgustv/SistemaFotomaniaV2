@@ -677,7 +677,7 @@
 		
 		$uid = $row['id'];
 
-		$q = $con->prepare("SELECT direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND main = 1 AND status =1");
+		$q = $con->prepare("SELECT direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, telefono, clientes.nombre FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND main = 1 AND status =1");
 
 		$q->bind_param("i", $uid);
 		$q->execute();
@@ -694,6 +694,7 @@
 			$cant = $r['cant'];
 			$dist = $r['distrito'];
 			$zip = $r['zip'];
+			$tel = $r['telefono'];
 
 
 
@@ -701,7 +702,7 @@
 				  <p>$dir1<br>$dir2
 					$cant, $dist<br>
 					$prov, $zip<br>
-					Teléfono: 8811-96-58</p>";
+					Teléfono: $tel</p>";
 
 		}else{
 			echo "<div class='alert alert-danger' role='alert'>
@@ -724,6 +725,7 @@
 		$cant = $_POST['canton'];
 		$dist = $_POST['distrito'];
 		$zip = $_POST['zip'];
+		$tel = $_POST['tel'];
 
 		$q = $con->prepare("SELECT * FROM direccion WHERE status = 1 AND idCliente = ?");
 		$q->bind_param("i", $uid);
@@ -732,14 +734,14 @@
 		$row = $q->get_result();
 
 		if(mysqli_num_rows($row) > 0){ //le mete cero
-			$q2 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,idCliente, main) VALUES (?,?,?,?,?,?,?,0)");
-			$q2->bind_param("ssiiisi", $dir1, $dir2,$prov,$cant,$dist,$zip,$uid);
+			$q2 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,telefono,idCliente, main) VALUES (?,?,?,?,?,?,?,?,0)");
+			$q2->bind_param("ssiiissi", $dir1, $dir2,$prov,$cant,$dist,$zip,$tel,$uid);
 			$q2->execute();
 			$q2->close();
 			echo "bien";
 		}else{
-			$q3 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,idCliente, main) VALUES (?,?,?,?,?,?,?,1)");
-			$q3->bind_param("ssiiisi", $dir1, $dir2,$prov,$cant,$dist,$zip,$uid);
+			$q3 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,telefono,idCliente, main) VALUES (?,?,?,?,?,?,?,?,1)");
+			$q3->bind_param("ssiiissi", $dir1, $dir2,$prov,$cant,$dist,$zip,$tel,$uid);
 			$q3->execute();
 			$q3->close();
 			echo "bien";
@@ -754,7 +756,7 @@
 	
 	$uid = $row['id'];
 
-	$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status =1");
+	$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, telefono, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status =1");
 
 		$q->bind_param("i", $uid);
 		$q->execute();
@@ -774,6 +776,7 @@
 			$dist = $r['distrito'];
 			$zip = $r['zip'];
 			$main = $r['main'];
+			$tel = $r['telefono'];
 
 			if($main!=1){
 				echo "<div class='col-lg-4 mb-2'>
@@ -782,7 +785,7 @@
 							<p>$dir1 $dir2<br>
 							$cant, $dist<br>
 							$prov, $zip<br>
-							Teléfono: 8811-96-58</p>
+							Teléfono: $tel</p>
 							<div class='form-check'>
 								<input type='checkbox' class='form-check-input' name='dirPrincipal' idDir='$idDir' id='dirPrincipal'>
 								<label>Direccion Principal</label>
@@ -802,7 +805,7 @@
 							<p>$dir1 $dir2<br>
 							$cant, $dist<br>
 							$prov, $zip<br>
-							Teléfono: 8811-96-58</p>
+							Teléfono: $tel</p>
 							<div class='form-check'>
 								<input type='checkbox' class='form-check-input' name='dirPrincipal' id='dirPrincipal' idDir='$idDir' checked>
 								<label>Direccion Principal</label>

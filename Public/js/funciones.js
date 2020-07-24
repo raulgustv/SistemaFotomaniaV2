@@ -827,6 +827,10 @@ $("#frmDireccion").validate({
 			required: true,
 			rangelength: [5, 5]
 			
+		},
+		tel:{
+			required: true,
+			minlength: 8
 		}
 	},
 	messages:{
@@ -843,6 +847,10 @@ $("#frmDireccion").validate({
 		zip: {
 			required: "Ingresa un código postal",
 			rangelength: "Código Postal debe tener 5 caractéres"
+		},
+		tel:{
+			required: "Ingresa tu número de teléfono",
+			minlength: "Tu teléfono debe tener al menos 8 dígitos"
 		}
 	},	
 	submitHandler: function(form){
@@ -1044,6 +1052,10 @@ $(document).on("click", "#idDirRestore", function(e){
 var dataOrdersCustomer;
 
 dataOrdersCustomer = $("#dtPedidoCliente").DataTable({
+
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
 
 	"order": [[1, "desc"]],
 	"searching": false,

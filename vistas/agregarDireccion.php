@@ -73,9 +73,18 @@
                 <input type="text" class="form-control" name="zip" placeholder="11111">                
             </div>
 
-            <div class="form-group">
+             <div class="form-group">
               <a href="https://correos.go.cr/codigo-postal/" target="_blank">Ubica tu código postal</a>
             </div>
+
+
+             <div class="form-group">
+               <label for="tel">Número de teléfono*</label>
+                <input type="text" class="form-control" name="tel" placeholder="2222-22-22">                
+            </div>
+
+
+           
 
              <div class="modal-footer">
                <input type="submit" id="guardarDireccion" class="btn btn-primary" value="Guardar Dirección">    
