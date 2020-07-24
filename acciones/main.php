@@ -12,13 +12,17 @@
 	$yacomenzo = 0;
 
 	if(isset($_POST['category'])){
-		$catQuery = $con->query("SELECT * FROM categorias");
+		$catQuery = $con->prepare("SELECT * FROM categorias");
+		$catQuery->execute();		
+		$r = $catQuery->get_result();
+
+		$catQuery->close();
 
 		echo "<div class='nav nav-pills nav-stacked'>
 		 	 <li class='nav-item'><a class='nav-link active' href='#'><h4>Categorías</h4></a></li>";
 
-		if(mysqli_num_rows($catQuery)){
-			while($row = mysqli_fetch_array($catQuery)){
+		if(mysqli_num_rows($r)){
+			while($row = mysqli_fetch_array($r)){
 				$catId = $row['idCategoria'];
 				$catName = $row['nombre'];
 
@@ -27,6 +31,10 @@
 			}
 		}
 		echo "</div>";
+
+		
+
+
 	}
 	
 	/*=====  End of Obtener categorias  ======*/
@@ -42,19 +50,32 @@
 			$start = 0;
 		}
 
-		$prodQuery = $con->query("SELECT * FROM productos WHERE status = 1 LIMIT $start, $limit");
+		$prodQuery = $con->prepare("SELECT * FROM productos WHERE status = 1 LIMIT $start, $limit");
+		$prodQuery->execute();
 
-		if(mysqli_num_rows($prodQuery)){
-			while($row = mysqli_fetch_array($prodQuery)){
+		$r = $prodQuery->get_result();
+
+		$prodQuery->close();
+
+		if(mysqli_num_rows($r)){
+			while($row = mysqli_fetch_array($r)){
 
 				$idProducto = $row['id'];
 				$nombreProducto = $row['nombre'];
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
 
-				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
-				if(mysqli_num_rows($descQuery)){
-					while($rowDesc = mysqli_fetch_array($descQuery)){
+				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+				$descQuery->bind_param("i", $idProducto);
+				$descQuery->execute();
+
+				$result = $descQuery->get_result();
+
+				$descQuery->close();
+
+
+				if(mysqli_num_rows($result)){
+					while($rowDesc = mysqli_fetch_array($result)){
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
@@ -95,6 +116,7 @@
 						</div>";
 			}
 		}
+
 	}
 
 	/*=========================================
@@ -105,23 +127,41 @@
 
 		if(isset($_POST['selectedCat'])){
 			$id = $_POST['catId'];
-			$sql = $con->query("SELECT * FROM productos WHERE idCategoria = '$id' AND status = 1 ");
+
+			$sql = $con->prepare("SELECT * FROM productos WHERE idCategoria = ? AND status = 1 ");
+			$sql->bind_param("i", $id);
+			$sql->execute();
+			$r = $sql->get_result();
+			$sql->close();
+
 		}else if(isset($_POST['search'])){
 			$keyword = $_POST['keyword'];
-			$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' and status = 1 ");
+			$sql = $con->prepare("SELECT * FROM productos WHERE nombre LIKE '%$keyword%' and status = 1 ");				
+			$sql->execute();
+			$r = $sql->get_result();
+			$sql->close();
+
 		}
 
-		if(mysqli_num_rows($sql)){
-			while($row = mysqli_fetch_array($sql)){
+		if(mysqli_num_rows($r)){
+			while($row = mysqli_fetch_array($r)){
 
 				$idProducto = $row['id'];
 				$nombreProducto = $row['nombre'];
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
 
-				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
-				if(mysqli_num_rows($descQuery)){
-					while($rowDesc = mysqli_fetch_array($descQuery)){
+				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+				$descQuery->bind_param("i", $idProducto);
+				$descQuery->execute();
+
+				$res = $descQuery->get_result();
+
+				$descQuery->close();
+
+
+				if(mysqli_num_rows($res)){
+					while($rowDesc = mysqli_fetch_array($res)){
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
@@ -1108,6 +1148,7 @@
 		$q->execute();
 
 		$row = $q->get_result();
+
 
 		if(mysqli_num_rows($row) > 0){
 			while ($r = mysqli_fetch_array($row)){
