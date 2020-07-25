@@ -1506,8 +1506,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 	$stmt = $con->prepare("SELECT id FROM admin WHERE email=?");
 	$stmt->bind_param("s", $afemail);
 	$stmt->execute();
-
 	$res = $stmt->get_result();
+	$stmt->close();
 
 	if($res->num_rows>0){
 		$stmt1 = $con->prepare("SELECT * FROM contrareset WHERE email=?");
