@@ -1211,7 +1211,7 @@ dataDesc = $("#dtTablaDesc").DataTable({
 		{"data": "descripcionDesc"},
 		{"data": "totalOferta"},
 		{"data": "fechaInicio"},
-		{"data": "fechaInicio"},
+		{"data": "fechaFinal"},
 		{"defaultContent": "<a href='#' id='btnDeleteDesc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarDesc' data-toggle='modal' data-target='#formEditDesc' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"},
 	]
 });
