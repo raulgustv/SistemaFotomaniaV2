@@ -1272,11 +1272,11 @@
 	=            Llenar Rifas            =
 	====================================*/
 	
-		if(isset($_POST['getConcursos'])){
+	if(isset($_POST['getConcursos'])){
       $srl = '..\vistas\imagenes\ ';
 	  $srclink = str_replace(' ', '', $srl);
 	  $cont = 1;
-		$concQuery = $con->prepare("SELECT * FROM concurso");
+		$concQuery = $con->query("SELECT * FROM concurso");
 
 		if(mysqli_num_rows($concQuery)){
 			while($row = mysqli_fetch_array($concQuery)){
@@ -1358,19 +1358,15 @@
 	if(isset($_POST['ingConcurso'])){
 		$uid = $row['id'];
 		$idConcurso = $_POST['concId'];
-		$sqlccq=$con->prepare("SELECT * FROM clientesxconcurso WHERE idCliente = $uid AND idConcurso = $idConcurso");
-		$sqlccq->bind_param("ii", $uid, $idConcurso);
-		$sqlccq->execute();
-		$res = $sqlccq->get_result();
-		$sqlccq->close();
-		if(mysqli_num_rows($res)>0){
+		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $uid AND idConcurso = $idConcurso");
+		if(mysqli_num_rows($sqlccq)>0){
 			echo "false";
 
 		}else{
 			$sqlcc=$con->prepare("INSERT INTO clientesxconcurso (idCliente, idConcurso)  VALUES (?,?)");
 			$sqlcc->bind_param("ii", $uid, $idConcurso);
 			$sqlcc->execute();
-			$sqlcc->close();			
+			
 			
 	    }
 	}
