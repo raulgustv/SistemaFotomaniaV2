@@ -1,4 +1,4 @@
-<?php include '../templates/mainHeader.php' ?>
+php include '../templates/mainHeader.php' ?>
 <?php include '../includes/db.php' ?>
 
 

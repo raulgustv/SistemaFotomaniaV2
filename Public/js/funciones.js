@@ -1019,7 +1019,7 @@ $(document).on("click", "#idDirRestore", function(e){
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Si, bórrala'
+		  confirmButtonText: 'Si, restaurar dirección'
 		}).then((result) => {
 			if(result.value){ 
 				$.ajax({
@@ -1103,6 +1103,7 @@ cargarTablaPedido();
 function cargarTablaPedido(){
 
 	var pedidoId = $("#idPedidoCliente").attr("idPedido");
+	console.log(pedidoId)
 
 	$.ajax({
 		url: "../acciones/main.php",

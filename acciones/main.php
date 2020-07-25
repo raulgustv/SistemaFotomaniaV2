@@ -223,12 +223,22 @@
 		 $cant = $_POST['qty'];
 		 $prodId = $_POST['prodId'];
 
-		 $q2 = $con->query("SELECT * FROM productos WHERE id='$prodId'");
-		 $row = mysqli_fetch_array($q2);
+		 $q2 = $con->prepare("SELECT * FROM productos WHERE id=?");
+		 $q2->bind_param("i", $prodId);
+		 $q2->execute();
+		 $res = $q2->get_result();
+		 $q2->close();
+
+		 $row = mysqli_fetch_array($res);
 		 $precio = $row['precio'];
-		 $descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$prodId'");
-				if(mysqli_num_rows($descQuery)){
-					while($rowDesc = mysqli_fetch_array($descQuery)){
+		 $descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+		 $descQuery->bind_param("i", $prodId);
+		 $descQuery->execute();
+		 $r = $descQuery->get_result();
+		 $descQuery->close();
+
+				if(mysqli_num_rows($r)){
+					while($rowDesc = mysqli_fetch_array($r)){
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
@@ -251,9 +261,19 @@
 		 $nombreProd = $row['nombre'];
 		 $total = $cant * $precioTotal;
 
-		 $q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid' and idProducto ='$prodId'");
-		 if(mysqli_num_rows($q) > 0){
-		 	$con->query("UPDATE carro SET cantidad = cantidad + $cant, total = total+$total WHERE idCliente = '$uid' AND idProducto = '$prodId'");
+		 $q = $con->prepare("SELECT * FROM carro WHERE idCliente = ? and idProducto =?");
+		 $q->bind_param("ii", $uid, $prodId);
+		 $q->execute();
+		 $result = $q->get_result();
+		 $q->close();
+
+
+		 if(mysqli_num_rows($result) > 0){
+		 	$stmt = $con->prepare("UPDATE carro SET cantidad = cantidad + ?, total = total+ ? WHERE idCliente = ? AND idProducto = ?");
+		 	$stmt->bind_param("iiii", $cant, $total, $uid, $prodId);
+		 	$stmt->execute();
+		 	$stmt->close();
+
 		 	echo "Productos agregados correctamente";
 		 }else{
 
@@ -288,13 +308,27 @@
 
 		$uid = $row['id'];
 
-		$q1 = $con->query("SELECT * FROM carro WHERE idCliente ='$uid'");
+		$q1 = $con->prepare("SELECT * FROM carro WHERE idCliente =?");
+		$q1->bind_param("i", $uid);
+		$q1->execute();
 
-		if(mysqli_num_rows($q1) > 0){
+		$res = $q1->get_result();
+		$q1->close();
 
-		while($r=mysqli_fetch_array($q1)){
-			$q2 = $con->query("SELECT * FROM productos WHERE id = '".$r['idProducto']."'");
-			$row = mysqli_fetch_array($q2);
+		if(mysqli_num_rows($res) > 0){
+
+		while($r=mysqli_fetch_array($res)){
+
+			$idProd = $r['idProducto'];
+
+			$q2 = $con->prepare("SELECT * FROM productos WHERE id = ?");
+			$q2->bind_param("i", $idProd);
+			$q2->execute();
+
+			$result = $q2->get_result();
+			$q2->close();
+
+			$row = mysqli_fetch_array($result);
 
 			$idProducto = $r['idProducto'];
 			$cantidad = $r['cantidad'];
@@ -302,9 +336,15 @@
 			$imagen = $row['imagen'];
 			$producto = $row['nombre'];
 
-			$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProducto'");
-			if(mysqli_num_rows($descQuery)){
-				while($rowDesc = mysqli_fetch_array($descQuery)){
+			$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+			$descQuery->bind_param("i", $idProducto);
+			$descQuery->execute();
+
+			$r = $descQuery->get_result();
+			$descQuery->close();
+
+			if(mysqli_num_rows($r)){
+				while($rowDesc = mysqli_fetch_array($r)){
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
@@ -365,8 +405,14 @@
 
 		echo "<div class='col-lg-12'><b>Total: $$sum</b></div>";
 */
-		$q = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
-		while ($r = mysqli_fetch_array($q)){
+		$q = $con->prepare("SELECT * FROM carro WHERE idCliente = ?");
+		$q->bind_param("i", $uid);
+		$q->execute();
+
+		$res = $q->get_result();
+		$q->close();
+
+		while ($r = mysqli_fetch_array($res)){
 
 			$total = $r['total']; 
 			$precioArray = array($total);
@@ -398,9 +444,15 @@
 
 
 			$x = 0;
-			$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
-			if(mysqli_num_rows($sql) > 0){
-			while($r=mysqli_fetch_array($sql)){
+			$sql = $con->prepare("SELECT * FROM carro WHERE idCliente = ?");
+			$sql->bind_param("i", $uid);
+			$sql->execute();
+
+			$res = $sql->get_result();
+			$sql->close();
+
+			if(mysqli_num_rows($res) > 0){
+			while($r=mysqli_fetch_array($res)){
 				$x++;
 
 				echo '<input type="hidden" name="item_name_'.$x.'" value="'.$r['nombreProducto'].'">
@@ -453,14 +505,19 @@
 		$total = $_POST['total'];
 		$uid = $row['id'];
 
-		$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$prodId'");
-			if(mysqli_num_rows($descQuery)){
-				while($rowDesc = mysqli_fetch_array($descQuery)){
+		$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+		$descQuery->bind_param("i", $prodId);
+		$descQuery->execute();
+		$res = $descQuery->get_result();
+		$descQuery->close();
+
+			if(mysqli_num_rows($res)){
+				while($rowDesc = mysqli_fetch_array($res)){
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
 					date_default_timezone_set("America/Costa_Rica");
-					$fechahoy = date("Y-m-d h:i:s");
+					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
 					$yatermino = ($fechaFinal>$fechahoy);
 					$totalDescuento= (($porcentDescuento/100)*$precio);
@@ -497,12 +554,17 @@
 
 		$producto = $_POST['query'];
 
-		$sql = $con->query("SELECT * FROM productos WHERE nombre LIKE '%$producto%' AND status = 1");
+		$sql = $con->prepare("SELECT * FROM productos WHERE nombre LIKE '%$producto%' AND status = 1");
+		$sql->execute();
+
+		$result = $sql->get_result();
+
+		$sql->close();
 
 		echo "<ul class='list-unstyled ulResult'>";
 
-		if(mysqli_num_rows($sql) > 0){
-			while ($r = mysqli_fetch_array($sql)){
+		if(mysqli_num_rows($result) > 0){
+			while ($r = mysqli_fetch_array($result)){
 
 				$res = $r['nombre'];
 
@@ -525,8 +587,13 @@
 	==================================*/
 	
 	if(isset($_POST['page'])){
-		$sql=$con->query("SELECT * FROM productos WHERE status = 1");
-		$count = mysqli_num_rows($sql);
+		$sql=$con->prepare("SELECT * FROM productos WHERE status = 1");
+		$sql->execute();
+		$r = $sql->get_result();
+		$sql->close();
+
+
+		$count = mysqli_num_rows($r);
 		$pageNo = ceil($count/8);
 
 		for($i=1; $i<=$pageNo; $i++){
@@ -546,27 +613,39 @@
 	if(isset($_POST['getMiniCart'])){
 		$uid = $row['id'];
 
-		$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
+		$sql = $con->prepare("SELECT * FROM carro WHERE idCliente = ?");
+		$sql->bind_param("i", $uid);
+		$sql->execute();
+		$res = $sql->get_result();
+		$sql->close();
 
-		if(mysqli_num_rows($sql) > 0){
-			while($r = mysqli_fetch_array($sql)){
+		if(mysqli_num_rows($res) > 0){
+			while($r = mysqli_fetch_array($res)){
 				$idProd = $r['idProducto'];
 
-				$q = $con->query("SELECT * FROM productos WHERE id = '$idProd'");
-				$reg = mysqli_fetch_array($q);
+				$q = $con->prepare("SELECT * FROM productos WHERE id = ?");
+				$q->bind_param("i", $idProd);
+				$q->execute();
+				$result = $q->get_result();
+				$reg = mysqli_fetch_array($result);
 
 				$img = $reg['imagen'];
 				$nombre = $reg['nombre'];
-				$precio =  $r['precio'];
+				$precio =  $reg['precio'];
 
-				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProd'");
-			if(mysqli_num_rows($descQuery)){
-				while($rowDesc = mysqli_fetch_array($descQuery)){
+				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+				$descQuery->bind_param("i", $idProd);
+				$descQuery->execute();
+				$res2 = $descQuery->get_result();
+				$descQuery->close();
+
+			if(mysqli_num_rows($res2)){
+				while($rowDesc = mysqli_fetch_array($res2)){
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
 					date_default_timezone_set("America/Costa_Rica");
-					$fechahoy = date("Y-m-d h:i:s");
+					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
 					$yatermino = ($fechaFinal>$fechahoy);
 					$totalDescuento= (($porcentDescuento/100)*$precio);
@@ -577,7 +656,7 @@
 
 			}
 			if($yacomenzo==1 && $yatermino==1){
-			$precioTotal = round($precio - $totalDescuento);
+			$precioTotal = ($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
 			$totalDescuento=0;
@@ -585,7 +664,7 @@
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
                      <div class='col-lg-4'>$nombre</div> 
-                     <div class='col-lg-4'>$$precioTotal.00</div>";
+                     <div class='col-lg-4'>$$precioTotal</div>";
 				
 			}
 		}		
@@ -593,8 +672,12 @@
 
 	if(isset($_POST['sumMiniCart'])){
 		$uid = $row['id'];
-		$sql = $con->query("SELECT * FROM carro WHERE idCliente = '$uid'");
-		$count = mysqli_num_rows($sql);
+		$sql = $con->prepare("SELECT * FROM carro WHERE idCliente = ?");
+		$sql->bind_param("i", $uid);
+		$sql->execute();
+		$r = $sql->get_result();
+		$sql->close();
+		$count = mysqli_num_rows($r);
 
 		echo $count;
 	}
@@ -612,8 +695,9 @@
 		$q = $con->prepare("SELECT nombre FROM clientes WHERE id = ? ");
 		$q->bind_param("i", $uid);
 		$q->execute();
-
 		$r = $q->get_result();
+		$q->close();
+
 		$row = mysqli_fetch_array($r);
 
 		$nombre = $row['nombre'];
@@ -628,8 +712,9 @@
 		$q = $con->prepare("SELECT usuario FROM clientes WHERE id = ? ");
 		$q->bind_param("i", $uid);
 		$q->execute();
-
 		$r = $q->get_result();
+		$q->close();
+
 		$row = mysqli_fetch_array($r);
 
 		$user = $row['usuario'];
@@ -653,8 +738,8 @@
 		$q = $con->prepare("SELECT * FROM provincia");
 		//$q->bind_param();
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();
 
 		while($r = mysqli_fetch_array($row)){
 			$provId = $r['idProv'];
@@ -670,9 +755,9 @@
 
 		$q = $con->prepare("SELECT idCanton, canton, provincia.provincia AS provincia FROM canton INNER JOIN provincia ON canton.idProv = provincia.idProv WHERE provincia.idProv = ?");
 		$q->bind_param("i", $idProv);
-		$q->execute();
-		
+		$q->execute();		
 		$row = $q->get_result();
+		$q->close();
 
 		while($r = mysqli_fetch_array($row)){
 			$idCanton = $r['idCanton'];
@@ -691,9 +776,9 @@
 
 		$q = $con->prepare("SELECT idDistrito, distrito.distrito as distrito FROM canton INNER JOIN distrito on canton.idCanton = distrito.idCanton WHERE canton.idCanton = ?");
 		$q->bind_param("i", $idCant);
-		$q->execute();
-		
+		$q->execute();		
 		$row = $q->get_result();
+		$q->close();
 
 		while($r = mysqli_fetch_array($row)){
 			$idDistrito = $r['idDistrito'];
@@ -721,9 +806,8 @@
 
 		$q->bind_param("i", $uid);
 		$q->execute();
-		//$q->close();
-
 		$row = $q->get_result();
+		$q->close();
 
 		if(mysqli_num_rows($row) > 0){
 			$r = mysqli_fetch_array($row);
@@ -770,8 +854,8 @@
 		$q = $con->prepare("SELECT * FROM direccion WHERE status = 1 AND idCliente = ?");
 		$q->bind_param("i", $uid);
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();
 
 		if(mysqli_num_rows($row) > 0){ //le mete cero
 			$q2 = $con->prepare("INSERT INTO direccion (direccion,direccion2,idProv,idCanton,idDistrito,zip,telefono,idCliente, main) VALUES (?,?,?,?,?,?,?,?,0)");
@@ -800,14 +884,11 @@
 
 		$q->bind_param("i", $uid);
 		$q->execute();
-		
-
-		$row = $q->get_result();	
+		$row = $q->get_result();
+		$q->close();
 
 		if(mysqli_num_rows($row) > 0){
 			while($r = mysqli_fetch_array($row)){
-
-
 			$idDir = $r['idDir'];
 			$dir1 = $r['direccion'];
 			$dir2 = $r['direccion2'];
@@ -883,19 +964,20 @@
 		$q = $con->prepare("SELECT idDir FROM direccion WHERE idCliente = ? AND main = 1");
 		$q->bind_param("i", $uid);
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();	
 		$r = mysqli_fetch_array($row);
-
 		$idDirOld = $r['idDir']; //direccion vieja
 
 		$q2 = $con->prepare("UPDATE direccion SET main = 0 WHERE idCliente = ? AND idDir = ?");
 		$q2->bind_param("ii", $uid, $idDirOld);
 		$q2->execute();
+		$q2->close();	
 
 		$q3 = $con->prepare("UPDATE direccion SET main = 1 WHERE idCliente = ? AND idDir = ?");
 		$q3->bind_param("ii", $uid, $idDir);
 		$q3->execute();
+		$q2->close();	
 
 
 	}
@@ -924,13 +1006,11 @@
 		$editPass = $_POST['editPass'];
 		$newPassHash = sha1($editPass);
 
-
-
 		$q = $con->prepare("SELECT pass FROM clientes WHERE id =?");
 		$q->bind_param("i", $uid);
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();	
 		$r = mysqli_fetch_array($row);
 
 		$passOld = $r['pass'];
@@ -962,13 +1042,13 @@
 		$q = $con->prepare("SELECT main FROM direccion WHERE idDir = ? AND idCliente = ?");
 		$q->bind_param("ii", $idDir, $uid);
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();	
 		$r = mysqli_fetch_array($row);
 
 		$isMain = $r['main'];
 
-	//		echo $isMain;
+		//echo $isMain;
 
 	
 		if($isMain == 1){		
@@ -981,7 +1061,7 @@
 			echo "true";
 		}
 
-		$q->close();
+		
 
 		
 	}
@@ -1001,9 +1081,8 @@
 
 		$q->bind_param("i", $uid);
 		$q->execute();
-		
-
 		$row = $q->get_result();
+		$q->close();
 
 		if(mysqli_num_rows($row)){
 
@@ -1114,9 +1193,13 @@
 		$totalFinal = 0;
 
 
-		$q2 = $con->query("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = '$pedidoId' AND  clienteId = '$uid'");
+		$q2 = $con->prepare("SELECT comprafinalizada.transaccionId as trans, productos.nombre as nombreProd, cantidad, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id WHERE transaccionId = ? AND  clienteId = ?");
+		$q2->bind_param("ii", $pedidoId, $uid);
+		$q2->execute();
+		$res = $q2->get_result();
+		$q2->close();
 
-		while($r = mysqli_fetch_array($q2)){ 
+		while($r = mysqli_fetch_array($res)){ 
 			$nombreProd = $r['nombreProd']; 
 			$cant = $r['cantidad'];
 			$monto = $r['monto'];
@@ -1146,8 +1229,9 @@
 
 		$q = $con->prepare("SELECT * FROM galeria");
 		$q->execute();
-
 		$row = $q->get_result();
+		$q->close();
+
 
 
 		if(mysqli_num_rows($row) > 0){
@@ -1184,30 +1268,6 @@
 	/*=====  End of Ver Galeria Imagenes  ======*/
 
 
-	/*====================================================
-	=            Obtener productos destacados            =
-	====================================================
-	
-	if(isset($_POST['getDestacados'])){
-
-		$q= $con->prepare("SELECT COUNT(productoId) AS prodCount, productos.nombre AS nombre, productos.imagen AS imagen FROM comprafinalizada INNER JOIN productos on comprafinalizada.productoId = productos.id GROUP BY productos.nombre LIMIT 3");
-		$q->execute();
-
-		$row = $q->get_result();
-
-		while($r = mysqli_fetch_array($row)){
-			$imagen = $r['imagen'];
-
-			echo "<div class='carousel-item'>
-				      <img class='d-block text-center carImg' src='imagenes/$imagen'>
-				    </div>";
-		}
-	
-	} */
-	
-	
-	/*=====  End of Obtener productos destacados  ======*/
-
 	/*====================================
 	=            Llenar Rifas            =
 	====================================*/
@@ -1216,7 +1276,7 @@
       $srl = '..\vistas\imagenes\ ';
 	  $srclink = str_replace(' ', '', $srl);
 	  $cont = 1;
-		$concQuery = $con->query("SELECT * FROM concurso");
+		$concQuery = $con->prepare("SELECT * FROM concurso");
 
 		if(mysqli_num_rows($concQuery)){
 			while($row = mysqli_fetch_array($concQuery)){
@@ -1298,15 +1358,19 @@
 	if(isset($_POST['ingConcurso'])){
 		$uid = $row['id'];
 		$idConcurso = $_POST['concId'];
-		$sqlccq=$con->query("SELECT * FROM clientesxconcurso WHERE idCliente = $uid AND idConcurso = $idConcurso");
-		if(mysqli_num_rows($sqlccq)>0){
+		$sqlccq=$con->prepare("SELECT * FROM clientesxconcurso WHERE idCliente = $uid AND idConcurso = $idConcurso");
+		$sqlccq->bind_param("ii", $uid, $idConcurso);
+		$sqlccq->execute();
+		$res = $sqlccq->get_result();
+		$sqlccq->close();
+		if(mysqli_num_rows($res)>0){
 			echo "false";
 
 		}else{
 			$sqlcc=$con->prepare("INSERT INTO clientesxconcurso (idCliente, idConcurso)  VALUES (?,?)");
 			$sqlcc->bind_param("ii", $uid, $idConcurso);
 			$sqlcc->execute();
-			
+			$sqlcc->close();			
 			
 	    }
 	}
