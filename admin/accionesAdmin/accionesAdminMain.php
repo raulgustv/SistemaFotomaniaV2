@@ -1217,7 +1217,7 @@ if(isset($_POST['borrarConc'])){
 
 }
 
-/*=====  End of Borrar Descuento  ======*/
+/*=====  End of Borrar concurso  ======*/
 
 /*===============================================
 =            Obtener concurso Editar            =
@@ -1330,7 +1330,7 @@ if(isset($_POST['cargarConcurso'])){
 
 }
 
-/*=====  End of Obtener descuento Editar  ======*/
+/*=====  End of Obtener concurso Editar  ======*/
 
 /*=======================================
 =            Editar Concurso            =

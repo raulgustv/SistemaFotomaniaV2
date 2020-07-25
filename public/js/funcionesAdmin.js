@@ -974,7 +974,7 @@ $("#frmDescuento").validate({
 					message("Ya existe un descuento para el producto seleccionado", 2000, 'error');
 					$("#frmDescuento").trigger("reset");
 				}else{
-					message(data, 200000, 'success');
+					message("Descuento ingresado con exito", 200000, 'success');
 					$("#frmDescuento").trigger("reset");
 				}
 			}
