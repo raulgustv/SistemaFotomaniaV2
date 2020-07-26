@@ -66,11 +66,11 @@ if(!isset($tokenenviado)){
 			<div class="col-lg-4 offset-lg-4 bg-light rounded" id="resetpass-box">
 				<h2 class="text-center mt-2">Restablecimiento de contraseña</h2>
 				<form action="" method="post" role="form" class="p-2" id="resetpass-frm">
-					<div class="form-group">
+					<!--- <div class="form-group">
 						<input type="password" name="currentpassword" id="currentpassword" class="form-control" placeholder="Contraseña actual" required>
-					</div>
+					</div> --->
 					<div class="form-group">
-						<input type="password" name="newpass" id="newpass" class="form-control" placeholder="Nueva contraseña" required minlength="6">
+						<input type="password" name="newpass" id="newpass" class="form-control" placeholder="Nueva contraseña" required>
 					</div>
 					<div class="form-group">
 						<input type="password" name="cnewpass" id="cnewpass" class="form-control" placeholder="Confirmar nueva contraseña" required>

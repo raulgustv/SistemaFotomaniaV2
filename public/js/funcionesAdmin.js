@@ -15,6 +15,15 @@ function message(titulo, tiempo, icono){
 
 
 
+
+$.validator.addMethod("pwcheck", function(value){
+		return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(value)
+		&& /[a-z]/.test(value) 
+       	&& /\d/.test(value)
+	});
+
+
+
 	/*----------  Registrar Usuario  ----------*/	
 
 $("#registerform").validate({
@@ -22,16 +31,18 @@ $("#registerform").validate({
 	rules:{
 		username:{
 			required: true,
-			minlength: 3
+			rangelength: [3,25]
 		},
 		email: {
 			required: true,
 			email: true,
+			rangelength: [3,25]
 
 		},
 		password1:{
 			required: true,
-			rangelength: [6,25]
+			maxlength: 25,
+			pwcheck: true,
 		},
 		password2:{
 			required: true,
@@ -43,15 +54,17 @@ $("#registerform").validate({
 	messages:{
 		username:{
 			required: "Ingrese su nombre de usuario",
-			minlength: "Nombre de usuario debe contener al menos 3 caracteres"
+			rangelength: "Nombre de usuario debe contener al menos 3 caracteres y máximo 25 caracteres"
 		}, 
 		email:{
 			required: "Ingrese un correo electrónico",
-			email: "Ingrese un correo válido. Ejemplo: ejemplo@ejemplo.com",			
+			email: "Ingrese un correo válido. <small>Ejemplo: ejemplo@ejemplo.com</small>",
+			rangelength: "Correo debe tener entre 3 y 25 caracteres"			
 			},
 		password1:{
 			required: "Contraseña es requerida",
-			rangelength: "La contraseña debe tener entre 6 y 25 caracteres"
+			maxlength: "Contraseña debe ser menor de 25 caracteres",
+			pwcheck: "<p>La contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"
 		},
 		password2:{
 			required: "Contraseña es requerida",
@@ -128,18 +141,26 @@ $("#loginForm").validate({
 
 $("#resetpass-frm").validate({
 	rules:{
+		newpass:{
+			required: true,
+			pwcheck: true,
+			maxlength: 25
+		},
 		cnewpass:{
 			required: true,
-			equalTo: "#newpass",
-			rangelength: [6,200]
+			equalTo: "#newpass"
 		}
 	},
 	messages:{
-		cnewpass:{
-			required: "Debe confirmar la contraseña",
-			minlength: "La contraseña debe contener almenos 6 caracteres",
-			equalTo: "Las contraseñas deben coincidir"
-		}, 
+		newpass:{
+			required: "Por favor ingrese la nueva contraseña",
+			pwcheck: "<p>La contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>",
+			maxlength: "La contraseña debe tener un máximo de 25 caracteres"
+		},
+		cnewpass: {
+			required: "Por favor ingrese la nueva contraseña",
+			equalTo: "Las contraseñas deben coincidr"
+		}
 	}
 });
 
@@ -182,6 +203,8 @@ $("#frmCategoria").validate({
 
 
 });
+
+
 
 /*----------  Enviar email  ----------*/
 
@@ -246,13 +269,24 @@ $("#restconAD").click(function(e){
 });	
 
 
+
+
 /*----------  Ver Categorias  ----------*/
 
 var dataCats;
 
 dataCats = $("#dtTablaCats").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Ver PDF",
+				"className": "btn-danger"
+			}
+		],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
@@ -455,13 +489,48 @@ $("#frmProductos").validate({
 
 }); */
 
+/*----------  Método que valida tamaño imagen  ----------*/
+
+
+
 /*----------  Carga producto nuevo   ----------*/
 
-$("#frmProductos").on("submit", function(e){
-	e.preventDefault();
-	var formData = new FormData(this);	
 
-	//var form = $("#frmProductos").serialize()+"&agregarProducto";
+
+$("#frmProductos").validate({
+	rules:{
+		nombreProd:{
+			required: true,
+			minlength: 3
+		},
+		descProd:{
+			required: true,
+			rangelength: [10, 1000]
+		},
+		imgProd: {
+			required: true,
+			extension: "png|jpeg|jpg",
+			
+		}
+	},
+	messages: {
+		nombreProd: {
+			required: "Ingrese un nombre para el producto",
+			minlength: "El nombre del producto debe contener al menos 3 caracteres"
+		},
+		descProd:{
+			required: "Ingrese una descripción para el producto",
+			rangelength: "La descripción del producto debe tener entre 10 y 1000 caracteres"
+		},
+		imgProd: {
+			required: "Debe subir una imagen",
+			extension: "La imagen debe contener una extensión válida: png, jpeg ó jpg",
+			
+		}
+	},
+	submitHandler: function(form){
+
+	var formData = new FormData(form);	
 
 	$.ajax({
 			url: 'accionesAdmin/accionesAdminMain.php',
@@ -471,6 +540,7 @@ $("#frmProductos").on("submit", function(e){
 				if(data === "false"){
 					message("El producto ya existe", 2000, 'error');
 				}else{
+					
 					message("Producto insertado correctamente", 2000, 'success');	
 					$("#frmProductos").trigger("reset");
 					$("#imgPrev").attr('src', '#');
@@ -481,9 +551,12 @@ $("#frmProductos").on("submit", function(e){
 			processData: false,
 			cache: false
 
-		})
+		});	
+
+	}
+});
+
 	
-}); 
 
 
 /*----------  Ver imagen previo a subir  ----------*/
@@ -535,9 +608,27 @@ $("#frmProductos").on("submit", function(e){
 /*----------  Get Products  ----------*/
 
 
+
+
 var dataProducts; 
 
 dataProducts = $("#dtTablaProds").DataTable({
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -665,6 +756,22 @@ function lastOrders(){
 var dataOrders;
 
 dataOrders = $("#dtTablaPedidos").DataTable({
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			}
+	],
 
 	"order": [[2, "desc"]],
 	
@@ -680,7 +787,7 @@ dataOrders = $("#dtTablaPedidos").DataTable({
 		{"data" : "nombre"},
 		{"data" : "FechaCompra"},
 		{"data" : "nombreEstado"},
-		{"data" : "monto"},
+		//{"data" : "monto"},
 		{"defaultContent" : "<a href='#' class='btn btn-primary' id='editProdStatus' data-toggle='modal' data-target='#formEditPedidoStatus'><i class='fas fa-edit'></i></a> <a href='#' class='btn btn-success' id='verPedidoCliente'><i class='fas fa-eye'></i></a> "},	
 
 	]
@@ -783,25 +890,60 @@ function llenarDetallePedido(){
 
 	/*----------  Subir Imagen  ----------*/
 
-	$("#frmGaleria").on("submit", function(e){
-		e.preventDefault();
-
-		var formData = new FormData(this);
-
-		$.ajax({
-			url: 'accionesAdmin/accionesAdminMain.php',
-			method: 'post',
-			data: formData,
-			success: function(data){
-				message("Imagen subida correctamente", 2000, 'success');	
-				$("#frmGaleria").trigger("reset");
-				$("#prev3").attr('src', '#');
-
+	$("#frmGaleria").validate({
+		rules:{
+			tituloImg:{
+				required: true,
+				rangelength: [5,30]
 			},
-			contentType: false,
-			processData: false,
-			cache: false
-		});
+			nombreAutor: {
+				required: true,
+				minlength: 3,
+			},
+			nombreCam: {
+				required: true
+			},
+			imgMain: {
+				required: true,
+				extension: "png|jpeg|jpg",
+			}
+		},
+		messages: {
+			tituloImg:{
+				required: "La imagen debe contener un título",
+				rangelength: "El título de la imagen debe tener entre 5-15 caracteres"
+			},
+			nombreAutor: {
+				required: "Ingrese el nombre del autor de la fotografía",
+				minlength: "Nombre debe contener más de 3 caracteres"
+			},
+			nombreCam: {
+				required: "Ingrese el nombre de la cámara"
+			},
+			imgMain: {
+				required: "Seleccione una imagen para la galería",
+				extension: "La extensión de la foto debe ser png, jpeg o jpg"
+			}
+		},
+		submitHandler: function(form){
+
+			var formData = new FormData(form);
+
+			$.ajax({
+				url: 'accionesAdmin/accionesAdminMain.php',
+				method: 'post',
+				data: formData,
+				success: function(data){
+					message("Imagen subida correctamente", 2000, 'success');	
+					$("#frmGaleria").trigger("reset");
+					$("#prev3").attr('src', '#');
+
+				},
+				contentType: false,
+				processData: false,
+				cache: false
+			});
+		}
 	});
 
 
@@ -816,6 +958,22 @@ function llenarDetallePedido(){
 	var dataGal;
 
 	dataGal = $("#dtTablaGal").DataTable({
+		"language": {
+		"url": "../includes/Spanish.json"
+		},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 		"ajax": {
 			"url":  "accionesAdmin/accionesAdminMain.php",
 			"method": "post",
@@ -949,19 +1107,44 @@ function llenarProdAddDesc(){
 
 /*----------  Insertar Descuento  ----------*/
 
+
+
 $("#frmDescuento").validate({
 
 	rules:{
 		nombreDesc:{
 			required: true,
-			rangelength: [5,50]
+			rangelength: [5,15]
 		},
+		descripciondesc:{
+			required: true,
+			rangelength: [10, 50]
+		},
+		fechaInicio:{
+			required: true,
+			//greaterThan: "#fechaInicio"
+		},
+		fechaFinal: {
+			required: true,
+		}
 	},
 	messages:{
 		nombreDesc:{
 			required: "Por favor ingrese el nombre del descuento",
-			rangelength: "El nombre del descuento debe tener entre 5 y 50 caractéres"
+			rangelength: "El nombre del descuento debe tener entre 5 y 15 caractéres"
 		},
+		descripciondesc:{
+			required: "Por favor ingrese una descripción",
+			rangelength: "La descripcion debe tener entre 10 y 50 caracteres"
+		},
+		fechaInicio:{
+			required: "Por favor ingresar una fecha inicial",
+			//greaterThan: "Fecha debe ser posterior a hoy"
+
+		},
+		fechaFinal: {
+			required: "Por favor ingresar una fecha final"
+		}
 	},
 	submitHandler: function(form){
 
@@ -972,7 +1155,7 @@ $("#frmDescuento").validate({
 			success: function(data){
 				if(data === "false"){
 					message("Ya existe un descuento para el producto seleccionado", 2000, 'error');
-					$("#frmDescuento").trigger("reset");
+					//$("#frmDescuento").trigger("reset");
 				}else{
 					message(data, 200000, 'success');
 					$("#frmDescuento").trigger("reset");
@@ -992,8 +1175,22 @@ var dataDesc;
 
 
 dataDesc = $("#dtTablaDesc").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
@@ -1014,7 +1211,7 @@ dataDesc = $("#dtTablaDesc").DataTable({
 		{"data": "descripcionDesc"},
 		{"data": "totalOferta"},
 		{"data": "fechaInicio"},
-		{"data": "fechaInicio"},
+		{"data": "fechaFinal"},
 		{"defaultContent": "<a href='#' id='btnDeleteDesc' class='btn btn-danger'><i class='fas fa-trash'></i></a> <a href='#' id='editarDesc' data-toggle='modal' data-target='#formEditDesc' class='btn btn-primary' ><i class='fas fa-edit'></i></a>"},
 	]
 });
@@ -1179,8 +1376,22 @@ $("#frmEditUser").on("submit", function(e){
 var dataClientes;
 
 dataClientes = $("#dtTablaClientes").DataTable({
-
-
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -1268,8 +1479,22 @@ $(document).on("click", "#btnDesactivarCliente", async function(e){
 var dataUsers;
 
 dataUsers = $("#dtTablaUsers").DataTable({
-
-
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"ajax": {
 		"url": "accionesAdmin/accionesAdminMain.php",
 		"method": "POST",
@@ -1409,8 +1634,22 @@ var dataConc;
 
 
 dataConc = $("#dtTablaConc").DataTable({
-	"dom": "Bfrtip",
-	"buttons": "['copy', 'excel', 'pdf']",
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
+	"dom": 'Bfrtip',
+	"buttons": [
+			{
+				"extend": "pdf",
+				"text": "Descargar PDF",
+				"className": "btn-danger"
+			},
+			{
+				"extend": "excel",
+				"text": "Descargar Excel",
+				"className": "btn-success ml-2"
+			},
+	],
 	"processing": true,	
 	"paging": false,
 	"responsive": true,
@@ -1459,14 +1698,34 @@ $("#frmConcurso").validate({
 	rules:{
 		nombreConc:{
 			required: true,
-			rangelength: [5,50]
+			rangelength: [5,15]
 		},
+		descripcionConc:{
+			required: true,
+			rangelength: [10, 50],
+		},
+		fechaInicio: {
+			required: true
+		},
+		fechaFinal:{
+			required: true
+		}
 	},
 	messages:{
 		nombreConc:{
 			required: "Por favor ingrese un nombre para la rifa",
-			rangelength: "El nombre de la rifa debe tener entre 5 y 50 caractéres"
+			rangelength: "El nombre de la rifa debe tener entre 5 y 15 caractéres"
 		},
+		descripcionConc:{
+			required: "Por favor ingrese una descripción de la rifa",
+			rangelength: "La descripción debe tener entre 10 y 50 caracteres"
+		},
+		fechaInicio:{
+			required: "Por favor elige una fecha de inicio para la rifa"
+		},
+		fechaFinal:{
+			required: "Por favor elige una fecha final para la rifa"
+		}
 	},
 	submitHandler: function(form){
 
@@ -1477,10 +1736,11 @@ $("#frmConcurso").validate({
 			success: function(data){
 				if(data === "false"){
 					message("Ya existe un concurso bajo el mismo nombre", 2000, 'error');
-					$("#frmConcurso").trigger("reset");
+					//$("#frmConcurso").trigger("reset");
 				}else{
 					message("Concurso ingresado con exito", 20000, 'success');
-					$("#frmConcurso").trigger("reset");
+					//$("#frmConcurso").trigger("reset");
+					$("#form_concurso").modal('hide')
 				}
 			}
 		});

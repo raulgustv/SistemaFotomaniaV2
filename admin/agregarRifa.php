@@ -66,9 +66,10 @@
             <div class="form-group">
             <label for="fechaInicio">Fecha de Inicio</label>
         <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-          <input type="text" id="fechaInicio" name="fechaInicio" class="form-control datetimepicker-input" data-target="#datetimepicker3" />
+         
           <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+             <input type="text" id="fechaInicio" name="fechaInicio" class="form-control datetimepicker-input" data-target="#datetimepicker3" />
           </div>
         </div>
       </div>
@@ -76,9 +77,10 @@
       <div class="form-group">
             <label for="fechaFinal">Fecha de Finalizacion</label>
         <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-          <input type="text" id="fechaFinal" name="fechaFinal" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+          
           <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            <input type="text" id="fechaFinal" name="fechaFinal" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
           </div>
         </div>
       </div>

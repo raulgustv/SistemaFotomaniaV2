@@ -165,8 +165,9 @@ input.error{
 
 
 .imgPrev{
+	margin-top:10px;
 	border: 3px solid gray;
-	width: 100px;
+	width: 300px;
 	height: 150px;
 
 }
@@ -264,7 +265,7 @@ div.vDivider{
 }
 
 div.cardRifa{
-	height: 550px;
+	height: 580px;
 }
 
 

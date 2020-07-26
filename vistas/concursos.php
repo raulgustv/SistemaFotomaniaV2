@@ -100,7 +100,7 @@
                             <?php }else{ ?>
                                   <button cid="<?php echo $idConcurso ?>"  id="ingConcurso" class="btn btn-success">Ingresar</button>
                               
-                           <?php }
+                           <?php } }
 
 
                            ?>
@@ -118,7 +118,7 @@
 
 
 
-   <?php    } } }
+   <?php     } }
 
 
 

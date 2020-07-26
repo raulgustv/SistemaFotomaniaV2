@@ -171,15 +171,14 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 ================================*/
 
 if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
-	$currentpass = checkInput($_POST['currentpassword']);
+	/*$currentpass = checkInput($_POST['currentpassword']);*/
 	$newpass = checkInput($_POST['newpass']);
 	$cnewpass = checkInput($_POST['cnewpass']);
 	$uemail = checkInput($_POST['uemail']);
 	
-	$currentpassHash = sha1($currentpass);
+	/*$currentpassHash = sha1($currentpass);*/
 	$newpassHash = sha1($newpass);
 	$cnewpassHash = sha1($cnewpass);
-	echo $uemail;
 	$sql = $con->prepare("SELECT usuario,email,pass FROM clientes WHERE email =?");
 	$sql->bind_param("s", $uemail);
 	$sql->execute();
@@ -187,16 +186,15 @@ if(isset($_POST['action']) && $_POST['action'] == 'restcon'){
 	$row = $result->fetch_array(MYSQLI_ASSOC);
 	$currentpassDB = $row['pass'];
 	if($newpassHash != $cnewpassHash){
-		echo 'Error!!! Las contraseñas no coinciden';
+		echo 'falselocalNC';
 		exit();
-	}elseif($currentpassDB != $currentpassHash){
+	}/*elseif($currentpassDB != $currentpassHash){
 		echo 'Error!!! La contraseña actual ingresada no coincide con nuestro sistema';
 		exit();
-	}else{
+	}*/else{
 		$con->query("UPDATE clientes SET pass = '$newpassHash' WHERE email = '$uemail'");
-		 	echo "Contraseña restablecida correctamente";
-			
-		
+		$con->query("DELETE FROM contrareset WHERE email = '$uemail'");
+		echo "true";
 	}
 }
 

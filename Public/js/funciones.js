@@ -83,24 +83,111 @@ $(document).ready(function(){
 
 	$("#login-frm").validate();
 
-	$("#register-frm").validate({
-		rules:{
-			cpass:{
-				equalTo: "#pass"
-			}
-		}
+	$.validator.addMethod("pwcheck", function(value){
+		return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(value)
+		&& /[a-z]/.test(value) 
+       	&& /\d/.test(value)
 	});
-	$("#resetpass-frm").validate();
-	
-	$("#resetpass-frm").validate({
-		rules:{
-			cnewpass:{
-				equalTo: "#newpass"
+
+	$("#register-frm").validate({
+		rules:{			
+			name:{
+				required: true,
+				rangelength: [3,25]
+			},
+			uname:{
+				required: true,
+				rangelength: [3,25]
+			},
+			email:{
+				required: true,
+				rangelength: [3,25],
+				email: true
+			},
+			pass:{
+				required: true,
+				maxlength: 25,
+				pwcheck: true,
+			},
+			cpass:{
+				required: true,
+				equalTo: "#pass"
+			},
+			terms:{
+				required: true,
+			}
+		},
+		messages: {		
+			name:{
+				required: "Por favor digita tu nombre",
+				rangelength: "Tu nombre debe tener entre 3-25 caracteres"
+			},
+			uname:{
+				required: "Por favor ingresa tu nombre de usuario",
+				rangelength: "Tu nombre de usuario debe tener entre 3-25 caracteres"
+			},
+			email:{
+				required: "Por favor ingres tu email",
+				rangelength: "Tu email debe tener entre 3-25",
+				email: "Ingresa un email válido <small>Ej: ejemplo@ejemplo.com</small>"
+			},
+			pass: {
+				required: "Debes ingresar una contraseña",
+				maxlength: "Tu contraseña debe tener menos de 25 caracteres",
+				pwcheck: "<p>Tu contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"
+			},
+			cpass: {
+				required: "Por favor confirma tu contraseña",
+				equalTo: "Ambas contraseñas deben coincidir "
+			},
+			terms: {
+				required: "Debes aceptar los términos y condiciones antes de registr"
 			}
 		}
 	});
 
-	$("#forgot-frm").validate();
+
+	//$("#resetpass-frm").validate();
+	
+	$("#resetpass-frm").validate({
+		
+		rules:{
+			newpass: {
+				required: true,
+				pwcheck: true
+			},
+			cnewpass:{
+				required: true,
+				equalTo: "#newpass"
+			}
+		},
+		messages:{
+			newpass:{
+				required: "Por favor ingresa tu nueva contraseña",
+				pwcheck: "<p>Tu contraseña debe:</p><ul><li>Ser mayor a 8 caracteres</li><li>Tener una letra A-Z mayuscula</li><li>Tener letras minúsculas de la a-z</li><li>Algún caracter especial <small>Ejemplo: @, -, _ !</small></li>	</ul>"			
+			},
+			cnewpass: {
+				required: "Por favor confirma tu contraseña",
+				equalTo: "Las contraseñas no coinciden"
+			}
+		}
+		
+	});
+
+	$("#forgot-frm").validate({
+		rules:{
+			femail:{
+				required: true,
+				email: true
+			}
+		},
+		messages:{
+			femail:{
+				required: "Por favor ingresa tu email",
+				email: "Ingresa un email válido <small>Ej: ejemplo@ejemplo.com</small>"
+			}
+		}
+	});
 
 	/*----------  Enviar Registro  ----------*/
 
@@ -178,7 +265,7 @@ $(document).ready(function(){
 
 		/*----------  Restablecer contra  ----------*/
 
-		$("#restcon").click(function(e){
+		/*$("#restcon").click(function(e){
 			if(document.getElementById('resetpass-frm').checkValidity()){
 				e.preventDefault();
 				$("#loader").show();
@@ -190,6 +277,42 @@ $(document).ready(function(){
 						$("#alert").show();
 						$("#result").html(data);
 						$("#loader").hide();
+					}
+				});
+			}
+			return true;
+		});	*/
+
+		$("#restcon").click(function(e){
+			if(document.getElementById('resetpass-frm').checkValidity()){
+				e.preventDefault();
+				$("#loader").show();
+				$.ajax({
+					url: '../acciones/accionLogin.php',
+					method: 'post',
+					data: $("#resetpass-frm").serialize()+'&action=restcon',
+					success: function(data){
+		
+						if(data === "falselocalNC"){
+							message("Las contraseñas ingresadas no coinciden", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");
+						}else if(data === "falsedbNC"){
+						message("La contraseña que usted ingreso no coincide con su actual contraseña", 2000, 'error');	
+						$("#resetpass-frm").trigger("reset");
+						}else if(data === "true"){
+							message("Contraseña actualizada correctamente", 2000, 'success');
+							$("#resetpass-frm").trigger("reset");
+							setTimeout(function(){
+								location.reload();
+						   }, 2200); 
+						}else{
+							message("Error al cambiar la contraseña", 2000, 'error');
+							$("#resetpass-frm").trigger("reset");	
+						}
+		
+						/*$("#alert").show();
+						$("#result").html(data);
+						$("#loader").hide();*/
 					}
 				});
 			}
@@ -704,6 +827,10 @@ $("#frmDireccion").validate({
 			required: true,
 			rangelength: [5, 5]
 			
+		},
+		tel:{
+			required: true,
+			minlength: 8
 		}
 	},
 	messages:{
@@ -720,6 +847,10 @@ $("#frmDireccion").validate({
 		zip: {
 			required: "Ingresa un código postal",
 			rangelength: "Código Postal debe tener 5 caractéres"
+		},
+		tel:{
+			required: "Ingresa tu número de teléfono",
+			minlength: "Tu teléfono debe tener al menos 8 dígitos"
 		}
 	},	
 	submitHandler: function(form){
@@ -888,7 +1019,7 @@ $(document).on("click", "#idDirRestore", function(e){
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Si, bórrala'
+		  confirmButtonText: 'Si, restaurar dirección'
 		}).then((result) => {
 			if(result.value){ 
 				$.ajax({
@@ -921,6 +1052,10 @@ $(document).on("click", "#idDirRestore", function(e){
 var dataOrdersCustomer;
 
 dataOrdersCustomer = $("#dtPedidoCliente").DataTable({
+
+	"language": {
+		"url": "../includes/Spanish.json"
+	},
 
 	"order": [[1, "desc"]],
 	"searching": false,
@@ -968,6 +1103,7 @@ cargarTablaPedido();
 function cargarTablaPedido(){
 
 	var pedidoId = $("#idPedidoCliente").attr("idPedido");
+	console.log(pedidoId)
 
 	$.ajax({
 		url: "../acciones/main.php",
@@ -1030,6 +1166,11 @@ cargarImagenGal();
 			}
 		});
 	}
+
+	lightbox.option({
+		//'albumLabel': "Imagen %1 de %2"
+		'showImageNumberLabel': false
+	});
 
 
 /*=====  End of Galeria Imagenes  ======*/

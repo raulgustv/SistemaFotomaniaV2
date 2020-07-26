@@ -64,8 +64,6 @@ $q = $con->prepare("SELECT nombre, DATE(creado) as fecha FROM clientes WHERE id 
 									<div class="col-lg-4" id="inputNombre">
 										<!-- <input id="editNombre" type="text" class="form-control" id="editNombre" name="editNombre" value="Raul Rodriguez"> -->
 									</div>
-
-
 									
 
 									<div class="col-lg-4">

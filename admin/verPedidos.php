@@ -17,7 +17,7 @@ checkAdmin();
 				<th>Cliente</th>
 				<th>Fecha Compra</th>
 				<th>Estado Pedido</th>
-				<th>Monto Total</th>
+				<!-- <th>Monto Total</th> -->
 				<th>Acciones</th> 
 			</tr>	
 		</thead>

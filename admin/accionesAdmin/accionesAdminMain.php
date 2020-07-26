@@ -15,8 +15,8 @@ if(isset($_POST['agregarCat'])){
 	$sql = $con->prepare("SELECT * FROM categorias WHERE nombre = ?");
 	$sql->bind_param("s", $categoria);
 	$sql->execute();
-
 	$r = $sql->get_result();
+	$sql->close();
 
 	//print_r($r);
 
@@ -42,16 +42,19 @@ if(isset($_POST['agregarCat'])){
 
 if(isset($_POST['getCats'])){
 
+	$q = $con->prepare("SELECT * FROM categorias");
+	$q->execute();
+	$row = $q->get_result();
+	$q->close();
+	
+	$data = array();
 
-	$q = $con->query("SELECT * FROM categorias");
-
-	$rows = array();
-
-	while($row=mysqli_fetch_array($q)){
-		$rows[] = $row;
+	while($r=mysqli_fetch_array($row)){
+		$data[] = $r;
 	}
 
-	echo json_encode($rows);
+	echo json_encode($data);
+	
 
  }
 	
@@ -70,6 +73,7 @@ if(isset($_POST['borrarCat'])){
 	$sql = $con->prepare("DELETE FROM categorias WHERE idCategoria = ? ");
 	$sql->bind_param("i", $catId);
 	$sql->execute();
+	$sql->close();
 
 
 }
@@ -83,11 +87,13 @@ if(isset($_POST['borrarCat'])){
 if(isset($_POST['cargarCategoria'])){
 	$catId = $_POST['catId'];
 
-	$q = $con->query("SELECT * FROM categorias WHERE idCategoria = '$catId' ");
-	//$q->bind_param("s", $catId);
-	//$q->execute();
+	$q = $con->prepare("SELECT * FROM categorias WHERE idCategoria = ? ");
+	$q->bind_param("s", $catId);
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	$row = mysqli_fetch_array($q);
+	$row = mysqli_fetch_array($res);
 	$nombre = $row['nombre'];
 
 	echo "<label for='categoria'>Categoría</label>
@@ -99,16 +105,19 @@ if(isset($_POST['editarCat'])){
 	$catId = $_POST['catId'];
 	$catName = $_POST['newCatName'];
 
-	$sql = $con->query("SELECT * FROM categorias WHERE nombre = '$catName' ");
-	if(mysqli_num_rows($sql) > 0){
+	$sql = $con->prepare("SELECT * FROM categorias WHERE nombre = ? ");
+	$sql->bind_param("s", $catName);
+	$sql->execute();
+	$res = $sql->get_result();
+	$sql->close();
+	if(mysqli_num_rows($res) > 0){
 		echo "false";
 	}else{
-		$q = $con->query("UPDATE categorias SET nombre = '$catName' WHERE idCategoria = '$catId' ");
+		$q = $con->prepare("UPDATE categorias SET nombre = ? WHERE idCategoria = ? ");
+		$q->bind_param("si", $catName, $catId);
+		$q->execute();
+		$q->close();
 	}
-
-	
-	//$q->bind_param("ss", $catId, $catName);
-	//$q->execute();
 }
 
 /*=====  End of Editar Categoría  ======*/
@@ -119,9 +128,12 @@ if(isset($_POST['editarCat'])){
 
 if(isset($_POST['getCategoryProd'])){
 
-	$q = $con->query("SELECT * FROM categorias");
+	$q = $con->prepare("SELECT * FROM categorias");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	while($row = mysqli_fetch_array($q)){
+	while($row = mysqli_fetch_array($res)){
 		$catId = $row['idCategoria'];
 		$catName = $row['nombre'];
 		echo "<option value='$catId'>$catName</option>";
@@ -165,6 +177,7 @@ if(isset($_FILES['imgProd'])){
 		$sql = $con->prepare("INSERT INTO productos(nombre, idCategoria, precio, descripcion, imagen) VALUES (?,?,?,?,?)");
 		$sql->bind_param("sssss", $nombre, $catProd, $precio, $descripcion, $storeImg);
 		$sql->execute();
+		$sql->close();
 	//}
 	
 	
@@ -179,11 +192,14 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->query("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
+	$q = $con->prepare("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
 	$data = array();
 
-	while ($row = mysqli_fetch_array($q)){
+	while ($row = mysqli_fetch_array($res)){
 		$data[] = $row;
 	}
 
@@ -222,12 +238,10 @@ if(isset($_POST['cargarProducto'])){
 
 	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
 	$q->bind_param("ii", $prodId, $stat);
-	$q->execute();
-
+	$q->execute();	
 	$r = $q->get_result();
-
+	$q->close();
 	$row = mysqli_fetch_array($r);
-
 	
 	$nombre = $row['nombre'];
 	$cat = $row['nombreCategoria'];
@@ -271,12 +285,7 @@ if(isset($_POST['cargarProducto'])){
 					<div class='mb-3' id='prevContainer'>
                 		<img class='imgPrev' id='imgPrev' src='../vistas/imagenes/$imagen'>
             		</div>  
-				</div>
-				<div class='col-sm-6'>
-					<div class='mb-3' id='prevContainer'>
-                		<img class='imgPrev' id='editImgPrev' src='#'>
-            		</div>  
-				</div>
+				</div>			
             </div>
 
             <div class='input-group mb-3'>
@@ -284,8 +293,11 @@ if(isset($_POST['cargarProducto'])){
                   <label class='input-group-text' for='catProd'>Categoría</label>
                   <select class='custom-select' name='catAddProd' id='catAddProd'>";
 
-                  $sql = $con->query("SELECT * FROM categorias");
-					while($row = mysqli_fetch_array($sql)){
+                  $sql = $con->prepare("SELECT * FROM categorias");
+                  $sql->execute();
+                  $result = $sql->get_result();
+                  $sql->close();
+					while($row = mysqli_fetch_array($result)){
 					$catId = $row['idCategoria'];
 					$catName = $row['nombre'];
 					echo "<option value='$catId'";
@@ -335,9 +347,9 @@ if(isset($_FILES['editImgProd'])){
 		$qImg = $con->prepare("SELECT * FROM productos WHERE id = ?");
 		$qImg->bind_param("i", $id);
 		$qImg->execute();
-		//$qImg->close();
-
-		$r = $qImg->get_result(); 
+		
+		$r = $qImg->get_result();
+		$qImg->close(); 
 		$row = mysqli_fetch_array($r);
 		$oldImg = $row['imagen'];
 		unlink('../../vistas/imagenes/'.$oldImg);
@@ -363,10 +375,14 @@ if(isset($_FILES['editImgProd'])){
 =========================================*/
 
 if(isset($_POST['getLastOrders'])){
-	$q = $con->query("SELECT comprafinalizada.transaccionId AS trans, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId GROUP BY transaccionId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+	$q = $con->prepare("SELECT comprafinalizada.transaccionId AS trans, clientes.nombre AS clienteNombre , comprafinalizada.FechaCompra AS fechaCompra FROM productos JOIN comprafinalizada ON productos.id = comprafinalizada.productoId JOIN clientes ON clientes.id = comprafinalizada.clienteId GROUP BY transaccionId ORDER BY comprafinalizada.FechaCompra DESC LIMIT 3");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	if(mysqli_num_rows($q) > 0){
-		while($r = mysqli_fetch_array($q)){
+
+	if(mysqli_num_rows($res) > 0){
+		while($r = mysqli_fetch_array($res)){
 			$idTrans = $r['trans'];			
 			$cliente = $r['clienteNombre'];
 			$fecha = $r['fechaCompra'];
@@ -391,11 +407,14 @@ if(isset($_POST['getLastOrders'])){
 =============================================*/
 
 if(isset($_POST['getOrders'])){
-	$q = $con->query("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado, monto FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado GROUP BY transaccionId ORDER BY FechaCompra DESC");
+	$q = $con->prepare("SELECT comprafinalizada.transaccionId as trans, clientes.nombre, FechaCompra, estados.nombreEstado FROM comprafinalizada INNER JOIN productos ON comprafinalizada.productoId = productos.id INNER JOIN clientes ON comprafinalizada.clienteId = clientes.id INNER JOIN estados ON comprafinalizada.estado = estados.idEstado GROUP BY transaccionId ORDER BY FechaCompra DESC");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
 	$data = array();
 
-	while($row = mysqli_fetch_array($q)){
+	while($row = mysqli_fetch_array($res)){
 		$data[] = $row;
 	}
 
@@ -422,8 +441,7 @@ if(isset($_POST['llenarEstado'])){
 		 	$q = $con->prepare("SELECT * FROM estados");
 			$q->execute();
 			$r = $q->get_result();
-
-
+			$q->close();
 
 		while($row = mysqli_fetch_array($r)){
 		$statusId = $row['idEstado'];
@@ -501,7 +519,7 @@ if(isset($_POST['getGal'])){
 	$q = $con->prepare("SELECT * FROM galeria");
 	$q->execute();
 	$row = $q->get_result();
-	//$q->close();
+	$q->close();
 
 	$data = array();
 
@@ -530,8 +548,8 @@ if(isset($_POST['cargarImg'])){
 	$q = $con->prepare("SELECT * FROM galeria WHERE idGaleria = ?");
 	$q->bind_param("i", $idImagen);
 	$q->execute();
-
 	$row = $q->get_result();
+	$q->close();
 	$r = mysqli_fetch_array($row);
 
 	$nombreImg = $r['nombre'];
@@ -603,8 +621,8 @@ if(isset($_FILES['imgMainEdit'])){
 		$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
 		$qNewImg->bind_param("i", $idGal);
 		$qNewImg->execute();
-
 		$r = $qNewImg->get_result();
+		$qNewImg->close();
 		$row = mysqli_fetch_array($r);
 		$oldMain = $row['imagen'];
 
@@ -638,8 +656,8 @@ if(isset($_POST['borrarGal'])){
 	$qNewImg = $con->prepare("SELECT imagen FROM galeria WHERE  idGaleria = ?");
 	$qNewImg->bind_param("i", $idGal);
 	$qNewImg->execute();
-
 	$r = $qNewImg->get_result();
+	$qNewImg->close();
 	$row = mysqli_fetch_array($r);	
 	$oldMain = $row['imagen'];
 
@@ -656,26 +674,18 @@ if(isset($_POST['borrarGal'])){
 
 /*=====  End of Borrar Imagen  ======*/
 
-
-
-
-
-
-
-
-
-
-
-
 /*=============================================
 =            Section obtener producto           =
 =============================================*/
 
 if(isset($_POST['getProdDesc'])){
 
-	$q = $con->query("SELECT * FROM productos WHERE status = 1");
+	$q = $con->prepare("SELECT * FROM productos WHERE status = 1");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	while($row = mysqli_fetch_array($q)){
+	while($row = mysqli_fetch_array($res)){
 		$prodId = $row['id'];
 		$prodName = $row['nombre'];
 		echo "<option value='$prodId'>$prodName</option>";
@@ -697,14 +707,14 @@ if(isset($_POST['agregarDesc'])){
 	$idProd = $_POST['prodAddDesc'];
 	$fechaInicio = strtotime($_POST['fechaInicio']);
 	$fechaFinalizacion = strtotime($_POST['fechaFinal']);
-	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
-	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinalizacion);
+	$fechaIFormat = date("Y-m-d H:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinalizacion);
 
 	$sql = $con->prepare("SELECT * FROM ofertas WHERE idProducto = ?");
 	$sql->bind_param("i", $idProd);
 	$sql->execute();
-
 	$r = $sql->get_result();
+	$sql->close();
 
 	//print_r($r);
 
@@ -732,11 +742,14 @@ if(isset($_POST['agregarDesc'])){
 
 
 if(isset($_POST['getDesc'])){
-	$q = $con->query("SELECT idOferta, productos.nombre AS nombreProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id");
+	$q = $con->prepare("SELECT idOferta, productos.nombre AS nombreProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
 	$data = array();
 
-	while ($row = mysqli_fetch_array($q)){
+	while ($row = mysqli_fetch_array($res)){
 		$data[] = $row;
 	}
 
@@ -757,6 +770,7 @@ if(isset($_POST['borrarDesc'])){
 	$sql = $con->prepare("DELETE FROM ofertas WHERE idOferta = ? ");
 	$sql->bind_param("i", $descId);
 	$sql->execute();
+	$sql->close();
 
 
 }
@@ -779,6 +793,7 @@ if(isset($_POST['cargarDescuento'])){
 	$qed->bind_param("i", $descId);
 	$qed->execute();
 	$red = $qed->get_result();
+	$qed->close();
 
 	$rowed = mysqli_fetch_array($red);
 
@@ -852,8 +867,12 @@ if(isset($_POST['cargarDescuento'])){
                   <label class='input-group-text' for='prodDesc'>Producto</label>
                   <select class='custom-select' name='prodAddDesc' id='prodAddDesc'>";
 
-                  $sql = $con->query("SELECT * FROM productos");
-					while($row = mysqli_fetch_array($sql)){
+                  $sql = $con->prepare("SELECT * FROM productos WHERE status =1");
+                  $sql->execute();
+                  $res = $sql->get_result();
+                  $sql->close();
+
+					while($row = mysqli_fetch_array($res)){
 					$prodId = $row['id'];
 					$prodName = $row['nombre'];
 					echo "<option value='$prodId'";
@@ -889,16 +908,23 @@ if(isset($_POST['editarDesc'])){
 	$porcentOferta = $_POST['totalDescu'];
 	$fechaInicio = strtotime($_POST['fechaInicio']);
 	$fechaFinal = strtotime($_POST['fechaFinal']);
-	$fechaIFormat = date("Y-m-d h:i:s",$fechaInicio);
-	$fechaFFormat = date("Y-m-d h:i:s",$fechaFinal);
+	$fechaIFormat = date("Y-m-d H:i:s",$fechaInicio);
+	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinal);
 
 	
-	$sql = $con->query("SELECT * FROM ofertas WHERE idProducto = $idProd ");
-	if(mysqli_num_rows($sql) > 1){
+	$sql = $con->prepare("SELECT * FROM ofertas WHERE idProducto = ? ");
+	$sql->bind_param("i", $idProd);
+	$sql->execute();
+	$res = $sql->get_result();
+	$sql->close();
+	if(mysqli_num_rows($res) > 1){
 		echo "false";
 	}else{
 		
-		$q = $con->query("UPDATE ofertas SET idProducto = $idProd, titulo = '$titulo', descripcion = '$descripcion', totalOferta = $porcentOferta, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idOferta = '$id' ");
+		$q = $con->prepare("UPDATE ofertas SET idProducto = ?, titulo = ?, descripcion = ?, totalOferta = ?, fechaInicio = ?, fechaFinal = ? WHERE idOferta = ? ");
+		$q->bind_param("ississi", $idProd, $titulo, $descripcion, $porcentOferta, $fechaIFormat, $fechaFFormat, $id);
+		$q->execute();
+		$q->close();
 		echo "true";
 	}
 
@@ -915,9 +941,9 @@ if(isset($_POST['editarDesc'])){
 if(isset($_POST['getClientes'])){
 
 	$q = $con->prepare("SELECT id, nombre, usuario, email, creado, status.status as estado, nota FROM clientes INNER JOIN status ON clientes.estado = status.idStatus");
-	$q->execute();
-
+	$q->execute();	
 	$row = $q->get_result();
+	$q->close();
 
 	$data = array();
 
@@ -944,8 +970,8 @@ if(isset($_POST['activarC'])){
 	$stmt = $con->prepare("SELECT id, status.idStatus FROM clientes INNER JOIN status ON clientes.estado = status.idStatus WHERE clientes.id = ?");
 	$stmt->bind_param("i", $idCliente);
 	$stmt->execute();
-
 	$row = $stmt->get_result();
+	$stmt->close();
 	$r = mysqli_fetch_array($row);
 
 	$estado = $r['idStatus'];
@@ -956,7 +982,7 @@ if(isset($_POST['activarC'])){
 		$q = $con->prepare("UPDATE clientes SET estado = 1 WHERE id = ?");
 		$q->bind_param("i", $idCliente);
 		$q->execute();
-
+		$q->close();
 		echo "true";
 	}
 
@@ -977,8 +1003,8 @@ if(isset($_POST['desactivarC'])){
 	$stmt = $con->prepare("SELECT id, status.idStatus FROM clientes INNER JOIN status ON clientes.estado = status.idStatus WHERE clientes.id = ?");
 	$stmt->bind_param("i", $idCliente);
 	$stmt->execute();
-
 	$row = $stmt->get_result();
+	$stmt->close();
 	$r = mysqli_fetch_array($row);
 
 	$estado = $r['idStatus'];
@@ -990,7 +1016,7 @@ if(isset($_POST['desactivarC'])){
 		$q = $con->prepare("UPDATE clientes SET estado = 0, nota = ? WHERE id = ?");
 		$q->bind_param("si", $nota, $idCliente);
 		$q->execute();
-
+		$q->close();
 		echo "true";
 	}
 }
@@ -1006,8 +1032,8 @@ if(isset($_POST['getUsers'])){
 
 	$q = $con->prepare("SELECT id, user, email, tipoUsuario, fechaLogin, fechaRegistro, status.status as estado, notas FROM admin INNER JOIN status ON admin.status = status.idStatus");
 	$q->execute();
-
 	$row = $q->get_result();
+	$q->close();
 
 	$data = array();
 
@@ -1034,8 +1060,8 @@ if(isset($_POST['activarUser'])){
 	$stmt = $con->prepare("SELECT id, status.idStatus FROM admin INNER JOIN status ON admin.status = status.idStatus WHERE admin.id = ?");
 	$stmt->bind_param("i", $idCliente);
 	$stmt->execute();
-
 	$row = $stmt->get_result();
+	$stmt->close();
 	$r = mysqli_fetch_array($row);
 
 	$estado = $r['idStatus'];
@@ -1046,7 +1072,7 @@ if(isset($_POST['activarUser'])){
 		$q = $con->prepare("UPDATE admin SET status = 1 WHERE id = ?");
 		$q->bind_param("i", $idCliente);
 		$q->execute();
-
+		$q->close();
 		echo "true";
 	}
 
@@ -1067,8 +1093,8 @@ if(isset($_POST['desactivarUser'])){
 	$stmt = $con->prepare("SELECT id, status.idStatus FROM admin INNER JOIN status ON admin.status = status.idStatus WHERE admin.id = ?");
 	$stmt->bind_param("i", $idCliente);
 	$stmt->execute();
-
 	$row = $stmt->get_result();
+	$stmt->close();
 	$r = mysqli_fetch_array($row);
 
 	$estado = $r['idStatus'];
@@ -1080,7 +1106,7 @@ if(isset($_POST['desactivarUser'])){
 		$q = $con->prepare("UPDATE admin SET status = 0, notas = ? WHERE id = ?");
 		$q->bind_param("si", $nota, $idCliente);
 		$q->execute();
-
+		$q->close();
 		echo "true";
 	}
 }
@@ -1119,9 +1145,7 @@ if(isset($_POST['editarPermiso'])){
 	$q = $con->prepare("UPDATE admin SET tipoUsuario = ? WHERE id = ?");
 	$q->bind_param("si", $tipo, $id);
 	$q->execute();
-
-	
-
+	$q->close();
 
 
 }
@@ -1129,17 +1153,19 @@ if(isset($_POST['editarPermiso'])){
 /*=====  End of Editar Permiso  ======*/
 
 /*=================================
-=            Concursos            =
+=            Rifas            =
 =================================*/
 
 if(isset($_POST['getConc'])){
-	$q = $con->query("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
+	$q = $con->prepare("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	$data = array();
-  
+	$data = array();  
 	
 
-	while ($row = mysqli_fetch_array($q)){
+	while ($row = mysqli_fetch_array($res)){
 		$data[] = $row;
 	}
 
@@ -1153,9 +1179,12 @@ if(isset($_POST['getConc'])){
 
 if(isset($_POST['getProdConc'])){
 
-	$q = $con->query("SELECT * FROM productos WHERE status = 1");
+	$q = $con->prepare("SELECT * FROM productos WHERE status = 1");
+	$q->execute();
+	$res = $q->get_result();
+	$q->close();
 
-	while($row = mysqli_fetch_array($q)){
+	while($row = mysqli_fetch_array($res)){
 		$prodId = $row['id'];
 		$prodName = $row['nombre'];
 		echo "<option value='$prodId'>$prodName</option>";
@@ -1181,8 +1210,8 @@ if(isset($_POST['agregarConc'])){
 	$sql = $con->prepare("SELECT * FROM concurso WHERE idPremio = ?");
 	$sql->bind_param("i", $idPrem);
 	$sql->execute();
-
 	$r = $sql->get_result();
+	$sql->close();
 
 	//print_r($r);
 
@@ -1213,6 +1242,7 @@ if(isset($_POST['borrarConc'])){
 	$sql = $con->prepare("DELETE FROM concurso WHERE idConcurso = ? ");
 	$sql->bind_param("i", $concId);
 	$sql->execute();
+	$sql->close();
 
 
 }
@@ -1233,6 +1263,7 @@ if(isset($_POST['cargarConcurso'])){
 	$qed->bind_param("i", $concId);
 	$qed->execute();
 	$red = $qed->get_result();
+	$qed->close();
 
 	$rowed = mysqli_fetch_array($red);
 
@@ -1307,8 +1338,11 @@ if(isset($_POST['cargarConcurso'])){
                   <label class='input-group-text' for='prodConc'>Producto</label>
                   <select class='custom-select' name='prodAddConc' id='prodAddConc'>";
 
-                  $sql = $con->query("SELECT * FROM productos WHERE status = 1");
-					while($row = mysqli_fetch_array($sql)){
+                  $sql = $con->prepare("SELECT * FROM productos WHERE status = 1");
+                  $sql->execute();
+                  $res = $sql->get_result();
+                  $sql->close();
+					while($row = mysqli_fetch_array($res)){
 					$prodId = $row['id'];
 					$prodName = $row['nombre'];
 					echo "<option value='$prodId'";
@@ -1348,12 +1382,19 @@ if(isset($_POST['editarConc'])){
 	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinal);
 
 	
-	$sql = $con->query("SELECT * FROM concurso WHERE idPremio = $idProd ");
-	if(mysqli_num_rows($sql) > 1){
+	$sql = $con->prepare("SELECT * FROM concurso WHERE idPremio = ? ");
+	$sql->bind_param("i", $idProd);
+	$sql->execute();
+    $res = $sql->get_result();
+    $sql->close();
+
+	if(mysqli_num_rows($res) > 1){
 		echo "false";
 	}else{
-		$q = $con->query("UPDATE concurso SET idPremio = $idProd, nombre = '$nombre', descripcion = '$descripcion', cantidadMaxima = $cantidadMax, fechaInicio = '$fechaIFormat', fechaFinal = '$fechaFFormat' WHERE idConcurso = '$id' ");
-		//echo $id;
+		$q = $con->prepare("UPDATE concurso SET idPremio = ?, nombre = ?, descripcion = ?, cantidadMaxima = ?, fechaInicio = ?, fechaFinal = ? WHERE idConcurso = ? ");
+		$q->bind_param("ississi", $idProd, $nombre, $descripcion, $cantidadMax, $fechaIFormat, $fechaFFormat, $id);
+		$q->execute();  
+        $q->close();
 		echo "true";
 	}
 
@@ -1377,6 +1418,7 @@ if(isset($_POST['PartConcurso'])){
 	$qed->bind_param("i", $concId);
 	$qed->execute();
 	$red = $qed->get_result();
+	$qed->close();
 
 	$cantidadParticipantes = mysqli_num_rows($red);
 
@@ -1424,6 +1466,7 @@ if(isset($_POST['ganadorConc'])){
 	$qcc->bind_param("i", $concId);
 	$qcc->execute();
 	$rcc = $qcc->get_result();
+	$qcc->close();
 
 	while($rowcc = mysqli_fetch_array($rcc)){
 		
@@ -1432,7 +1475,10 @@ if(isset($_POST['ganadorConc'])){
 	$arrayganador = array_rand($arrayclientes, 1);
 	$ganadorConc = $arrayclientes[$arrayganador];
 	//echo $ganadorConc;
-	$q = $con->query("UPDATE concurso SET ganador = $ganadorConc WHERE idConcurso = $concId ");
+	$q = $con->prepare("UPDATE concurso SET ganador = ? WHERE idConcurso = ? ");
+	$q->bind_param("ii", $ganadorConc, $concId);
+	$q->execute();
+	$q->close();
 
 
 }
@@ -1460,8 +1506,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 	$stmt = $con->prepare("SELECT id FROM admin WHERE email=?");
 	$stmt->bind_param("s", $afemail);
 	$stmt->execute();
-
 	$res = $stmt->get_result();
+	$stmt->close();
 
 	if($res->num_rows>0){
 		$stmt1 = $con->prepare("SELECT * FROM contrareset WHERE email=?");
@@ -1499,11 +1545,11 @@ if(isset($_POST['action']) && $_POST['action'] == 'forgot'){
 ================================*/
 
 if(isset($_POST['action']) && $_POST['action'] == 'adminrestcon'){
-	$currentpass = checkInput($_POST['currentpassword']);
+	//$currentpass = checkInput($_POST['currentpassword']);
 	$newpass = checkInput($_POST['newpass']);
 	$cnewpass = checkInput($_POST['cnewpass']);
 	$uemail = checkInput($_POST['uemail']);
-	$currentpassHash = password_hash($currentpass, PASSWORD_BCRYPT,["cost"=>8]);
+	//$currentpassHash = password_hash($currentpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$newpassHash = password_hash($newpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$cnewpassHash = password_hash($cnewpass, PASSWORD_BCRYPT,["cost"=>8]);
 	$sql = $con->prepare("SELECT user,email,pass FROM admin WHERE email =?");
@@ -1515,12 +1561,12 @@ if(isset($_POST['action']) && $_POST['action'] == 'adminrestcon'){
 	if($newpass != $cnewpass){
 		echo 'falselocalNC';
 		exit();
-	}elseif(password_verify($currentpass,$currentpassDB) == FALSE){
+	}/*elseif(password_verify($currentpass,$currentpassDB) == FALSE){
 		echo $currentpassHash;
 		echo " ";
 		echo $currentpassDB;
 		exit();
-	}else{
+	}*/else{
 		$con->query("UPDATE admin SET pass = '$newpassHash' WHERE email = '$uemail'");
 		$con->query("DELETE FROM contrareset WHERE email = '$uemail'");
 		echo "true";
