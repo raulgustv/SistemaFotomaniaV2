@@ -42,7 +42,7 @@ if(isset($_POST['agregarCat'])){
 
 if(isset($_POST['getCats'])){
 
-	$q = $con->prepare("SELECT * FROM categorias");
+	$q = $con->prepare("SELECT idCategoria, nombre FROM categorias WHERE status = 1");
 	$q->execute();
 	$row = $q->get_result();
 	$q->close();
@@ -70,10 +70,21 @@ if(isset($_POST['getCats'])){
 if(isset($_POST['borrarCat'])){
 	$catId = $_POST['catId'];
 
-	$sql = $con->prepare("DELETE FROM categorias WHERE idCategoria = ? ");
+	$q = $con->prepare("SELECT nombre FROM productos WHERE idCategoria = ? AND status = 1");
+	$q->bind_param("i", $catId);
+	$q->execute();
+	$res = $q->get_result();
+
+	if(mysqli_num_rows($res) > 0){
+		echo "false";
+	}else{
+	
+	$sql = $con->prepare("UPDATE categorias SET status = 0 WHERE idCategoria = ? ");
 	$sql->bind_param("i", $catId);
 	$sql->execute();
-	$sql->close();
+	$sql->close(); 
+	echo "true";
+	}
 
 
 }

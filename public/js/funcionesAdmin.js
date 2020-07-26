@@ -338,18 +338,12 @@ $(document).on("click", "#btnDelete", function(){
 			},
 			success: function(data){
 
-				/*
-				$("#dtTablaCats").DataTable({
-					destroy: true,
-					
-				});
-
-				fila.remove();
-				*/
-
-				dataCats.ajax.reload();
-
-
+				if(data === "true"){
+					message("Categoría borrada con éxito", 2000, "success");
+					dataCats.ajax.reload();
+				}else if(data === "false"){
+					message("No se puede borrar la categoría ya que se encuentra asignada", 2000, "error");
+				}
 
 			}
 		});
