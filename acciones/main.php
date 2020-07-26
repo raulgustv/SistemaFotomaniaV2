@@ -517,7 +517,7 @@
 
 				$img = $reg['imagen'];
 				$nombre = $reg['nombre'];
-				$precio =  $r['precio'];
+				$precio =  $reg['precio'];
 
 				$descQuery = $con->query("SELECT * FROM ofertas WHERE idProducto= '$idProd'");
 			if(mysqli_num_rows($descQuery)){
@@ -539,8 +539,8 @@
 			if($yacomenzo==1 && $yatermino==1){
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
-			$precioTotal =$precio;
 			$totalDescuento=0;
+			$precioTotal =$precio;
 		}
 
 				echo "<div class='col-lg-4'><img class='miniCart' src='imagenes/$img'></div> 
