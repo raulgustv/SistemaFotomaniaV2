@@ -1461,7 +1461,7 @@ if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
 
 		if(mysqli_num_rows($res) == 0){
 			echo "<div class='alert alert-danger' role='alert'>
-				 	Parece que no tienes una dirección principal, por favor agregar a tu <a class='btn btn-link' href='libretaDirecciones.php'>libreta de direcciones</a><input type='hidden' name='addAct' id='dirAct' value='0'>
+				 	Parece que no tienes una dirección principal, por favor agregar una dirección a tu <a class='btn btn-link' href='libretaDirecciones.php'>libreta de direcciones</a><input type='hidden' name='addAct' id='dirAct' value='0'>
 ";
 
 		}else{
@@ -1479,7 +1479,7 @@ if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
 							$prov, $zip<br>
 							Teléfono: $tel</p>
 							<div class='float-left'>
-								<a href='libretaDirecciones.php' class='btn btn-success'>Cambia dirección principal</a>
+								<a href='libretaDirecciones.php' class='btn btn-success'>Cambiar dirección principal</a>
 							</div><input type='hidden' name='addAct' id='dirAct' value='1'>";
 			
 
