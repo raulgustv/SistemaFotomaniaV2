@@ -12,6 +12,7 @@ $(document).ready(function(){
 		$("#galLoad").fadeIn(500);
 		$("#cartLoad").fadeIn(500);
 		$("#getConcursos").fadeIn(500);
+		$("#shippingAdd").fadeIn(500);
 
 		
 		

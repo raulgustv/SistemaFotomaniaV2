@@ -57,7 +57,7 @@
               if($yacomenzo==1 && $yatermino==1){
               ?>
 
-              <div class="col-lg-6 mb-2">
+            <div class="col-lg-6 mb-2">
             <div class="card cardRifa">
               <div class="card-header text-center">
                   <?php echo $nombreC; ?>
@@ -128,6 +128,7 @@
           
   </div> 
 
+</div>
 </div>
 
 
