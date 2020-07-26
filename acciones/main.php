@@ -165,6 +165,7 @@
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
+						$estado = $rowDesc['status'];
 						date_default_timezone_set("America/Costa_Rica");
 						$fechahoy = date("Y-m-d h:i:s");
 						$yacomenzo = ($fechaInicio<$fechahoy);
@@ -175,7 +176,7 @@
 					$totalDescuento=0;
 
 				}
-				if($yacomenzo==1 && $yatermino==1){
+				if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 				$precioTotal = round($precioProducto - $totalDescuento);
 			}else{
 				$precioTotal =$precioProducto;
@@ -242,6 +243,7 @@
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
+						$estado = $rowDesc['status'];
 						date_default_timezone_set("America/Costa_Rica");
 						$fechahoy = date("Y-m-d h:i:s");
 						$yacomenzo = ($fechaInicio<$fechahoy);
@@ -252,7 +254,7 @@
 					$totalDescuento=0;
 
 				}
-				if($yacomenzo==1 && $yatermino==1){
+				if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 				$precioTotal = round($precio - $totalDescuento);
 			}else{
 				$precioTotal =$precio;
@@ -320,6 +322,7 @@
 		while($r=mysqli_fetch_array($res)){
 
 			$idProd = $r['idProducto'];
+			$precioCart = $r['precio'];
 
 			$q2 = $con->prepare("SELECT * FROM productos WHERE id = ?");
 			$q2->bind_param("i", $idProd);
@@ -348,6 +351,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d h:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -359,20 +363,22 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = round($precio - $totalDescuento);
+			$precioUnit = $precio;
 		}else{
-			$precioTotal =$precio;
+			$precioTotal =$precioCart;
 			$totalDescuento = 0;
+			$precioUnit = $precioCart;
 		}
 
-			$precioFinal = $precioTotal;
+			$precioFinal = $precioTotal*$cantidad;
 
 			echo "<tr class='d-flex'>
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
-				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio.00' disabled></td>
+				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precioUnit.00' disabled></td>
 				<td class='col-1'><input type='text' class='form-control descuento' id='descuento-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal.00' disabled></td>
 				<td class='col-2'>
@@ -516,6 +522,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -527,7 +534,7 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
@@ -622,6 +629,7 @@
 		if(mysqli_num_rows($res) > 0){
 			while($r = mysqli_fetch_array($res)){
 				$idProd = $r['idProducto'];
+				$precioCart = $r['precio'];
 
 				$q = $con->prepare("SELECT * FROM productos WHERE id = ?");
 				$q->bind_param("i", $idProd);
@@ -632,7 +640,6 @@
 				$img = $reg['imagen'];
 				$nombre = $reg['nombre'];
 				$precio =  $reg['precio'];
-
 				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
 				$descQuery->bind_param("i", $idProd);
 				$descQuery->execute();
@@ -644,6 +651,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -655,7 +663,7 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = ($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;

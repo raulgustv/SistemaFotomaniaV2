@@ -461,7 +461,8 @@ $(document).ready(function(){
 		var pid= $(this).attr('pid');
 		var qty= $("#qty-"+pid).val();
 		var precio = $("#precio-"+pid).val();
-		var total = qty * precio;
+		var descuento = $("#descuento-"+pid).val();
+		var total = (qty * precio)-(descuento * qty);
 
 		$("#total-"+pid).val(total);
 
