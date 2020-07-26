@@ -12,7 +12,7 @@
 	$yacomenzo = 0;
 
 	if(isset($_POST['category'])){
-		$catQuery = $con->prepare("SELECT * FROM categorias");
+		$catQuery = $con->prepare("SELECT * FROM categorias WHERE status =1");
 		$catQuery->execute();		
 		$r = $catQuery->get_result();
 
@@ -65,7 +65,7 @@
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
 
-				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ? AND status = 1");
 				$descQuery->bind_param("i", $idProducto);
 				$descQuery->execute();
 

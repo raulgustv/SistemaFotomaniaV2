@@ -1234,6 +1234,7 @@ $(document).on("click", "#btnDeleteDesc", function(){
 				borrarDesc:1, descId:descId
 			},
 			success: function(data){
+				message("Se borró el descuento con éxito", 2000, "success")
 				dataDesc.ajax.reload();
 				}
 			});
@@ -1766,7 +1767,9 @@ $(document).on("click", "#btnDeleteConc", function(){
 				borrarConc:1, concId:concId
 			},
 			success: function(data){
+				message("Concurso borrado con éxito", 2000, "success");
 				dataConc.ajax.reload();
+				alert(data);
 				}
 			});
 
