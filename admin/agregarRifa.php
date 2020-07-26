@@ -1,3 +1,9 @@
+<?php
+include_once '../includes/funciones.php';
+access("agregarRifa");
+
+ ?>
+
 <div class="modal fade" id="form_concurso" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
