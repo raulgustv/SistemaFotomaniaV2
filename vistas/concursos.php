@@ -30,7 +30,7 @@
 
       <?php
 
-        $q = $con->query("SELECT idConcurso, concurso.nombre AS nombreConc, fechaInicio, fechaFinal, cantidadMaxima, ganador, productos.nombre AS nombreProd, productos.imagen FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
+        $q = $con->query("SELECT idConcurso, concurso.nombre AS nombreConc, fechaInicio, fechaFinal, cantidadMaxima, ganador, productos.nombre AS nombreProd, productos.imagen FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id WHERE concurso.status = 1");
 
         
         $cont = 1;

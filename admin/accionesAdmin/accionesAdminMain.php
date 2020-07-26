@@ -12,7 +12,7 @@ include 'smail.php';
 if(isset($_POST['agregarCat'])){
 	$categoria = $_POST['categoria'];
 
-	$sql = $con->prepare("SELECT * FROM categorias WHERE nombre = ?");
+	$sql = $con->prepare("SELECT * FROM categorias WHERE nombre = ? AND status =1");
 	$sql->bind_param("s", $categoria);
 	$sql->execute();
 	$r = $sql->get_result();
@@ -42,7 +42,7 @@ if(isset($_POST['agregarCat'])){
 
 if(isset($_POST['getCats'])){
 
-	$q = $con->prepare("SELECT * FROM categorias");
+	$q = $con->prepare("SELECT idCategoria, nombre FROM categorias WHERE status = 1");
 	$q->execute();
 	$row = $q->get_result();
 	$q->close();
@@ -70,10 +70,21 @@ if(isset($_POST['getCats'])){
 if(isset($_POST['borrarCat'])){
 	$catId = $_POST['catId'];
 
-	$sql = $con->prepare("DELETE FROM categorias WHERE idCategoria = ? ");
+	$q = $con->prepare("SELECT nombre FROM productos WHERE idCategoria = ? AND status = 1");
+	$q->bind_param("i", $catId);
+	$q->execute();
+	$res = $q->get_result();
+
+	if(mysqli_num_rows($res) > 0){
+		echo "false";
+	}else{
+	
+	$sql = $con->prepare("UPDATE categorias SET status = 0 WHERE idCategoria = ? ");
 	$sql->bind_param("i", $catId);
 	$sql->execute();
-	$sql->close();
+	$sql->close(); 
+	echo "true";
+	}
 
 
 }
@@ -128,7 +139,7 @@ if(isset($_POST['editarCat'])){
 
 if(isset($_POST['getCategoryProd'])){
 
-	$q = $con->prepare("SELECT * FROM categorias");
+	$q = $con->prepare("SELECT * FROM categorias WHERE status = 1");
 	$q->execute();
 	$res = $q->get_result();
 	$q->close();
@@ -192,7 +203,7 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->prepare("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
+	$q = $con->prepare("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE productos.status = 1");
 	$q->execute();
 	$res = $q->get_result();
 	$q->close();
@@ -236,7 +247,7 @@ if(isset($_POST['cargarProducto'])){
 
 	//echo $prodId;
 
-	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE productos.id = ? AND productos.status = ?");
 	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();	
 	$r = $q->get_result();
@@ -709,7 +720,7 @@ if(isset($_POST['agregarDesc'])){
 	$fechaIFormat = date("Y-m-d H:i:s",$fechaInicio);
 	$fechaFFormat = date("Y-m-d H:i:s",$fechaFinalizacion);
 
-	$sql = $con->prepare("SELECT * FROM ofertas WHERE idProducto = ?");
+	$sql = $con->prepare("SELECT * FROM ofertas WHERE idProducto = ? and status = 1");
 	$sql->bind_param("i", $idProd);
 	$sql->execute();
 	$r = $sql->get_result();
@@ -741,7 +752,7 @@ if(isset($_POST['agregarDesc'])){
 
 
 if(isset($_POST['getDesc'])){
-	$q = $con->prepare("SELECT idOferta, productos.nombre AS nombreProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id");
+	$q = $con->prepare("SELECT idOferta, productos.nombre AS nombreProducto, titulo, ofertas.descripcion AS descripcionDesc,  totalOferta, fechaInicio, fechaFinal FROM ofertas INNER JOIN productos ON ofertas.idProducto = productos.id WHERE ofertas.status = 1");
 	$q->execute();
 	$res = $q->get_result();
 	$q->close();
@@ -766,7 +777,7 @@ if(isset($_POST['getDesc'])){
 if(isset($_POST['borrarDesc'])){
 	$descId = $_POST['descId'];
 
-	$sql = $con->prepare("DELETE FROM ofertas WHERE idOferta = ? ");
+	$sql = $con->prepare("UPDATE ofertas SET status = 0 WHERE idOferta = ? ");
 	$sql->bind_param("i", $descId);
 	$sql->execute();
 	$sql->close();
@@ -1156,7 +1167,7 @@ if(isset($_POST['editarPermiso'])){
 =================================*/
 
 if(isset($_POST['getConc'])){
-	$q = $con->prepare("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id");
+	$q = $con->prepare("SELECT idConcurso, productos.nombre AS nombrePremio, concurso.nombre AS nombreConcurso, concurso.descripcion AS descripcionConc,  fechaInicio, fechaFinal, cantidadMaxima, ganador FROM concurso INNER JOIN productos ON concurso.idPremio = productos.id WHERE concurso.status = 1");
 	$q->execute();
 	$res = $q->get_result();
 	$q->close();
@@ -1238,10 +1249,10 @@ if(isset($_POST['agregarConc'])){
 if(isset($_POST['borrarConc'])){
 	$concId = $_POST['concId'];
 
-	$sql = $con->prepare("DELETE FROM concurso WHERE idConcurso = ? ");
+	$sql = $con->prepare("UPDATE concurso SET status = 0 WHERE idConcurso = ? ");
 	$sql->bind_param("i", $concId);
 	$sql->execute();
-	$sql->close();
+	$sql->close(); 
 
 
 }

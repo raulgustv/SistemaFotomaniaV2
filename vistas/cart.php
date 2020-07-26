@@ -97,5 +97,43 @@
 	</div>
 </div>
 
+<div class="d-flex justify-content-end mt-2 mr-3">	
+	<div class="card">
+		<div class="card-header bg-warning">
+			Tus productos serán enviados a la dirección principal
+		</div>
+		<div class="card-body bg-light">
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="shippingAdd">				
+						<!-- <p>Del parque de sabanilla 250m sur<br>
+						Sabanilla, Montes de Oca<br>
+						11502<br>
+						Teléfono: 8811-96-58</p> 
+							<div class="float-left">
+								<a href="libretaDirecciones.php" class="btn btn-success">Cambia dirección principal</a>
+							</div> -->
+					</div>
+				</div>
+				<div class="row">
+				<div class="col-lg-6">
+					<div id="alertNoShippingAdd">
+						
+					
+					<!-- <div class="alert alert-danger" role="alert">
+				 	Parece que no tienes una dirección principal, por favor agregar a tu <a class="btn btn-link" href="libretaDirecciones.php">libreta de direcciones</a> -->
+				 	</div>
+				</div>
+				</div>
+				</div>
+				
+
+			
+			</div>
+		</div>
+	</div>
+
+</div>
+
 
 <?php include '../templates/mainFooter.php' ?>

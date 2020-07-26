@@ -338,18 +338,12 @@ $(document).on("click", "#btnDelete", function(){
 			},
 			success: function(data){
 
-				/*
-				$("#dtTablaCats").DataTable({
-					destroy: true,
-					
-				});
-
-				fila.remove();
-				*/
-
-				dataCats.ajax.reload();
-
-
+				if(data === "true"){
+					message("Categoría borrada con éxito", 2000, "success");
+					dataCats.ajax.reload();
+				}else if(data === "false"){
+					message("No se puede borrar la categoría ya que se encuentra asignada", 2000, "error");
+				}
 
 			}
 		});
@@ -1240,6 +1234,7 @@ $(document).on("click", "#btnDeleteDesc", function(){
 				borrarDesc:1, descId:descId
 			},
 			success: function(data){
+				message("Se borró el descuento con éxito", 2000, "success")
 				dataDesc.ajax.reload();
 				}
 			});
@@ -1772,7 +1767,9 @@ $(document).on("click", "#btnDeleteConc", function(){
 				borrarConc:1, concId:concId
 			},
 			success: function(data){
+				message("Concurso borrado con éxito", 2000, "success");
 				dataConc.ajax.reload();
+				alert(data);
 				}
 			});
 

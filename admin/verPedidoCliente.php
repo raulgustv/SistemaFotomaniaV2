@@ -89,7 +89,7 @@ $idDireccion = $r['idDireccion'];
 
 		<?php 
 
-			$qd = $con->query("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE idDir = '$idDireccion'");
+			$qd = $con->query("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, telefono, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE idDir = '$idDireccion'");
 
 			$rd = mysqli_fetch_array($qd);
 
@@ -99,6 +99,7 @@ $idDireccion = $r['idDireccion'];
 			$distrito = $rd['distrito'];
 			$prov = $rd['prov'];
 			$zip = $rd['zip'];
+			$tel = $rd['telefono'];
 
 
 
@@ -112,7 +113,7 @@ $idDireccion = $r['idDireccion'];
 					<?php echo $canton; ?>, <?php echo $distrito; ?><br>
 					 <?php echo $prov; ?>,
 					 <?php echo $zip; ?><br>
-					Teléfono: 8811-96-58</p>
+					Teléfono: <?php echo $tel;?></p>
 				</div>
 				<div class="col-lg-6">
 					<img src="../logos/location.svg" class="iconosPedido">

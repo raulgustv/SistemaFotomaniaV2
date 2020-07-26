@@ -12,7 +12,7 @@
 	$yacomenzo = 0;
 
 	if(isset($_POST['category'])){
-		$catQuery = $con->prepare("SELECT * FROM categorias");
+		$catQuery = $con->prepare("SELECT * FROM categorias WHERE status =1");
 		$catQuery->execute();		
 		$r = $catQuery->get_result();
 
@@ -65,7 +65,7 @@
 				$precioProducto = $row['precio'];
 				$imagenProducto = $row['imagen'];
 
-				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
+				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ? AND status = 1");
 				$descQuery->bind_param("i", $idProducto);
 				$descQuery->execute();
 
@@ -165,6 +165,7 @@
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
+						$estado = $rowDesc['status'];
 						date_default_timezone_set("America/Costa_Rica");
 						$fechahoy = date("Y-m-d h:i:s");
 						$yacomenzo = ($fechaInicio<$fechahoy);
@@ -175,7 +176,7 @@
 					$totalDescuento=0;
 
 				}
-				if($yacomenzo==1 && $yatermino==1){
+				if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 				$precioTotal = round($precioProducto - $totalDescuento);
 			}else{
 				$precioTotal =$precioProducto;
@@ -242,6 +243,7 @@
 						$porcentDescuento= $rowDesc['totalOferta'];
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
+						$estado = $rowDesc['status'];
 						date_default_timezone_set("America/Costa_Rica");
 						$fechahoy = date("Y-m-d h:i:s");
 						$yacomenzo = ($fechaInicio<$fechahoy);
@@ -252,7 +254,7 @@
 					$totalDescuento=0;
 
 				}
-				if($yacomenzo==1 && $yatermino==1){
+				if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 				$precioTotal = round($precio - $totalDescuento);
 			}else{
 				$precioTotal =$precio;
@@ -320,6 +322,7 @@
 		while($r=mysqli_fetch_array($res)){
 
 			$idProd = $r['idProducto'];
+			$precioCart = $r['precio'];
 
 			$q2 = $con->prepare("SELECT * FROM productos WHERE id = ?");
 			$q2->bind_param("i", $idProd);
@@ -348,6 +351,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d h:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -359,20 +363,22 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = round($precio - $totalDescuento);
+			$precioUnit = $precio;
 		}else{
-			$precioTotal =$precio;
+			$precioTotal =$precioCart;
 			$totalDescuento = 0;
+			$precioUnit = $precioCart;
 		}
 
-			$precioFinal = $precioTotal;
+			$precioFinal = $precioTotal*$cantidad;
 
 			echo "<tr class='d-flex'>
 				<td class='col-2'><img class='cartDisplay' src='imagenes/$imagen'></td>
 				<td class='col-2'>$producto</td>
 				<td class='col-1'><input type='text' class='form-control qty' id='qty-$idProducto' pid='$idProducto' value='$cantidad'></td>
-				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precio.00' disabled></td>
+				<td class='col-2'><input type='text' class='form-control precio' id='precio-$idProducto' pid='$idProducto' value='$precioUnit.00' disabled></td>
 				<td class='col-1'><input type='text' class='form-control descuento' id='descuento-$idProducto' pid='$idProducto' value='$totalDescuento' disabled></td>
 				<td class='col-2'><input type='text' class='form-control total' id='total-$idProducto' pid='$idProducto' value='$precioFinal.00' disabled></td>
 				<td class='col-2'>
@@ -466,7 +472,7 @@
 					<input type="hidden" name="cancel_return" value="http://localhost/sistemafotomaniav2/vistas/pagoCancelado.php"/>
 						<input type="hidden" name="currency_code" value="USD"/>
 						<input type="hidden" name="custom" value="'.$uid.'">
-						<input class="botonPay" type="image" name="submit" 
+						<input class="botonPay" id="btnPago" type="image" name="submit" 
 						src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png"
 						alt="Paypal - The safer, easeir way to pay online">
 						<img alt="" width="1" height="1"
@@ -516,6 +522,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -527,7 +534,7 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = round($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
@@ -622,6 +629,7 @@
 		if(mysqli_num_rows($res) > 0){
 			while($r = mysqli_fetch_array($res)){
 				$idProd = $r['idProducto'];
+				$precioCart = $r['precio'];
 
 				$q = $con->prepare("SELECT * FROM productos WHERE id = ?");
 				$q->bind_param("i", $idProd);
@@ -632,7 +640,6 @@
 				$img = $reg['imagen'];
 				$nombre = $reg['nombre'];
 				$precio =  $reg['precio'];
-
 				$descQuery = $con->prepare("SELECT * FROM ofertas WHERE idProducto= ?");
 				$descQuery->bind_param("i", $idProd);
 				$descQuery->execute();
@@ -644,6 +651,7 @@
 					$porcentDescuento= $rowDesc['totalOferta'];
 					$fechaInicio = $rowDesc['fechaInicio'];
 					$fechaFinal = $rowDesc['fechaFinal'];
+					$estado = $rowDesc['status'];
 					date_default_timezone_set("America/Costa_Rica");
 					$fechahoy = date("Y-m-d H:i:s");
 					$yacomenzo = ($fechaInicio<$fechahoy);
@@ -655,7 +663,7 @@
 				$totalDescuento=0;
 
 			}
-			if($yacomenzo==1 && $yatermino==1){
+			if($yacomenzo==1 && $yatermino==1 && $estado == 1){
 			$precioTotal = ($precio - $totalDescuento);
 		}else{
 			$precioTotal =$precio;
@@ -1077,7 +1085,7 @@
 
 		$uid = $row['id'];
 
-		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status = 0");
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND direccion.status = 0");
 
 		$q->bind_param("i", $uid);
 		$q->execute();
@@ -1434,7 +1442,54 @@ if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
 
 	}
 	
-}	
+}
+
+/*=================================================
+	=            Cargar Dirección de envío            =
+	=================================================*/
+	
+	if(isset($_POST['dirEnvio'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main, telefono FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND direccion.status = 1 AND direccion.main = 1");
+		$q->bind_param("i", $uid);
+		$q->execute();
+		$res = $q->get_result();
+		$q->close();
+
+	
+
+		if(mysqli_num_rows($res) == 0){
+			echo "<div class='alert alert-danger' role='alert'>
+				 	Parece que no tienes una dirección principal, por favor agregar una dirección a tu <a class='btn btn-link' href='libretaDirecciones.php'>libreta de direcciones</a><input type='hidden' name='addAct' id='dirAct' value='0'>
+";
+
+		}else{
+			$row = mysqli_fetch_array($res);
+			$dir1 = $row['direccion'];
+			$dir2 = $row['direccion2'];
+			$prov = $row['prov'];
+			$dist = $row['distrito'];
+			$canton = $row['cant'];
+			$tel = $row['telefono'];
+			$zip = $row['zip'];
+
+			echo 	"<p>$dir1 $dir2<br>
+							$canton, $dist<br>
+							$prov, $zip<br>
+							Teléfono: $tel</p>
+							<div class='float-left'>
+								<a href='libretaDirecciones.php' class='btn btn-success'>Cambiar dirección principal</a>
+							</div><input type='hidden' name='addAct' id='dirAct' value='1'>";
+			
+
+
+		}
+
+	}
+	
+	/*=====  End of Cargar Dirección de envío  ======*/
+
 	
 	
 	
