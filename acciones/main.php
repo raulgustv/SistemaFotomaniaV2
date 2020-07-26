@@ -80,7 +80,7 @@
 						$fechaInicio = $rowDesc['fechaInicio'];
 						$fechaFinal = $rowDesc['fechaFinal'];
 						date_default_timezone_set("America/Costa_Rica");
-						$fechahoy = date("Y-m-d h:i:s");
+						$fechahoy = date("Y-m-d H:i:s");
 						$yacomenzo = ($fechaInicio<$fechahoy);
 						$yatermino = ($fechaFinal>$fechahoy);
 						$totalDescuento= ($porcentDescuento/100)*$precioProducto;
