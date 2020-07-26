@@ -1104,7 +1104,7 @@ cargarTablaPedido();
 function cargarTablaPedido(){
 
 	var pedidoId = $("#idPedidoCliente").attr("idPedido");
-	console.log(pedidoId)
+	//console.log(pedidoId)
 
 	$.ajax({
 		url: "../acciones/main.php",
@@ -1350,6 +1350,40 @@ $(document).on("click", "#contactar", function(){
 								  }
 		});
 	});
+
+
+/*==========================================
+=            Direccion de envío            =
+==========================================*/
+
+/*----------  Dirección de envío  ----------*/
+cargarDirEnvio();
+function cargarDirEnvio(){
+
+	
+	$.ajax({
+		url: '../acciones/main.php',
+		method: 'POST',
+		data: {
+			dirEnvio:1
+		},
+		success: function(data){
+			$("#shippingAdd").html(data);
+			var dirActive = $("#dirAct").val();			
+
+			if(dirActive == 0){
+				$("#btnPago").hide();
+			}
+
+		}
+	});
+}
+
+
+
+
+/*=====  End of Direccion de envío  ======*/
+
 
 	
 

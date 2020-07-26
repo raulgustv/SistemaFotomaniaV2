@@ -472,7 +472,7 @@
 					<input type="hidden" name="cancel_return" value="http://localhost/sistemafotomaniav2/vistas/pagoCancelado.php"/>
 						<input type="hidden" name="currency_code" value="USD"/>
 						<input type="hidden" name="custom" value="'.$uid.'">
-						<input class="botonPay" type="image" name="submit" 
+						<input class="botonPay" id="btnPago" type="image" name="submit" 
 						src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-rect-paypalcheckout-60px.png"
 						alt="Paypal - The safer, easeir way to pay online">
 						<img alt="" width="1" height="1"
@@ -1085,7 +1085,7 @@
 
 		$uid = $row['id'];
 
-		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND status = 0");
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND direccion.status = 0");
 
 		$q->bind_param("i", $uid);
 		$q->execute();
@@ -1442,7 +1442,54 @@ if($func = emailreset($emails,$titulo,$cuerpo,$cuerposimple)){
 
 	}
 	
-}	
+}
+
+/*=================================================
+	=            Cargar Dirección de envío            =
+	=================================================*/
+	
+	if(isset($_POST['dirEnvio'])){
+		$uid = $row['id'];
+
+		$q = $con->prepare("SELECT idDir, direccion, direccion2, provincia.provincia as prov, canton.canton as cant, distrito.distrito as distrito, zip, clientes.nombre, main, telefono FROM direccion INNER JOIN provincia ON direccion.idProv = provincia.idProv INNER JOIN canton ON direccion.idCanton = canton.idCanton INNER JOIN distrito on direccion.idDistrito = distrito.idDistrito INNER JOIN clientes on direccion.idCliente = clientes.id WHERE clientes.id = ? AND direccion.status = 1 AND direccion.main = 1");
+		$q->bind_param("i", $uid);
+		$q->execute();
+		$res = $q->get_result();
+		$q->close();
+
+	
+
+		if(mysqli_num_rows($res) == 0){
+			echo "<div class='alert alert-danger' role='alert'>
+				 	Parece que no tienes una dirección principal, por favor agregar a tu <a class='btn btn-link' href='libretaDirecciones.php'>libreta de direcciones</a><input type='hidden' name='addAct' id='dirAct' value='0'>
+";
+
+		}else{
+			$row = mysqli_fetch_array($res);
+			$dir1 = $row['direccion'];
+			$dir2 = $row['direccion2'];
+			$prov = $row['prov'];
+			$dist = $row['distrito'];
+			$canton = $row['cant'];
+			$tel = $row['telefono'];
+			$zip = $row['zip'];
+
+			echo 	"<p>$dir1 $dir2<br>
+							$canton, $dist<br>
+							$prov, $zip<br>
+							Teléfono: $tel</p>
+							<div class='float-left'>
+								<a href='libretaDirecciones.php' class='btn btn-success'>Cambia dirección principal</a>
+							</div><input type='hidden' name='addAct' id='dirAct' value='1'>";
+			
+
+
+		}
+
+	}
+	
+	/*=====  End of Cargar Dirección de envío  ======*/
+
 	
 	
 	

@@ -203,7 +203,7 @@ if(isset($_FILES['imgProd'])){
 
 
 if(isset($_POST['getProds'])){
-	$q = $con->prepare("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE status = 1");
+	$q = $con->prepare("SELECT id, productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE productos.status = 1");
 	$q->execute();
 	$res = $q->get_result();
 	$q->close();
@@ -247,7 +247,7 @@ if(isset($_POST['cargarProducto'])){
 
 	//echo $prodId;
 
-	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE id = ? AND status = ?");
+	$q = $con->prepare("SELECT productos.nombre AS nombre, categorias.nombre AS nombreCategoria, precio, Descripcion,  imagen FROM productos INNER JOIN categorias ON productos.idCategoria = categorias.idCategoria WHERE productos.id = ? AND productos.status = ?");
 	$q->bind_param("ii", $prodId, $stat);
 	$q->execute();	
 	$r = $q->get_result();
