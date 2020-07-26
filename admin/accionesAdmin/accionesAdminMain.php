@@ -486,7 +486,6 @@ if(isset($_POST['editarStatus'])){
 
 if(isset($_FILES['imgMain'])){
 
-
 	$imgMain = $_FILES['imgMain']['name'];
 	$uploadImgMain = $_FILES['imgMain']['tmp_name'];
 	$storeMain = uniqid($imgMain, true).".png";
